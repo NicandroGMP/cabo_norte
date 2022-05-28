@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkcabonorte=self.webpackChunkcabonorte||[]).push([[422],{78422:function(e,n,r){r.r(n);r(72791);var a=r(64554),c=r(80184);n.default=function(){return(0,c.jsxs)(c.Fragment,{children:[(0,c.jsx)("h2",{children:"Sample page 2"}),(0,c.jsx)(a.Z,{sx:{my:2},children:"You can kick start your app"})]})}}}]);
+//# sourceMappingURL=422.8284aadf.chunk.js.map
