@@ -1,5 +1,4 @@
 import React from 'react';
-import orange from '@mui/material/colors/orange';
 import {useAuthMethod, useAuthUser} from '../../../../utility/AuthHooks';
 import {Box} from '@mui/material';
 import Avatar from '@mui/material/Avatar';
@@ -9,6 +8,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {Fonts} from 'shared/constants/AppEnums';
 import {useNavigate} from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { orange } from '@mui/material/colors';
 
 const UserInfo = ({color}) => {
   const {logout} = useAuthMethod();
