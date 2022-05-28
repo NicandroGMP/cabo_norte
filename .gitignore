@@ -6,6 +6,8 @@
 # Node artifact files
 node_modules/
 build/
+source/node_modules/
+source/build/
 
 # Compiled Java class files
 *.class
@@ -21,7 +23,9 @@ build/
 
 # Maven
 target/
+source/target/
 build/
+source/build/
 
 # JetBrains IDE
 .idea/
