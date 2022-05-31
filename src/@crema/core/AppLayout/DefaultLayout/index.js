@@ -1,18 +1,17 @@
-import React from 'react';
-import clsx from 'clsx';
-import AppContentView from '@crema/core/AppContentView';
-import AppFixedFooter from './AppFixedFooter';
-import AppHeader from './AppHeader';
-import {useLayoutContext} from '../../../utility/AppContextProvider/LayoutContextProvider';
-import AppThemeSetting from '../../AppThemeSetting';
-import DefaultLayoutWrapper from './DefaultLayoutWrapper';
-import MainContent from './MainContent';
-import {LayoutType} from 'shared/constants/AppEnums';
-import AppSidebar from './AppSidebar';
-import DefaultLayoutContainer from './DefaultLayoutContainer';
+import React from "react";
+import clsx from "clsx";
+import AppContentView from "@crema/core/AppContentView";
+import AppFixedFooter from "./AppFixedFooter";
+import AppHeader from "./AppHeader";
+import { useLayoutContext } from "../../../utility/AppContextProvider/LayoutContextProvider";
+import DefaultLayoutWrapper from "./DefaultLayoutWrapper";
+import MainContent from "./MainContent";
+import { LayoutType } from "shared/constants/AppEnums";
+import AppSidebar from "./AppSidebar";
+import DefaultLayoutContainer from "./DefaultLayoutContainer";
 
 const DefaultLayout = () => {
-  const {footer, layoutType, headerType, footerType} = useLayoutContext();
+  const { footer, layoutType, headerType, footerType } = useLayoutContext();
 
   return (
     <DefaultLayoutContainer
@@ -22,10 +21,10 @@ const DefaultLayout = () => {
       })}
     >
       <DefaultLayoutWrapper
-        className={clsx('defaultLayoutWrapper', {
-          appMainFooter: footer && footerType === 'fluid',
-          appMainFixedFooter: footer && footerType === 'fixed',
-          appMainFixedHeader: headerType === 'fixed',
+        className={clsx("defaultLayoutWrapper", {
+          appMainFooter: footer && footerType === "fluid",
+          appMainFixedFooter: footer && footerType === "fixed",
+          appMainFixedHeader: headerType === "fixed",
         })}
       >
         <AppSidebar />
@@ -35,7 +34,6 @@ const DefaultLayout = () => {
           <AppContentView />
           <AppFixedFooter />
         </MainContent>
-        <AppThemeSetting />
       </DefaultLayoutWrapper>
     </DefaultLayoutContainer>
   );
