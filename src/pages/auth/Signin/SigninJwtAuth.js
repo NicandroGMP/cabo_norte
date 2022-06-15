@@ -3,12 +3,10 @@ import Button from "@mui/material/Button";
 import { Checkbox } from "@mui/material";
 import { Form, Formik } from "formik";
 import * as yup from "yup";
-
 import AppInfoView from "@crema/core/AppInfoView";
 import { Link, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import IntlMessages from "@crema/utility/IntlMessages";
-import { useIntl } from "react-intl";
 import AppTextField from "@crema/core/AppFormComponents/AppTextField";
 import { useAuthMethod } from "@crema/utility/AuthHooks";
 import { Fonts } from "shared/constants/AppEnums";
@@ -34,8 +32,6 @@ const SigninJwtAuth = () => {
     navigate("/forget-password", { tab: "jwtAuth" });
   };
 
-  const { messages } = useIntl();
-
   return (
     <>
       {error && (
@@ -48,8 +44,8 @@ const SigninJwtAuth = () => {
           <Formik
             validateOnChange={true}
             initialValues={{
-              email: "hamaa@dasd.com",
-              password: "dasdsadas",
+              email: "gama98s11@gmail.com",
+              password: "12345789",
             }}
             validationSchema={validationSchema}
             onSubmit={(data, { setSubmitting }) => {
@@ -65,7 +61,7 @@ const SigninJwtAuth = () => {
               <Form style={{ textAlign: "left" }} noValidate autoComplete="off">
                 <Box sx={{ mb: { xs: 5, xl: 8 } }}>
                   <AppTextField
-                    placeholder={messages["common.email"]}
+                    placeholder={"common.password"}
                     name="email"
                     label={<IntlMessages id="common.email" />}
                     variant="outlined"
@@ -81,7 +77,7 @@ const SigninJwtAuth = () => {
                 <Box sx={{ mb: { xs: 3, xl: 4 } }}>
                   <AppTextField
                     type="password"
-                    placeholder={messages["common.password"]}
+                    placeholder={"common.password"}
                     label={<IntlMessages id="common.password" />}
                     name="password"
                     variant="outlined"

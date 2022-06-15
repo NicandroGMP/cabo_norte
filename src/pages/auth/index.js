@@ -1,7 +1,8 @@
 import React from "react";
 
-const Signin = React.lazy(() => import("./Signin"));
-const Signup = React.lazy(() => import("./Signup"));
+import Signin from "./Signin";
+import Signup from "./Signin";
+
 const ForgotPassword = React.lazy(() => import("./ForgetPassword"));
 const ConfirmSignupAwsCognito = React.lazy(() =>
   import("./ConfirmSignupAwsCognito")

@@ -35,24 +35,14 @@ const JWTAuthAuthProvider = ({ children }) => {
           isAuthenticated: false,
         });
         return;
+      } else {
+        setAuthToken(token);
+        setJWTAuthData({
+          user: firebaseData,
+          isLoading: false,
+          isAuthenticated: true,
+        });
       }
-      setAuthToken(token);
-      jwtAxios
-        .get("/auth/login")
-        .then(({ data }) =>
-          setJWTAuthData({
-            user: data,
-            isLoading: false,
-            isAuthenticated: true,
-          })
-        )
-        .catch(() =>
-          setJWTAuthData({
-            user: undefined,
-            isLoading: false,
-            isAuthenticated: false,
-          })
-        );
     };
 
     getAuthUser();
@@ -61,11 +51,11 @@ const JWTAuthAuthProvider = ({ children }) => {
   const signInUser = async ({ email, password }) => {
     dispatch({ type: FETCH_START });
     try {
-      const { data } = await jwtAxios.post("auth/login", { email, password });
+      const { data } = await jwtAxios.post("/login", { email, password });
       localStorage.setItem("token", data.access_token);
       setAuthToken(data.access_token);
       setJWTAuthData({
-        user: data,
+        user: data.user,
         isAuthenticated: true,
         isLoading: false,
       });
@@ -82,6 +72,7 @@ const JWTAuthAuthProvider = ({ children }) => {
       });
     }
   };
+  console.log(firebaseData);
 
   const signUpUser = async ({ name, email, password }) => {
     dispatch({ type: FETCH_START });

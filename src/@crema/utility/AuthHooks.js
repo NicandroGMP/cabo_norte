@@ -53,8 +53,8 @@ export const useAuthMethod = () => {
     logInWithPopup,
     logout,
   };
-};
- */
+}; */
+
 /*
 // For AWS Auth
 import {getUserFromAWS} from './helper/AuthHelper';

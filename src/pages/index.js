@@ -4,18 +4,24 @@ import { Navigate } from "react-router-dom";
 import Error403 from "./errorPages/Error403";
 import React from "react";
 import { errorPagesConfigs } from "./errorPages";
-import { samplePagesConfigs } from "./sample";
+import { dashBoardConfigs } from "./dashboards";
 import { accountPagesConfigs } from "./account";
+import { updatePassConfigs } from "./recovePass";
+import { managersRoutesConfigs } from "./dashboards/Encargados/routesPages_Encargados";
 
 const authorizedStructure = {
   fallbackPath: "/signin",
   unAuthorizedComponent: <Error403 />,
-  routes: [...samplePagesConfigs, ...accountPagesConfigs],
+  routes: [
+    ...dashBoardConfigs,
+    ...accountPagesConfigs,
+    ...managersRoutesConfigs,
+  ],
 };
 
 const unAuthorizedStructure = {
   fallbackPath: initialUrl,
-  routes: authRouteConfig,
+  routes: [...authRouteConfig, ...updatePassConfigs],
 };
 
 const anonymousStructure = {
