@@ -2,13 +2,13 @@ import React from "react";
 const FormRegister = React.lazy(() => import("./register"));
 const FormEdit = React.lazy(() => import("./Edit"));
 
-export const managersRoutesConfigs = [
+export const WorksRoutesConfigs = [
   {
-    path: "/managers/register",
+    path: "/works/register",
     element: <FormRegister />,
   },
   {
-    path: "/managers/edit",
+    path: "/works/edit",
     element: <FormEdit />,
   },
 ];

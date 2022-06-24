@@ -8,6 +8,8 @@ import { dashBoardConfigs } from "./dashboards";
 import { accountPagesConfigs } from "./account";
 import { updatePassConfigs } from "./recovePass";
 import { managersRoutesConfigs } from "./dashboards/Encargados/routesPages_Encargados";
+import { WorksRoutesConfigs } from "./dashboards/Obras/routesPagesWorks";
+import { WorkersRoutesConfigs } from "./dashboards/Trabajadores/routesPagesWorkers";
 
 const authorizedStructure = {
   fallbackPath: "/signin",
@@ -16,6 +18,8 @@ const authorizedStructure = {
     ...dashBoardConfigs,
     ...accountPagesConfigs,
     ...managersRoutesConfigs,
+    ...WorksRoutesConfigs,
+    ...WorkersRoutesConfigs,
   ],
 };
 

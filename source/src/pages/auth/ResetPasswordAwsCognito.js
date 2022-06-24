@@ -15,7 +15,6 @@ import Button from '@mui/material/Button';
 import AppInfoView from '@crema/core/AppInfoView';
 import AuthWrapper from './AuthWrapper';
 import AppLogo from '@crema/core/AppLayout/components/AppLogo';
-
 const validationSchema = yup.object({
   newPassword: yup
     .string()

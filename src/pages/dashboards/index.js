@@ -9,27 +9,27 @@ const Guardias = React.lazy(() => import("./Guardias"));
 
 export const dashBoardConfigs = [
   {
-    path: "/dashboards/home",
+    path: "/home",
     element: <Home />,
   },
   {
-    path: "/dashboards/trabajadores",
+    path: "/trabajadores",
     element: <Trabajadores />,
   },
   {
-    path: "/dashboards/encargados",
+    path: "/encargados",
     element: <Encargados />,
   },
   {
-    path: "/dashboards/obras",
+    path: "/obras",
     element: <Obras />,
   },
   {
-    path: "/dashboards/proveedores",
+    path: "/proveedores",
     element: <Proveedores />,
   },
   {
-    path: "/dashboards/guardias",
+    path: "/guardias",
     element: <Guardias />,
   },
 ];

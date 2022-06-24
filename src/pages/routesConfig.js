@@ -19,7 +19,7 @@ const routesConfig = [
         messageId: "Home",
         type: "item",
         icon: <HomeIcon />,
-        url: "/dashboards/home",
+        url: "/home",
       },
       {
         id: "trabajadores",
@@ -27,7 +27,7 @@ const routesConfig = [
         messageId: "Trabajadores",
         type: "item",
         icon: <WorkingIcon />,
-        url: "/dashboards/trabajadores",
+        url: "/trabajadores",
       },
       {
         id: "encargados",
@@ -35,7 +35,7 @@ const routesConfig = [
         messageId: "Encargados",
         type: "item",
         icon: <ManagerIcon />,
-        url: "/dashboards/encargados",
+        url: "/encargados",
       },
       {
         id: "obras",
@@ -43,7 +43,7 @@ const routesConfig = [
         messageId: "Obras",
         type: "item",
         icon: <WorkIcon />,
-        url: "/dashboards/obras",
+        url: "/obras",
       },
       {
         id: "proveedores",
@@ -51,7 +51,7 @@ const routesConfig = [
         messageId: "Proveedores",
         type: "item",
         icon: <Proveedores />,
-        url: "/dashboards/proveedores",
+        url: "proveedores",
       },
       {
         id: "guardias",
@@ -59,7 +59,7 @@ const routesConfig = [
         messageId: "Guardias",
         type: "item",
         icon: <Guardias />,
-        url: "/dashboards/guardias",
+        url: "/guardias",
       },
     ],
   },
