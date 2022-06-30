@@ -5,6 +5,7 @@ import ManagerIcon from "@mui/icons-material/ManageAccounts";
 import WorkIcon from "@mui/icons-material/Work";
 import Proveedores from "@mui/icons-material/PeopleOutline";
 import Guardias from "@mui/icons-material/LocalPolice";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 const routesConfig = [
   {
@@ -22,12 +23,29 @@ const routesConfig = [
         url: "/home",
       },
       {
-        id: "trabajadores",
-        title: "Trabajadores",
+        id: "menu_trabajadores",
+        title: "menu_Trabajadores",
         messageId: "Trabajadores",
-        type: "item",
+        type: "collapse",
         icon: <WorkingIcon />,
-        url: "/trabajadores",
+        children: [
+          {
+            id: "trabajadores",
+            title: "Trabajadores",
+            messageId: "Trabajadores",
+            type: "item",
+            icon: <ArrowRightAltIcon />,
+            url: "/trabajadores",
+          },
+          {
+            id: "Bitacora_trabajadores",
+            title: "Bitacora_Trabajadores",
+            messageId: "Bitacora Trabajadores",
+            type: "item",
+            icon: <ArrowRightAltIcon />,
+            url: "/trabajadores/bitacora",
+          },
+        ],
       },
       {
         id: "encargados",
@@ -49,9 +67,26 @@ const routesConfig = [
         id: "proveedores",
         title: "Proveedores",
         messageId: "Proveedores",
-        type: "item",
+        type: "collapse",
         icon: <Proveedores />,
-        url: "proveedores",
+        children: [
+          {
+            id: "proveedores",
+            title: "proveedores",
+            messageId: "proveedores",
+            type: "item",
+            icon: <ArrowRightAltIcon />,
+            url: "/proveedores",
+          },
+          {
+            id: "Bitacora_proveedores",
+            title: "Bitacora_proveedores",
+            messageId: "Bitacora Proveedores",
+            type: "item",
+            icon: <ArrowRightAltIcon />,
+            url: "/bitacora_proveedores",
+          },
+        ],
       },
       {
         id: "guardias",

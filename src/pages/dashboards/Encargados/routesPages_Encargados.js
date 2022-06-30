@@ -4,11 +4,11 @@ const FormEdit = React.lazy(() => import("./Edit"));
 
 export const managersRoutesConfigs = [
   {
-    path: "/managers/register",
+    path: "/encargados/register",
     element: <FormRegister />,
   },
   {
-    path: "/managers/edit",
+    path: "/encargados/edit",
     element: <FormEdit />,
   },
 ];

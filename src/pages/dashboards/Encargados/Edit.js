@@ -130,155 +130,156 @@ const formEdit = () => {
           {message}
         </Alert>
       </Snackbar>
-      <Box sx={{ mb: { xs: 5, xl: 8 }, width: "40%" }}>
-        <h1>Actualizar Datos De Encargado de {dataUpdate.id}</h1>
-      </Box>
-      <Box>
-        {dataUpdate.map((dataEdit) => {
-          return (
-            <Formik
-              validateOnChange={true}
-              initialValues={{
-                name: dataEdit.name,
-                lastname: dataEdit.lastname,
-                company: dataEdit.company,
-                position: dataEdit.position,
-              }}
-              validationSchema={validationSchema}
-              onSubmit={(data, { setSubmitting }) => {
-                setSubmitting(true);
-                updateManager({
-                  id: dataEdit.id,
-                  id_manager: dataEdit.id_manager,
-                  name: data.name,
-                  lastname: data.lastname,
-                  company: data.company,
-                  position: data.position,
-                  work: work,
-                  email: "gamas@dsadasd.com",
-                  username: "dasda",
-                });
-                setSubmitting(false);
-              }}
-            >
-              {({ isSubmitting }) => (
-                <Form
-                  style={{ textAlign: "left" }}
-                  noValidate
-                  autoComplete="off"
-                >
-                  <div style={{ width: "100%", display: "flex" }}>
-                    <Box
-                      sx={{
-                        mb: { xs: 5, xl: 8 },
-                        width: "50%",
-                        padding: "10px",
-                      }}
-                    >
-                      <Box sx={{ mb: { xs: 5, xl: 8 } }}>
-                        <AppTextField
-                          placeholder={"Nombre"}
-                          name="name"
-                          label={<IntlMessages id="Nombre" />}
-                          variant="outlined"
-                          sx={{
-                            width: "100%",
-                            "& .MuiInputBase-input": {
-                              fontSize: 14,
-                            },
-                          }}
-                        />
-                      </Box>
+      {dataUpdate.map((dataEdit) => {
+        return (
+          <>
+            <Box sx={{ mb: { xs: 5, xl: 8 }, width: "40%" }}>
+              <h1>Actualizar Datos De Encargado{dataEdit.name}</h1>
+            </Box>
+            <Box>
+              <Formik
+                validateOnChange={true}
+                initialValues={{
+                  name: dataEdit.name,
+                  lastname: dataEdit.lastname,
+                  company: dataEdit.company,
+                  position: dataEdit.position,
+                }}
+                validationSchema={validationSchema}
+                onSubmit={(data, { setSubmitting }) => {
+                  setSubmitting(true);
+                  updateManager({
+                    id: dataEdit.id,
+                    id_manager: dataEdit.id_manager,
+                    name: data.name,
+                    lastname: data.lastname,
+                    company: data.company,
+                    position: data.position,
+                    work: work,
+                    email: "gamas@dsadasd.com",
+                    username: "dasda",
+                  });
+                  setSubmitting(false);
+                }}
+              >
+                {({ isSubmitting }) => (
+                  <Form
+                    style={{ textAlign: "left" }}
+                    noValidate
+                    autoComplete="off"
+                  >
+                    <div style={{ width: "100%", display: "flex" }}>
+                      <Box
+                        sx={{
+                          mb: { xs: 5, xl: 8 },
+                          width: "50%",
+                          padding: "10px",
+                        }}
+                      >
+                        <Box sx={{ mb: { xs: 5, xl: 8 } }}>
+                          <AppTextField
+                            placeholder={"Nombre"}
+                            name="name"
+                            label={<IntlMessages id="Nombre" />}
+                            variant="outlined"
+                            sx={{
+                              width: "100%",
+                              "& .MuiInputBase-input": {
+                                fontSize: 14,
+                              },
+                            }}
+                          />
+                        </Box>
 
-                      <Box sx={{ mb: { xs: 5, xl: 8 } }}>
-                        <AppTextField
-                          placeholder={"Apellidos"}
-                          name="lastname"
-                          label={<IntlMessages id="Apellidos" />}
-                          variant="outlined"
-                          sx={{
-                            width: "100%",
-                            "& .MuiInputBase-input": {
-                              fontSize: 14,
-                            },
-                          }}
-                        />
+                        <Box sx={{ mb: { xs: 5, xl: 8 } }}>
+                          <AppTextField
+                            placeholder={"Apellidos"}
+                            name="lastname"
+                            label={<IntlMessages id="Apellidos" />}
+                            variant="outlined"
+                            sx={{
+                              width: "100%",
+                              "& .MuiInputBase-input": {
+                                fontSize: 14,
+                              },
+                            }}
+                          />
+                        </Box>
+                        <Box sx={{ mb: { xs: 3, xl: 4 } }}>
+                          <AppTextField
+                            placeholder={"Empresa"}
+                            name="company"
+                            label={<IntlMessages id="Empresa" />}
+                            variant="outlined"
+                            sx={{
+                              width: "100%",
+                              "& .MuiInputBase-input": {
+                                fontSize: 14,
+                              },
+                            }}
+                          />
+                        </Box>
                       </Box>
-                      <Box sx={{ mb: { xs: 3, xl: 4 } }}>
-                        <AppTextField
-                          placeholder={"Empresa"}
-                          name="company"
-                          label={<IntlMessages id="Empresa" />}
-                          variant="outlined"
-                          sx={{
-                            width: "100%",
-                            "& .MuiInputBase-input": {
-                              fontSize: 14,
-                            },
-                          }}
-                        />
-                      </Box>
-                    </Box>
-                    <Box
-                      sx={{
-                        mb: { xs: 5, xl: 8 },
-                        width: "50%",
-                        padding: "10px",
-                      }}
-                    >
-                      <Box sx={{ mb: { xs: 5, xl: 8 } }}>
-                        <AppTextField
-                          placeholder={"Puesto"}
-                          name="position"
-                          label={<IntlMessages id="Puesto" />}
-                          variant="outlined"
-                          sx={{
-                            width: "100%",
-                            "& .MuiInputBase-input": {
-                              fontSize: 14,
-                            },
-                          }}
-                        />
-                      </Box>
+                      <Box
+                        sx={{
+                          mb: { xs: 5, xl: 8 },
+                          width: "50%",
+                          padding: "10px",
+                        }}
+                      >
+                        <Box sx={{ mb: { xs: 5, xl: 8 } }}>
+                          <AppTextField
+                            placeholder={"Puesto"}
+                            name="position"
+                            label={<IntlMessages id="Puesto" />}
+                            variant="outlined"
+                            sx={{
+                              width: "100%",
+                              "& .MuiInputBase-input": {
+                                fontSize: 14,
+                              },
+                            }}
+                          />
+                        </Box>
 
-                      <Box sx={{ mb: { xs: 5, xl: 8 }, minWidth: 120 }}>
-                        <InputLabel id="demo-simple-select-label">
-                          Obra
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-select-helper-label"
-                          id="demo-simple-select-helper"
-                          displayEmpty
-                          value={work}
-                          defaultValue={1}
-                          label="Obras"
-                          onChange={handleChange}
-                          sx={{
-                            width: "100%",
-                          }}
-                        >
-                          <MenuItem disabled value="">
-                            <em>{dataEdit.work}</em>
-                          </MenuItem>
-                          {works.map((work) => {
-                            return (
-                              <MenuItem key={work.id} value={work.id}>
-                                {work.job + " " + work.batch}
-                              </MenuItem>
-                            );
-                          })}
-                        </Select>
+                        <Box sx={{ mb: { xs: 5, xl: 8 }, minWidth: 120 }}>
+                          <InputLabel id="demo-simple-select-label">
+                            Obra
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-helper-label"
+                            id="demo-simple-select-helper"
+                            displayEmpty
+                            value={work}
+                            defaultValue={1}
+                            label="Obras"
+                            onChange={handleChange}
+                            sx={{
+                              width: "100%",
+                            }}
+                          >
+                            <MenuItem disabled value="">
+                              <em>{dataEdit.work}</em>
+                            </MenuItem>
+                            {works.map((work) => {
+                              return (
+                                <MenuItem key={work.id} value={work.id}>
+                                  {work.job + " " + work.batch}
+                                </MenuItem>
+                              );
+                            })}
+                          </Select>
+                        </Box>
+                        <Box>
+                          {required && (
+                            <p sx={{ color: "red", fontSize: "0.7em" }}>
+                              {required}
+                            </p>
+                          )}
+                        </Box>
                       </Box>
-                      <Box>
-                        {required && (
-                          <p sx={{ color: "red", fontSize: "0.7em" }}>
-                            {required}
-                          </p>
-                        )}
-                      </Box>
-                    </Box>
-                  </div>
-                  {/*  <Box>
+                    </div>
+                    {/*  <Box>
                 <h1>Cuenta de Usuario</h1>
               </Box>
               <div style={{ width: "100%", display: "flex" }}>
@@ -333,44 +334,45 @@ const formEdit = () => {
                   </Box>
                 </Box>
               </div> */}
-                  <div>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      type="button"
-                      sx={{
-                        mx: 5,
-                        minWidth: 160,
-                        fontWeight: 500,
-                        fontSize: 16,
-                        textTransform: "capitalize",
-                        padding: "4px 16px 8px",
-                      }}
-                    >
-                      <IntlMessages id="Regresar" />
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      type="submit"
-                      disabled={isSubmitting}
-                      sx={{
-                        minWidth: 160,
-                        fontWeight: 500,
-                        fontSize: 16,
-                        textTransform: "capitalize",
-                        padding: "4px 16px 8px",
-                      }}
-                    >
-                      <IntlMessages id="Actualizar" />
-                    </Button>
-                  </div>
-                </Form>
-              )}
-            </Formik>
-          );
-        })}
-      </Box>
+                    <div>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        type="button"
+                        sx={{
+                          mx: 5,
+                          minWidth: 160,
+                          fontWeight: 500,
+                          fontSize: 16,
+                          textTransform: "capitalize",
+                          padding: "4px 16px 8px",
+                        }}
+                      >
+                        <IntlMessages id="Regresar" />
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        disabled={isSubmitting}
+                        sx={{
+                          minWidth: 160,
+                          fontWeight: 500,
+                          fontSize: 16,
+                          textTransform: "capitalize",
+                          padding: "4px 16px 8px",
+                        }}
+                      >
+                        <IntlMessages id="Actualizar" />
+                      </Button>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
+            </Box>
+          </>
+        );
+      })}
     </>
   );
 };

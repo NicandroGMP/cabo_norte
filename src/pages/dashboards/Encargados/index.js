@@ -1,6 +1,12 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import * as React from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { Box, Button } from "@mui/material";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridToolbarExport,
+  GridToolbar,
+} from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import jwtAxios from "../../../@crema/services/auth/jwt-auth/index";
@@ -28,7 +34,7 @@ const Encargados = () => {
     localStorage.setItem("dataposition", data.position);
     localStorage.setItem("datawork", data.job);
     localStorage.setItem("datawork_id", data.work_id);
-    navigate("/managers/edit");
+    navigate("/encargados/edit");
   });
   useEffect(() => {
     dispatch({ type: FETCH_START });
@@ -53,7 +59,7 @@ const Encargados = () => {
   );
 
   const addNewManager = () => {
-    navigate("/managers/register");
+    navigate("/encargados/register");
   };
 
   const columns = useMemo(
@@ -102,6 +108,7 @@ const Encargados = () => {
       </Box>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
+          components={{ Toolbar: GridToolbar }}
           rows={rows}
           columns={columns}
           pageSize={5}

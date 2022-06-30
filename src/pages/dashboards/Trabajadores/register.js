@@ -33,28 +33,23 @@ const validationSchema = yup.object({
   position: yup
     .string()
     .required(<IntlMessages id="Por favor ingrese el puesto!" />),
-  username: yup
-    .string()
-    .required(<IntlMessages id="Por favor ingrese la el nombre de usuario!" />),
-  email: yup
-    .string()
-    .email(<IntlMessages id="validation.emailFormat" />)
-    .required(<IntlMessages id="validation.emailRequired" />),
-  password: yup
-    .string()
-    .required(<IntlMessages id="validation.passwordRequired" />),
 });
 
 const FormRegister = () => {
   const dispatch = useDispatch();
   const [work, setWork] = useState("");
+  const [works, setWorks] = useState([]);
   const [required, setRequired] = useState(null);
   const [message, messageSuccess] = useState(null);
-  const [works, setWorks] = useState([]);
+  const [manager, setManager] = useState("");
+  const [managers, setManagers] = useState([]);
   const [open, setOpen] = useState(false);
 
   const handleChange = (event) => {
     setWork(event.target.value);
+  };
+  const selectManager = (event) => {
+    setManager(event.target.value);
   };
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -64,28 +59,24 @@ const FormRegister = () => {
     setOpen(false);
   };
 
-  const registerManager = async ({
+  const registerWorker = async ({
     name,
     lastname,
     company,
     position,
     work,
-    email,
-    username,
-    password,
+    manager,
   }) => {
     dispatch({ type: FETCH_START });
 
     try {
-      const { data } = await jwtAxios.post("/managers/register", {
+      const { data } = await jwtAxios.post("/workers/register", {
         name,
         lastname,
         company,
         position,
         work,
-        email,
-        username,
-        password,
+        manager,
       });
       messageSuccess(data.message);
       setOpen(true);
@@ -100,10 +91,14 @@ const FormRegister = () => {
   useEffect(() => {
     jwtAxios.get("/works").then((res) => {
       const workers = res.data.works;
+      console.log(workers);
       setWorks(workers);
     });
+    jwtAxios.get("/managers").then((res) => {
+      const managers = res.data.managers;
+      setManagers(managers);
+    });
   }, []);
-
   return (
     <>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
@@ -112,7 +107,7 @@ const FormRegister = () => {
         </Alert>
       </Snackbar>
       <Box sx={{ mb: { xs: 5, xl: 8 }, width: "40%" }}>
-        <h1>Registrar Encargado</h1>
+        <h1>Registrar Trabajador</h1>
       </Box>
       <Box>
         <Formik
@@ -123,27 +118,23 @@ const FormRegister = () => {
             company: "",
             position: "",
             work: "",
-            email: "",
-            username: "",
-            password: "",
+            manager: "",
           }}
           validationSchema={validationSchema}
           onSubmit={(data, { setSubmitting, resetForm }) => {
-            if (work == "") {
+            if (work == "" || manager == "") {
               setSubmitting(true);
               setRequired("El Campo Obra Es Requerido");
               setSubmitting(false);
             } else {
               setSubmitting(true);
-              registerManager({
+              registerWorker({
                 name: data.name,
                 lastname: data.lastname,
                 company: data.company,
                 position: data.position,
                 work: work,
-                email: data.email,
-                username: data.username,
-                password: data.password,
+                manager: manager,
               });
               setSubmitting(false);
               resetForm();
@@ -243,6 +234,36 @@ const FormRegister = () => {
                       })}
                     </Select>
                   </Box>
+                  <Box sx={{ mb: { xs: 5, xl: 8 }, minWidth: 120 }}>
+                    <InputLabel id="demo-simple-select-label">
+                      Encargado
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={manager}
+                      label="Encargados"
+                      onChange={selectManager}
+                      sx={{
+                        width: "100%",
+                      }}
+                      name="manager"
+                    >
+                      <MenuItem disabled value="">
+                        <em>Encargados</em>
+                      </MenuItem>
+                      {managers.map((manager) => {
+                        return (
+                          <MenuItem
+                            key={manager.manager_id}
+                            value={manager.manager_id}
+                          >
+                            {manager.fullname}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </Box>
                   <Box>
                     {required && (
                       <p sx={{ color: "red", fontSize: "0.7em" }}>{required}</p>
@@ -250,63 +271,8 @@ const FormRegister = () => {
                   </Box>
                 </Box>
               </div>
-              <Box>
-                <h1>Cuenta de Usuario</h1>
-              </Box>
-              <div style={{ width: "100%", display: "flex" }}>
-                <Box
-                  sx={{ mb: { xs: 5, xl: 8 }, width: "50%", padding: "10px " }}
-                >
-                  <Box sx={{ mb: { xs: 5, xl: 8 } }}>
-                    <AppTextField
-                      placeholder={"email"}
-                      name="email"
-                      label={<IntlMessages id="common.email" />}
-                      variant="outlined"
-                      sx={{
-                        width: "100%",
-                        "& .MuiInputBase-input": {
-                          fontSize: 14,
-                        },
-                      }}
-                    />
-                  </Box>
-                  <Box sx={{ mb: { xs: 5, xl: 8 } }}>
-                    <AppTextField
-                      placeholder={"password"}
-                      name="password"
-                      label={<IntlMessages id="common.password" />}
-                      variant="outlined"
-                      sx={{
-                        width: "100%",
-                        "& .MuiInputBase-input": {
-                          fontSize: 14,
-                        },
-                      }}
-                    />
-                  </Box>
-                </Box>
-                <Box
-                  sx={{ mb: { xs: 5, xl: 8 }, width: "50%", padding: "10px" }}
-                >
-                  <Box sx={{ mb: { xs: 5, xl: 8 } }}>
-                    <AppTextField
-                      placeholder={"Usuario"}
-                      name="username"
-                      label={<IntlMessages id="Usuario" />}
-                      variant="outlined"
-                      sx={{
-                        width: "100%",
-                        "& .MuiInputBase-input": {
-                          fontSize: 14,
-                        },
-                      }}
-                    />
-                  </Box>
-                </Box>
-              </div>
               <div>
-                <Link to="/encargados">
+                <Link to="/trabajadores">
                   <Button
                     variant="contained"
                     color="secondary"

@@ -20,7 +20,7 @@ const Obras = () => {
   const dataUpdate = useCallback((datas) => () => {
     const data = datas.row;
     console.log(data);
-    navigate("/managers/edit");
+    navigate("/obras/edit");
   });
   useEffect(() => {
     dispatch({ type: FETCH_START });
@@ -45,7 +45,7 @@ const Obras = () => {
   );
 
   const addNewManager = () => {
-    navigate("/workers/register");
+    navigate("/works/register");
   };
 
   const columns = useMemo(
@@ -88,7 +88,7 @@ const Obras = () => {
           variant="outlined"
           sx={{ ml: 1 }}
         >
-          Registrar Encargado
+          Registrar Obra
         </Button>
       </Box>
       <div style={{ height: 400, width: "100%" }}>

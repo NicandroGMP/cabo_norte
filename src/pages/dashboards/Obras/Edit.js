@@ -131,7 +131,7 @@ const formEdit = () => {
         </Alert>
       </Snackbar>
       <Box sx={{ mb: { xs: 5, xl: 8 }, width: "40%" }}>
-        <h1>Actualizar Datos De Encargado de {dataUpdate.id}</h1>
+        <h1>Actualizar Datos De Obra</h1>
       </Box>
       <Box>
         {dataUpdate.map((dataEdit) => {

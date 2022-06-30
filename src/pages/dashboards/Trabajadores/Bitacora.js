@@ -12,25 +12,11 @@ import {
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const Trabajadores = () => {
+const Bitacora = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [rows, setrows] = useState([]);
 
-  const dataUpdate = useCallback((datas) => () => {
-    const data = datas.row;
-    console.log(data);
-    localStorage.setItem("dataid", data.id);
-    localStorage.setItem("dataname", data.name);
-    localStorage.setItem("datalastname", data.lastname);
-    localStorage.setItem("datacompany", data.company);
-    localStorage.setItem("dataposition", data.position);
-    localStorage.setItem("datawork", data.job);
-    localStorage.setItem("datawork_id", data.job_id);
-    localStorage.setItem("datamanager_id", data.manager);
-    localStorage.setItem("datamanager", data.manager_name);
-    navigate("/trabajadores/edit");
-  });
   useEffect(() => {
     dispatch({ type: FETCH_START });
     try {
@@ -54,10 +40,6 @@ const Trabajadores = () => {
     []
   );
 
-  const addNewManager = () => {
-    navigate("/trabajadores/register");
-  };
-
   const columns = useMemo(
     () => [
       { field: "fullname", headerName: "Nombre", width: 200 },
@@ -65,25 +47,10 @@ const Trabajadores = () => {
       { field: "manager_name", headerName: "Manager", width: 200 },
       { field: "position", headerName: "Puesto", width: 200 },
       { field: "qr", headerName: "IDE_QR", width: 100 },
-      {
-        field: "actions",
-        type: "actions",
-        headerName: "Actions",
-        getActions: (params) => [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            onClick={dataUpdate(params)}
-            label="Delete"
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            onClick={deleteWorker(params.id)}
-            label="Delete"
-          />,
-        ],
-      },
+      { field: "hora_entrada", headerName: "Hora Entrada", width: 100 },
+      { field: "hora_salida", headerName: "Hora Salida", width: 100 },
     ],
-    [deleteWorker, dataUpdate]
+    []
   );
   return (
     <>
@@ -93,16 +60,7 @@ const Trabajadores = () => {
           borderColor: "divider",
           p: 1,
         }}
-      >
-        <Button
-          onClick={addNewManager}
-          color="primary"
-          variant="outlined"
-          sx={{ ml: 1 }}
-        >
-          Registrar Trabajador
-        </Button>
-      </Box>
+      ></Box>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           components={{ Toolbar: GridToolbar }}
@@ -115,4 +73,4 @@ const Trabajadores = () => {
     </>
   );
 };
-export default Trabajadores;
+export default Bitacora;
