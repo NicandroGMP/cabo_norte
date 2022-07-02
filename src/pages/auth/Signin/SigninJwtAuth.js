@@ -95,7 +95,7 @@ const SigninJwtAuth = () => {
                     mb: { xs: 3, xl: 4 },
                   }}
                 >
-                  <Box
+                  {/*  <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -110,7 +110,7 @@ const SigninJwtAuth = () => {
                     >
                       <IntlMessages id="common.rememberMe" />
                     </Box>
-                  </Box>
+                  </Box> */}
                   <Box
                     component="span"
                     sx={{
@@ -147,31 +147,6 @@ const SigninJwtAuth = () => {
             )}
           </Formik>
         </Box>
-
-        <Box
-          sx={{
-            color: "grey.500",
-          }}
-        >
-          <span style={{ marginRight: 4 }}>
-            <IntlMessages id="common.dontHaveAccount" />
-          </span>
-          <Box
-            component="span"
-            sx={{
-              fontWeight: Fonts.MEDIUM,
-              "& a": {
-                color: (theme) => theme.palette.primary.main,
-                textDecoration: "none",
-              },
-            }}
-          >
-            <Link to="/signup">
-              <IntlMessages id="common.signup" />
-            </Link>
-          </Box>
-        </Box>
-
         <AppInfoView />
       </Box>
     </>
