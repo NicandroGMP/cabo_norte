@@ -19,7 +19,10 @@ const Obras = () => {
 
   const dataUpdate = useCallback((datas) => () => {
     const data = datas.row;
-    console.log(data);
+    localStorage.setItem("dataid", data.id);
+    localStorage.setItem("datajob", data.job);
+    localStorage.setItem("databatch", data.batch);
+    localStorage.setItem("datastatus", data.status);
     navigate("/obras/edit");
   });
   useEffect(() => {
@@ -45,7 +48,7 @@ const Obras = () => {
   );
 
   const addNewManager = () => {
-    navigate("/works/register");
+    navigate("/obras/register");
   };
 
   const columns = useMemo(

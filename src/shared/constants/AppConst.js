@@ -1,17 +1,18 @@
 export const authRole = {
-  admin: ["admin"],
+  admin: ["administrador"],
   user: ["user", "admin"],
 };
 
 export const RoutePermittedRole = {
-  admin: "admin",
-  user: "user",
+  admin: "administrador",
+  encargado: "encargado",
+  guardias: "guardias",
 };
 export const defaultUser = {
   displayName: "John Alex",
   email: "demo@example.com",
   token: "access-token",
-  role: "user",
+  role: "admin",
   photoURL: "/assets/images/avatar/A11.jpg",
 };
 export const initialUrl = "/home"; // this url will open after login

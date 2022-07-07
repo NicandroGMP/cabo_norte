@@ -6,6 +6,7 @@ import WorkIcon from "@mui/icons-material/Work";
 import Proveedores from "@mui/icons-material/PeopleOutline";
 import Guardias from "@mui/icons-material/LocalPolice";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import { RoutePermittedRole } from "shared/constants/AppConst";
 
 const routesConfig = [
   {
@@ -26,6 +27,7 @@ const routesConfig = [
         id: "menu_trabajadores",
         title: "menu_Trabajadores",
         messageId: "Trabajadores",
+        permittedRole: RoutePermittedRole.encargado,
         type: "collapse",
         icon: <WorkingIcon />,
         children: [
@@ -52,6 +54,7 @@ const routesConfig = [
         title: "Encargados",
         messageId: "Encargados",
         type: "item",
+        permittedRole: RoutePermittedRole.admin,
         icon: <ManagerIcon />,
         url: "/encargados",
       },
@@ -59,12 +62,14 @@ const routesConfig = [
         id: "obras",
         title: "Obras",
         messageId: "Obras",
+        permittedRole: RoutePermittedRole.admin,
         type: "item",
         icon: <WorkIcon />,
         url: "/obras",
       },
       {
         id: "proveedores",
+        permittedRole: RoutePermittedRole.encargado,
         title: "Proveedores",
         messageId: "Proveedores",
         type: "collapse",
@@ -92,6 +97,7 @@ const routesConfig = [
         id: "guardias",
         title: "Guardias",
         messageId: "Guardias",
+        permittedRole: RoutePermittedRole.guardias,
         type: "item",
         icon: <Guardias />,
         url: "/guardias",

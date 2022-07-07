@@ -7,6 +7,7 @@ import {
 
 export const useAuthUser = () => {
   const { user, isAuthenticated, isLoading } = useJWTAuth();
+  console.log(user);
   return {
     isLoading,
     isAuthenticated,

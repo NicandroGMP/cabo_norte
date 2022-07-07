@@ -1,4 +1,4 @@
-import {authRole} from 'shared/constants/AppConst';
+import { authRole } from "shared/constants/AppConst";
 
 export const getUserFromAuth0 = (user) => {
   if (user)
@@ -18,9 +18,9 @@ export const getUserFromFirebase = (user) => {
     return {
       id: 1,
       uid: user.uid,
-      displayName: user.displayName ? user.displayName : 'Crema User',
+      displayName: user.displayName ? user.displayName : "Crema User",
       email: user.email,
-      photoURL: user.photoURL ? user.photoURL : '/assets/images/avatar/A11.jpg',
+      photoURL: user.photoURL ? user.photoURL : "/assets/images/avatar/A11.jpg",
       role: authRole.user,
     };
   return user;
@@ -30,7 +30,7 @@ export const getUserFromAWS = (user) => {
     return {
       id: 1,
       uid: user.username,
-      displayName: user.attributes.name ? user.attributes.name : 'Crema User',
+      displayName: user.attributes.name ? user.attributes.name : "Crema User",
       email: user.attributes.email,
       photoURL: user.photoURL,
       role: authRole.user,
@@ -42,11 +42,11 @@ export const getUserFromJwtAuth = (user) => {
   if (user)
     return {
       id: 1,
-      uid: user._id,
-      displayName: user.name,
+      uid: user.id,
+      displayName: user.username,
       email: user.email,
       photoURL: user.avatar,
-      role: authRole.user,
+      role: user.type_user,
     };
   return user;
 };

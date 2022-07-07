@@ -156,8 +156,8 @@ const FormRegister = () => {
                         width: "100%",
                       }}
                     >
-                      <MenuItem value={1}> Habilitado </MenuItem>
-                      <MenuItem value={2}> Deshabilitado </MenuItem>
+                      <MenuItem value={"Habilitado"}> Habilitado </MenuItem>
+                      <MenuItem value={"Deshabilitado"}>Deshabilitado</MenuItem>
                     </Select>
                   </Box>
                   <Box>
@@ -168,7 +168,7 @@ const FormRegister = () => {
                 </Box>
               </div>
               <div>
-                <Link to="/encargados">
+                <Link to="/obras">
                   <Button
                     variant="contained"
                     color="secondary"

@@ -21,12 +21,14 @@ const JWTAuthAuthProvider = ({ children }) => {
     isAuthenticated: false,
     isLoading: true,
   });
+  const [dataUser, setdataUser] = useState([]);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     const getAuthUser = () => {
       const token = localStorage.getItem("token");
+      const id_user = localStorage.getItem("id_user");
 
       if (!token) {
         setJWTAuthData({
@@ -35,14 +37,30 @@ const JWTAuthAuthProvider = ({ children }) => {
           isAuthenticated: false,
         });
         return;
-      } else {
-        setAuthToken(token);
-        setJWTAuthData({
-          user: firebaseData,
-          isLoading: false,
-          isAuthenticated: true,
-        });
       }
+      setAuthToken(token);
+      jwtAxios
+        .get("/user/" + id_user)
+        .then(({ data }) =>
+          setJWTAuthData({
+            user: data.user,
+            isLoading: false,
+            isAuthenticated: true,
+          })
+        )
+        .catch(
+          () => localStorage.removeItem("token"),
+          setJWTAuthData({
+            user: undefined,
+            isLoading: false,
+            isAuthenticated: false,
+          })
+        );
+      /*  setJWTAuthData({
+        user: dataUser,
+        isLoading: false,
+        isAuthenticated: true,
+      }); */
     };
 
     getAuthUser();
@@ -53,6 +71,8 @@ const JWTAuthAuthProvider = ({ children }) => {
     try {
       const { data } = await jwtAxios.post("/login", { email, password });
       localStorage.setItem("token", data.access_token);
+      localStorage.setItem("id_user", data.user.id);
+      setdataUser(data.user);
       setAuthToken(data.access_token);
       setJWTAuthData({
         user: data.user,

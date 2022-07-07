@@ -11,6 +11,8 @@ import jwtAxios, {
 } from "../../../@crema/services/auth/jwt-auth/index";
 import { useState } from "react";
 import Error403 from "../../errorPages/Error403";
+import { useNavigate } from "react-router-dom";
+
 const UpdatePassword = () => {
   const dispatch = useDispatch();
   const url = window.location.search;
@@ -20,7 +22,7 @@ const UpdatePassword = () => {
   const string_cookie = document.cookie.match(
     new RegExp("(^|)stringCookie=([^;]+)")
   )[2];
-  const [authPage, ExpirePage] = useState(null);
+  const [authPage, ExpirePage] = useState(false);
 
   const verifiExpire = async (key) => {
     try {
@@ -35,12 +37,19 @@ const UpdatePassword = () => {
   };
   verifiExpire(key);
 
-  return (
-    <>
-      {authPage && <UpdatePass />}
-      <Error403 />
-    </>
-  );
+  if (authPage === true) {
+    return (
+      <>
+        <UpdatePass />
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Error403 />
+      </>
+    );
+  }
 };
 
 export default UpdatePassword;
