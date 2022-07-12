@@ -4,7 +4,6 @@ import {
   useJWTAuth,
   useJWTAuthActions,
 } from "../services/auth/jwt-auth/JWTAuthProvider";
-
 export const useAuthUser = () => {
   const { user, isAuthenticated, isLoading } = useJWTAuth();
   console.log(user);

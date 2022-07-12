@@ -1,3 +1,4 @@
+
 export const authRole = {
   admin: ["administrador"],
   user: ["user", "admin"],
@@ -6,7 +7,7 @@ export const authRole = {
 export const RoutePermittedRole = {
   admin: "administrador",
   encargado: "encargado",
-  guardias: "guardias",
+  guardia: "guardia",
 };
 export const defaultUser = {
   displayName: "John Alex",
@@ -15,4 +16,6 @@ export const defaultUser = {
   role: "admin",
   photoURL: "/assets/images/avatar/A11.jpg",
 };
-export const initialUrl = "/home"; // this url will open after login
+// this url will open after login
+
+export const initialUrl = "/home";

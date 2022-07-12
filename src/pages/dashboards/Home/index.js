@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
+import AdminHome from "./AdminHomeLayout";
+import GuardHome from "./GuardHomeLayout";
+import { useJWTAuth } from "@crema/services/auth/jwt-auth/JWTAuthProvider";
 
 const Home = () => {
+  const { user } = useJWTAuth();
+  const [wardsLoading, setLoadingWards] = useState(false);
+
+  useEffect(() => {
+    if (user.type_user === "guardia") {
+      setLoadingWards(true);
+    }
+  }, []);
+  console.log(wardsLoading);
   return (
     <>
-      <h2>home</h2>
-      <Box sx={{ my: 2 }}>You can kick start your app</Box>
+      {wardsLoading === true && <GuardHome />}
+      {wardsLoading === false && <AdminHome />}
     </>
   );
 };

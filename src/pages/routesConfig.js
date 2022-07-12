@@ -97,7 +97,7 @@ const routesConfig = [
         id: "guardias",
         title: "Guardias",
         messageId: "Guardias",
-        permittedRole: RoutePermittedRole.guardias,
+        permittedRole: RoutePermittedRole.guardia,
         type: "item",
         icon: <Guardias />,
         url: "/guardias",
