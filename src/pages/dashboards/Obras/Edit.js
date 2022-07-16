@@ -44,7 +44,7 @@ const FormRegister = () => {
         status: status,
       },
     ]);
-    setWork(job);
+    setStatus(status);
   }, []);
   const dispatch = useDispatch();
   const [status, setStatus] = useState("");
@@ -65,11 +65,12 @@ const FormRegister = () => {
     setOpen(false);
   };
 
-  const registerWork = async ({ work, batch, status }) => {
+  const registerWork = async ({ work, batch, status, id }) => {
     dispatch({ type: FETCH_START });
 
     try {
-      const { data } = await jwtAxios.post("/works/edit", {
+      const { data } = await jwtAxios.post("/works/update", {
+        id,
         work,
         batch,
         status,
@@ -114,12 +115,12 @@ const FormRegister = () => {
                   } else {
                     setSubmitting(true);
                     registerWork({
+                      id: dataEdit.id,
                       work: data.work,
                       batch: data.batch,
                       status: status,
                     });
                     setSubmitting(false);
-                    resetForm();
                   }
                 }}
               >
@@ -181,13 +182,16 @@ const FormRegister = () => {
                           <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={work}
+                            value={status}
                             label="status"
                             onChange={handleChange}
                             sx={{
                               width: "100%",
                             }}
                           >
+                            <MenuItem disabled value={dataEdit.status}>
+                              <em>{dataEdit.status}</em>
+                            </MenuItem>
                             <MenuItem value={"Habilitado"}>Habilitado</MenuItem>
                             <MenuItem value={"Deshabilitado"}>
                               Deshabilitado

@@ -1,8 +1,17 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, {
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  createContext,
+  useMemo,
+} from "react";
+import PropTypes from "prop-types";
 import { Box, Button } from "@mui/material";
 import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import QrCode2Icon from "@mui/icons-material/QrCode2";
 import jwtAxios from "../../../@crema/services/auth/jwt-auth/index";
 import {
   FETCH_ERROR,
@@ -19,7 +28,6 @@ const Trabajadores = () => {
 
   const dataUpdate = useCallback((datas) => () => {
     const data = datas.row;
-    console.log(data);
     localStorage.setItem("dataid", data.id);
     localStorage.setItem("dataname", data.name);
     localStorage.setItem("datalastname", data.lastname);
@@ -31,11 +39,11 @@ const Trabajadores = () => {
     localStorage.setItem("datamanager", data.manager_name);
     navigate("/trabajadores/edit");
   });
+
   useEffect(() => {
     dispatch({ type: FETCH_START });
     try {
       jwtAxios.get("/workers").then((res) => {
-        console.log(res);
         setrows(res.data.workers);
         dispatch({ type: FETCH_SUCCESS });
       });
@@ -54,6 +62,13 @@ const Trabajadores = () => {
     []
   );
 
+  const dataQr = useCallback(
+    (id) => () => {
+      localStorage.setItem("dataid", id);
+      navigate("/trabajadores/ViewQr");
+    },
+    []
+  );
   const addNewManager = () => {
     navigate("/trabajadores/register");
   };
@@ -64,7 +79,19 @@ const Trabajadores = () => {
       { field: "job", headerName: "Obra", width: 200 },
       { field: "manager_name", headerName: "Manager", width: 200 },
       { field: "position", headerName: "Puesto", width: 200 },
-      { field: "qr", headerName: "IDE_QR", width: 100 },
+      {
+        field: "qr_code",
+        type: "actions",
+        headerName: "IDE_QR",
+        width: 100,
+        getActions: (params) => [
+          <GridActionsCellItem
+            icon={<QrCode2Icon />}
+            onClick={dataQr(params.id)}
+            label="Delete"
+          />,
+        ],
+      },
       {
         field: "actions",
         type: "actions",
@@ -83,7 +110,7 @@ const Trabajadores = () => {
         ],
       },
     ],
-    [deleteWorker, dataUpdate]
+    [deleteWorker, dataUpdate, dataQr]
   );
   return (
     <>

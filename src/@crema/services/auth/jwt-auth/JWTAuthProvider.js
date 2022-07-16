@@ -10,8 +10,10 @@ import jwtAxios, { setAuthToken } from "./index";
 
 const JWTAuthContext = createContext();
 const JWTAuthActionsContext = createContext();
+const AlgoContext = createContext();
 
 export const useJWTAuth = () => useContext(JWTAuthContext);
+export const useAlgoContext = () => useContext(AlgoContext);
 
 export const useJWTAuthActions = () => useContext(JWTAuthActionsContext);
 
@@ -21,7 +23,7 @@ const JWTAuthAuthProvider = ({ children }) => {
     isAuthenticated: false,
     isLoading: true,
   });
-  const [dataUser, setdataUser] = useState([]);
+  const [dataAlgo, setdataAlgo] = useState({ data: null });
 
   const dispatch = useDispatch();
 
@@ -39,6 +41,7 @@ const JWTAuthAuthProvider = ({ children }) => {
         return;
       }
       setAuthToken(token);
+
       jwtAxios
         .get("/user/" + id_user)
         .then(({ data }) =>
@@ -48,6 +51,7 @@ const JWTAuthAuthProvider = ({ children }) => {
             isAuthenticated: true,
           })
         )
+
         .catch(
           () => localStorage.removeItem("token"),
           setJWTAuthData({
@@ -66,13 +70,12 @@ const JWTAuthAuthProvider = ({ children }) => {
     getAuthUser();
   }, []);
 
-  const signInUser = async ({ email, password }) => {
+  const signInUser = async ({ username, password }) => {
     dispatch({ type: FETCH_START });
     try {
-      const { data } = await jwtAxios.post("/login", { email, password });
+      const { data } = await jwtAxios.post("/login", { username, password });
       localStorage.setItem("token", data.access_token);
       localStorage.setItem("id_user", data.user.id);
-      setdataUser(data.user);
       setAuthToken(data.access_token);
       setJWTAuthData({
         user: data.user,
@@ -93,6 +96,7 @@ const JWTAuthAuthProvider = ({ children }) => {
     }
   };
   console.log(firebaseData);
+  console.log(dataAlgo);
 
   const signUpUser = async ({ name, email, password }) => {
     dispatch({ type: FETCH_START });
@@ -135,6 +139,7 @@ const JWTAuthAuthProvider = ({ children }) => {
     <JWTAuthContext.Provider
       value={{
         ...firebaseData,
+        dataAlgo,
       }}
     >
       <JWTAuthActionsContext.Provider

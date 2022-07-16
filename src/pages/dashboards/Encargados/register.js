@@ -19,6 +19,7 @@ import {
 } from "shared/constants/ActionTypes";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
+import { type } from "@testing-library/user-event/dist/type";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -36,10 +37,6 @@ const validationSchema = yup.object({
   username: yup
     .string()
     .required(<IntlMessages id="Por favor ingrese la el nombre de usuario!" />),
-  email: yup
-    .string()
-    .email(<IntlMessages id="validation.emailFormat" />)
-    .required(<IntlMessages id="validation.emailRequired" />),
   password: yup
     .string()
     .required(<IntlMessages id="validation.passwordRequired" />),
@@ -52,10 +49,22 @@ const FormRegister = () => {
   const [message, messageSuccess] = useState(null);
   const [works, setWorks] = useState([]);
   const [open, setOpen] = useState(false);
+  const typesUsers = [
+    { id: 1, typeUser: "administrador" },
+    { id: 2, typeUser: "encargado" },
+    { id: 3, typeUser: "guardia" },
+  ];
+  const [dataTypeUsers, setTypeUsers] = useState(typesUsers);
+  const [typeUser, setTypeUser] = useState("");
 
   const handleChange = (event) => {
     setWork(event.target.value);
   };
+  const handleChangeUserType = (event) => {
+    setTypeUser(event.target.value);
+    console.log(event.target.value);
+  };
+
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -70,7 +79,7 @@ const FormRegister = () => {
     company,
     position,
     work,
-    email,
+    typeUser,
     username,
     password,
   }) => {
@@ -83,7 +92,7 @@ const FormRegister = () => {
         company,
         position,
         work,
-        email,
+        typeUser,
         username,
         password,
       });
@@ -123,13 +132,12 @@ const FormRegister = () => {
             company: "",
             position: "",
             work: "",
-            email: "",
             username: "",
             password: "",
           }}
           validationSchema={validationSchema}
           onSubmit={(data, { setSubmitting, resetForm }) => {
-            if (work == "") {
+            if (work == "" || typeUser == "") {
               setSubmitting(true);
               setRequired("El Campo Obra Es Requerido");
               setSubmitting(false);
@@ -141,7 +149,7 @@ const FormRegister = () => {
                 company: data.company,
                 position: data.position,
                 work: work,
-                email: data.email,
+                email: typeUser,
                 username: data.username,
                 password: data.password,
               });
@@ -257,19 +265,32 @@ const FormRegister = () => {
                 <Box
                   sx={{ mb: { xs: 5, xl: 8 }, width: "50%", padding: "10px " }}
                 >
-                  <Box sx={{ mb: { xs: 5, xl: 8 } }}>
-                    <AppTextField
-                      placeholder={"email"}
-                      name="email"
-                      label={<IntlMessages id="common.email" />}
-                      variant="outlined"
+                  <Box sx={{ mb: { xs: 5, xl: 8 }, minWidth: 120 }}>
+                    <InputLabel id="demo-simple-select-label">
+                      Typo de Usuario
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={typeUser}
+                      label="Tipo de Usuario"
+                      onChange={handleChangeUserType}
                       sx={{
                         width: "100%",
-                        "& .MuiInputBase-input": {
-                          fontSize: 14,
-                        },
                       }}
-                    />
+                      name="typeUser"
+                    >
+                      <MenuItem disabled value="">
+                        <em>seleccione el tipo de usuario</em>
+                      </MenuItem>
+                      {dataTypeUsers.map((types) => {
+                        return (
+                          <MenuItem key={types.id} value={types.typeUser}>
+                            {types.typeUser}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
                   </Box>
                   <Box sx={{ mb: { xs: 5, xl: 8 } }}>
                     <AppTextField

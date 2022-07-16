@@ -44,7 +44,6 @@ export const getUserFromJwtAuth = (user) => {
       id: 1,
       uid: user.id,
       displayName: user.username,
-      email: user.email,
       photoURL: user.avatar,
       role: user.type_user,
     };

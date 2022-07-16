@@ -14,10 +14,9 @@ import { useState } from "react";
 import Alert from "@mui/material/Alert";
 
 const validationSchema = yup.object({
-  email: yup
+  username: yup
     .string()
-    .email(<IntlMessages id="validation.emailFormat" />)
-    .required(<IntlMessages id="validation.emailRequired" />),
+    .required(<IntlMessages id="el campo usuario es requerido" />),
   password: yup
     .string()
     .required(<IntlMessages id="validation.passwordRequired" />),
@@ -44,14 +43,14 @@ const SigninJwtAuth = () => {
           <Formik
             validateOnChange={true}
             initialValues={{
-              email: "gamadev9811@gmail.com",
+              username: "Admin",
               password: "12345qwerAA",
             }}
             validationSchema={validationSchema}
             onSubmit={(data, { setSubmitting }) => {
               setSubmitting(true);
               signInUser({
-                email: data.email,
+                username: data.username,
                 password: data.password,
               });
               setSubmitting(false);
@@ -61,9 +60,9 @@ const SigninJwtAuth = () => {
               <Form style={{ textAlign: "left" }} noValidate autoComplete="off">
                 <Box sx={{ mb: { xs: 5, xl: 8 } }}>
                   <AppTextField
-                    placeholder={"common.password"}
-                    name="email"
-                    label={<IntlMessages id="common.email" />}
+                    placeholder={"common.username"}
+                    name="username"
+                    label={<IntlMessages id="username" />}
                     variant="outlined"
                     sx={{
                       width: "100%",

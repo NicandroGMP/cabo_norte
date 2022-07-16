@@ -72,6 +72,8 @@ const formEdit = () => {
     setWork(event.target.value);
     console.log(event.target.value);
   };
+  console.log(work);
+
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -133,8 +135,8 @@ const formEdit = () => {
       {dataUpdate.map((dataEdit) => {
         return (
           <>
-            <Box sx={{ mb: { xs: 5, xl: 8 }, width: "40%" }}>
-              <h1>Actualizar Datos De Encargado{dataEdit.name}</h1>
+            <Box sx={{ mb: { xs: 5, xl: 8 }, width: "80%" }}>
+              <h1>Actualizar Datos De Encargado {dataEdit.name}</h1>
             </Box>
             <Box>
               <Formik
@@ -156,7 +158,6 @@ const formEdit = () => {
                     company: data.company,
                     position: data.position,
                     work: work,
-                    email: "gamas@dsadasd.com",
                     username: "dasda",
                   });
                   setSubmitting(false);

@@ -1,4 +1,3 @@
-
 export const authRole = {
   admin: ["administrador"],
   user: ["user", "admin"],
@@ -19,3 +18,5 @@ export const defaultUser = {
 // this url will open after login
 
 export const initialUrl = "/home";
+export const trabajadores = "/trabajadores";
+export const proveedores = "/proveedores";

@@ -1,11 +1,39 @@
 import React from "react";
-import { Box } from "@mui/material";
-
+import { Box, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import AppSearchBar from "@crema/core/AppSearchBar";
 const Guardias = () => {
+  const navigate = useNavigate();
+  const viewSacan = () => {
+    navigate("/guardias/ScanQr");
+  };
   return (
     <>
-      <h2>Guardias</h2>
-      <Box sx={{ my: 2 }}>You can kick start your app</Box>
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: "divider",
+          p: 1,
+        }}
+      >
+        <Button
+          onClick={viewSacan}
+          color="primary"
+          variant="outlined"
+          sx={{ ml: 1 }}
+        >
+          Scanear codigo Qr
+        </Button>
+      </Box>
+
+      <Box sx={{ mb: 5 }}>Buscar Trabajador</Box>
+      <Box sx={{ mb: 5 }}>
+        <AppSearchBar
+          iconPosition="right"
+          placeholder="Search…"
+          value={"hola"}
+        />
+      </Box>
     </>
   );
 };
