@@ -2,17 +2,17 @@ import React from "react";
 const FormRegister = React.lazy(() => import("./register"));
 const FormEdit = React.lazy(() => import("./Edit"));
 const ViewQr = React.lazy(() => import("./ViewQr"));
-export const WorkersRoutesConfigs = [
+export const ProvidersRoutesConfigs = [
   {
-    path: "/trabajadores/register",
+    path: "/proveedores/register",
     element: <FormRegister />,
   },
   {
-    path: "/trabajadores/edit",
+    path: "/proveedores/edit",
     element: <FormEdit />,
   },
   {
-    path: "/trabajadores/ViewQr",
+    path: "/proveedores/ViewQr",
     element: <ViewQr />,
   },
 ];

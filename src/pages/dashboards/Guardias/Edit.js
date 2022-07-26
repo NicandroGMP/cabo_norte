@@ -34,14 +34,6 @@ const validationSchema = yup.object({
     .string()
     .required(<IntlMessages id="Por favor ingrese el puesto!" />),
 });
-const validationSchemaPass = yup.object({
-  newPassword: yup
-    .string()
-    .required(<IntlMessages id="validation.enterNewPassword" />),
-  confirmPassword: yup
-    .string()
-    .required(<IntlMessages id="validation.reTypePassword" />),
-});
 
 const formEdit = () => {
   useEffect(() => {
@@ -80,6 +72,8 @@ const formEdit = () => {
     setWork(event.target.value);
     console.log(event.target.value);
   };
+  console.log(work);
+
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -87,23 +81,7 @@ const formEdit = () => {
 
     setOpen(false);
   };
-  const updatePass = async ({ id, newPassword }) => {
-    try {
-      const { data } = await jwtAxios.post("/managers/updatePass", {
-        id,
-        newPassword,
-      });
-      console.log(data);
-      messageSuccess(data.message);
-      setOpen(true);
-      dispatch({ type: FETCH_SUCCESS });
-    } catch (error) {
-      dispatch({
-        type: FETCH_ERROR,
-        payload: error?.response?.data?.error || "Error al Registrar",
-      });
-    }
-  };
+
   const updateManager = async ({
     id,
     id_manager,
@@ -112,7 +90,7 @@ const formEdit = () => {
     company,
     position,
     work,
-    email,
+    typeUser,
     username,
   }) => {
     dispatch({ type: FETCH_START });
@@ -125,7 +103,7 @@ const formEdit = () => {
         company,
         position,
         work,
-        email,
+        typeUser,
         username,
       });
       console.log(data);
@@ -158,7 +136,7 @@ const formEdit = () => {
         return (
           <>
             <Box sx={{ mb: { xs: 5, xl: 8 }, width: "80%" }}>
-              <h1>Actualizar Datos De Encargado {dataEdit.name}</h1>
+              <h1>Actualizar Datos De Guardia {dataEdit.name}</h1>
             </Box>
             <Box>
               <Formik
@@ -173,14 +151,12 @@ const formEdit = () => {
                 onSubmit={(data, { setSubmitting }) => {
                   setSubmitting(true);
                   updateManager({
-                    id: dataEdit.id,
                     id_manager: dataEdit.id_manager,
                     name: data.name,
                     lastname: data.lastname,
                     company: data.company,
                     position: data.position,
                     work: work,
-                    username: "dasda",
                   });
                   setSubmitting(false);
                 }}
@@ -396,170 +372,6 @@ const formEdit = () => {
           </>
         );
       })}
-
-      <div>
-        {dataUpdate.map((dataEdit) => {
-          return (
-            <>
-              <Box sx={{ mb: { xs: 5, xl: 8 }, width: "80%" }}>
-                <h1>Cambiar contraseña {dataEdit.name}</h1>
-              </Box>
-              <Box>
-                <Formik
-                  validateOnChange={true}
-                  initialValues={{
-                    newPassword: "",
-                    confirmPassword: "",
-                  }}
-                  validationSchema={validationSchemaPass}
-                  onSubmit={(data, { setSubmitting, setErrors, resetForm }) => {
-                    if (data.newPassword !== data.confirmPassword) {
-                      setErrors({
-                        confirmPassword: (
-                          <IntlMessages id="validation.passwordMisMatch" />
-                        ),
-                      });
-                      setSubmitting(false);
-                    } else {
-                      setSubmitting(true);
-                      updatePass({
-                        id: dataEdit.id,
-                        newPassword: data.newPassword,
-                      });
-                      resetForm();
-                      setSubmitting(false);
-                    }
-                  }}
-                >
-                  {({ isSubmitting }) => (
-                    <Form
-                      style={{ textAlign: "left" }}
-                      noValidate
-                      autoComplete="off"
-                    >
-                      <div style={{ width: "100%", display: "flex" }}>
-                        <Box
-                          sx={{
-                            mb: { xs: 5, xl: 8 },
-                            width: "50%",
-                            padding: "10px",
-                          }}
-                        >
-                          <Box
-                            sx={{
-                              mb: { xs: 4, lg: 6 },
-                            }}
-                          >
-                            <AppTextField
-                              name="newPassword"
-                              label={<IntlMessages id="common.newPassword" />}
-                              sx={{
-                                width: "100%",
-                              }}
-                              variant="outlined"
-                              type="password"
-                            />
-                          </Box>
-
-                          <Box
-                            sx={{
-                              mb: { xs: 4, lg: 6 },
-                            }}
-                          >
-                            <AppTextField
-                              name="confirmPassword"
-                              label={
-                                <IntlMessages id="common.retypePassword" />
-                              }
-                              sx={{
-                                width: "100%",
-                              }}
-                              variant="outlined"
-                              type="password"
-                            />
-                          </Box>
-                        </Box>
-                      </div>
-                      {/*  <Box>
-                <h1>Cuenta de Usuario</h1>
-              </Box>
-              <div style={{ width: "100%", display: "flex" }}>
-                <Box
-                  sx={{ mb: { xs: 5, xl: 8 }, width: "50%", padding: "10px " }}
-                >
-                  <Box sx={{ mb: { xs: 5, xl: 8 } }}>
-                    <AppTextField
-                      placeholder={"email"}
-                      name="email"
-                      label={<IntlMessages id="common.email" />}
-                      variant="outlined"
-                      sx={{
-                        width: "100%",
-                        "& .MuiInputBase-input": {
-                          fontSize: 14,
-                        },
-                      }}
-                    />
-                  </Box>
-                  <Box sx={{ mb: { xs: 5, xl: 8 } }}>
-                    <AppTextField
-                      placeholder={"password"}
-                      name="password"
-                      label={<IntlMessages id="common.password" />}
-                      variant="outlined"
-                      sx={{
-                        width: "100%",
-                        "& .MuiInputBase-input": {
-                          fontSize: 14,
-                        },
-                      }}
-                    />
-                  </Box>
-                </Box>
-                <Box
-                  sx={{ mb: { xs: 5, xl: 8 }, width: "50%", padding: "10px" }}
-                >
-                  <Box sx={{ mb: { xs: 5, xl: 8 } }}>
-                    <AppTextField
-                      placeholder={"Usuario"}
-                      name="username"
-                      label={<IntlMessages id="Usuario" />}
-                      variant="outlined"
-                      sx={{
-                        width: "100%",
-                        "& .MuiInputBase-input": {
-                          fontSize: 14,
-                        },
-                      }}
-                    />
-                  </Box>
-                </Box>
-              </div> */}
-                      <div>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          type="submit"
-                          disabled={isSubmitting}
-                          sx={{
-                            minWidth: 160,
-                            fontWeight: 500,
-                            fontSize: 16,
-                            textTransform: "capitalize",
-                            padding: "4px 16px 8px",
-                          }}
-                        >
-                          <IntlMessages id="Actualizar" />
-                        </Button>
-                      </div>
-                    </Form>
-                  )}
-                </Formik>
-              </Box>
-            </>
-          );
-        })}
-      </div>
     </>
   );
 };

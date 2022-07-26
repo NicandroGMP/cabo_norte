@@ -28,6 +28,7 @@ const Trabajadores = () => {
 
   const dataUpdate = useCallback((datas) => () => {
     const data = datas.row;
+    console.log(data);
     localStorage.setItem("dataid", data.id);
     localStorage.setItem("dataname", data.name);
     localStorage.setItem("datalastname", data.lastname);
@@ -45,6 +46,7 @@ const Trabajadores = () => {
     try {
       jwtAxios.get("/workers").then((res) => {
         setrows(res.data.workers);
+        console.log(res.data.workers);
         dispatch({ type: FETCH_SUCCESS });
       });
     } catch (error) {
@@ -63,8 +65,8 @@ const Trabajadores = () => {
   );
 
   const dataQr = useCallback(
-    (id) => () => {
-      localStorage.setItem("dataid", id);
+    (number) => () => {
+      localStorage.setItem("dataQr", number);
       navigate("/trabajadores/ViewQr");
     },
     []
@@ -87,7 +89,7 @@ const Trabajadores = () => {
         getActions: (params) => [
           <GridActionsCellItem
             icon={<QrCode2Icon />}
-            onClick={dataQr(params.id)}
+            onClick={dataQr(params.row.register_number)}
             label="Delete"
           />,
         ],

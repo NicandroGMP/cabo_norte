@@ -10,10 +10,8 @@ import jwtAxios, { setAuthToken } from "./index";
 
 const JWTAuthContext = createContext();
 const JWTAuthActionsContext = createContext();
-const AlgoContext = createContext();
 
 export const useJWTAuth = () => useContext(JWTAuthContext);
-export const useAlgoContext = () => useContext(AlgoContext);
 
 export const useJWTAuthActions = () => useContext(JWTAuthActionsContext);
 
@@ -23,8 +21,6 @@ const JWTAuthAuthProvider = ({ children }) => {
     isAuthenticated: false,
     isLoading: true,
   });
-  const [dataAlgo, setdataAlgo] = useState({ data: null });
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -95,8 +91,6 @@ const JWTAuthAuthProvider = ({ children }) => {
       });
     }
   };
-  console.log(firebaseData);
-  console.log(dataAlgo);
 
   const signUpUser = async ({ name, email, password }) => {
     dispatch({ type: FETCH_START });
@@ -139,7 +133,6 @@ const JWTAuthAuthProvider = ({ children }) => {
     <JWTAuthContext.Provider
       value={{
         ...firebaseData,
-        dataAlgo,
       }}
     >
       <JWTAuthActionsContext.Provider

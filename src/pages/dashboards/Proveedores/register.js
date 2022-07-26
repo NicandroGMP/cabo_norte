@@ -25,15 +25,9 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 const validationSchema = yup.object({
   name: yup.string().required(<IntlMessages id="validation.nameRequired" />),
-  lastname: yup
+  service: yup
     .string()
-    .required(<IntlMessages id="Por favor ingrese los apellidos!" />),
-  company: yup
-    .string()
-    .required(<IntlMessages id="Por favor ingrese la empresa!" />),
-  position: yup
-    .string()
-    .required(<IntlMessages id="Por favor ingrese el puesto!" />),
+    .required(<IntlMessages id="Por favor ingrese el servicio!" />),
 });
 
 const FormRegister = () => {
@@ -61,24 +55,13 @@ const FormRegister = () => {
     setOpen(false);
   };
 
-  const registerWorker = async ({
-    name,
-    lastname,
-    company,
-    position,
-    work,
-    manager,
-  }) => {
+  const registerWorker = async ({ name, service }) => {
     dispatch({ type: FETCH_START });
 
     try {
-      const { data } = await jwtAxios.post("/workers/register", {
+      const { data } = await jwtAxios.post("/providers/register", {
         name,
-        lastname,
-        company,
-        position,
-        work,
-        manager,
+        service,
       });
       messageSuccess(data.message);
       setOpen(true);
@@ -126,31 +109,17 @@ const FormRegister = () => {
           validateOnChange={true}
           initialValues={{
             name: "",
-            lastname: "",
-            company: "",
-            position: "",
-            work: "",
-            manager: "",
+            service: "",
           }}
           validationSchema={validationSchema}
           onSubmit={(data, { setSubmitting, resetForm }) => {
-            if (work == "" || manager == "") {
-              setSubmitting(true);
-              setRequired("El Campo Obra Es Requerido");
-              setSubmitting(false);
-            } else {
-              setSubmitting(true);
-              registerWorker({
-                name: data.name,
-                lastname: data.lastname,
-                company: data.company,
-                position: data.position,
-                work: work,
-                manager: manager,
-              });
-              setSubmitting(false);
-              resetForm();
-            }
+            setSubmitting(true);
+            registerWorker({
+              name: data.name,
+              service: data.service,
+            });
+            setSubmitting(false);
+            resetForm();
           }}
         >
           {({ isSubmitting }) => (
@@ -176,9 +145,9 @@ const FormRegister = () => {
 
                   <Box sx={{ mb: { xs: 5, xl: 8 } }}>
                     <AppTextField
-                      placeholder={"Apellidos"}
-                      name="lastname"
-                      label={<IntlMessages id="Apellidos" />}
+                      placeholder={"Service"}
+                      name="service"
+                      label={<IntlMessages id="Service" />}
                       variant="outlined"
                       sx={{
                         width: "100%",
@@ -187,104 +156,11 @@ const FormRegister = () => {
                         },
                       }}
                     />
-                  </Box>
-                  <Box sx={{ mb: { xs: 3, xl: 4 } }}>
-                    <AppTextField
-                      placeholder={"Empresa"}
-                      name="company"
-                      label={<IntlMessages id="Empresa" />}
-                      variant="outlined"
-                      sx={{
-                        width: "100%",
-                        "& .MuiInputBase-input": {
-                          fontSize: 14,
-                        },
-                      }}
-                    />
-                  </Box>
-                </Box>
-                <Box
-                  sx={{ mb: { xs: 5, xl: 8 }, width: "50%", padding: "10px" }}
-                >
-                  <Box sx={{ mb: { xs: 5, xl: 8 } }}>
-                    <AppTextField
-                      placeholder={"Puesto"}
-                      name="position"
-                      label={<IntlMessages id="Puesto" />}
-                      variant="outlined"
-                      sx={{
-                        width: "100%",
-                        "& .MuiInputBase-input": {
-                          fontSize: 14,
-                        },
-                      }}
-                    />
-                  </Box>
-
-                  <Box sx={{ mb: { xs: 5, xl: 8 }, minWidth: 120 }}>
-                    <InputLabel id="demo-simple-select-label">Obra</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={work}
-                      label="Obras"
-                      onChange={handleChange}
-                      sx={{
-                        width: "100%",
-                      }}
-                      name="work"
-                    >
-                      <MenuItem disabled value="">
-                        <em>Obras</em>
-                      </MenuItem>
-                      {works.map((work) => {
-                        return (
-                          <MenuItem key={work.id} value={work.id}>
-                            {work.job + " " + work.batch}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </Box>
-                  <Box sx={{ mb: { xs: 5, xl: 8 }, minWidth: 120 }}>
-                    <InputLabel id="demo-simple-select-label">
-                      Encargado
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={manager}
-                      label="Encargados"
-                      onChange={selectManager}
-                      sx={{
-                        width: "100%",
-                      }}
-                      name="manager"
-                    >
-                      <MenuItem disabled value="">
-                        <em>Encargados</em>
-                      </MenuItem>
-                      {managers.map((manager) => {
-                        return (
-                          <MenuItem
-                            key={manager.manager_id}
-                            value={manager.manager_id}
-                          >
-                            {manager.fullname}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </Box>
-                  <Box>
-                    {required && (
-                      <p sx={{ color: "red", fontSize: "0.7em" }}>{required}</p>
-                    )}
                   </Box>
                 </Box>
               </div>
               <div>
-                <Link to="/trabajadores">
+                <Link to="/proveedores">
                   <Button
                     variant="contained"
                     color="secondary"

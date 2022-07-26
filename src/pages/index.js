@@ -11,6 +11,7 @@ import { managersRoutesConfigs } from "./dashboards/Encargados/routesPages_Encar
 import { WorksRoutesConfigs } from "./dashboards/Obras/routesPagesWorks";
 import { WorkersRoutesConfigs } from "./dashboards/Trabajadores/routesPagesWorkers";
 import { WardsRoutesConfigs } from "./dashboards/Guardias/routesPagesGuardias";
+import { ProvidersRoutesConfigs } from "./dashboards/Proveedores/routesPagesProviders";
 const authorizedStructure = {
   fallbackPath: "/signin",
   unAuthorizedComponent: <Error403 />,
@@ -20,7 +21,8 @@ const authorizedStructure = {
     ...managersRoutesConfigs,
     ...WorksRoutesConfigs,
     ...WorkersRoutesConfigs,
-    ...WardsRoutesConfigs
+    ...WardsRoutesConfigs,
+    ...ProvidersRoutesConfigs,
   ],
 };
 

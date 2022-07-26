@@ -19,7 +19,6 @@ import {
 } from "shared/constants/ActionTypes";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
-import { type } from "@testing-library/user-event/dist/type";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -112,7 +111,7 @@ const FormRegister = () => {
         </Alert>
       </Snackbar>
       <Box sx={{ mb: { xs: 5, xl: 8 }, width: "40%" }}>
-        <h1>Registrar Encargado</h1>
+        <h1>Registrar Guardia</h1>
       </Box>
       <Box>
         <Formik
@@ -140,7 +139,7 @@ const FormRegister = () => {
                 company: data.company,
                 position: data.position,
                 work: work,
-                typeUser: "encargado",
+                typeUser: "guardia",
                 username: data.username,
                 password: data.password,
               });
