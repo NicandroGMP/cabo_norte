@@ -4,33 +4,35 @@ import IntlMessages from "@crema/utility/IntlMessages";
 import ReactToPrint from "react-to-print";
 import QrCode from "./QrCode";
 
-const ViewQr = () => {
+const ViewQr = ({ props, dataQr = [] }) => {
+  console.log(dataQr);
   const componentRef = useRef();
   return (
     <>
-      <Box>View QR </Box>
-      <div>
+      <div style={{ margin: "auto" }}>
         <Box>
-          <Button
-            variant="contained"
-            color="secondary"
-            type="submit"
-            sx={{
-              minWidth: 160,
-              fontWeight: 500,
-              fontSize: 16,
-              textTransform: "capitalize",
-              padding: "4px 16px 8px",
-            }}
-          >
-            <IntlMessages id="Regresar" />
-          </Button>
-          <div>
+          <div style={{ textAlign: "center" }}>
+            <QrCode Qr={dataQr} ref={componentRef} />
             <ReactToPrint
-              trigger={() => <button>Print this out!</button>}
+              trigger={() => (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="button"
+                  sx={{
+                    minWidth: 160,
+                    fontWeight: 500,
+                    fontSize: 16,
+                    textTransform: "capitalize",
+                    padding: "4px 16px 8px",
+                    margin: "auto",
+                  }}
+                >
+                  Imprimir
+                </Button>
+              )}
               content={() => componentRef.current}
             />
-            <QrCode ref={componentRef} />
           </div>
         </Box>
       </div>

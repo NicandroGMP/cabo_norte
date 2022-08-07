@@ -22,11 +22,15 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import PersonAddDisabledIcon from "@mui/icons-material/PersonAddDisabled";
 import AppInfoView from "@crema/core/AppInfoView";
+import Modal from "@mui/material/Modal";
+import ViewQr from "./ViewQr";
 
 const Trabajadores = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [rows, setrows] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [Qrdata, setDataQr] = useState([]);
 
   const dataUpdate = useCallback((datas) => () => {
     const data = datas.row;
@@ -107,15 +111,18 @@ const Trabajadores = () => {
   );
 
   const dataQr = useCallback(
-    (number) => () => {
-      localStorage.setItem("dataQr", number);
-      navigate("/trabajadores/ViewQr");
+    (data) => () => {
+      setOpen(true);
+      setDataQr(data);
+      /* localStorage.setItem("dataQr", number);
+      navigate("/trabajadores/ViewQr"); */
     },
     []
   );
   const addNewManager = () => {
     navigate("/trabajadores/register");
   };
+  const handleClose = () => setOpen(false);
 
   const columns = useMemo(
     () => [
@@ -132,7 +139,7 @@ const Trabajadores = () => {
         getActions: (params) => [
           <GridActionsCellItem
             icon={<QrCode2Icon />}
-            onClick={dataQr(params.row.register_number)}
+            onClick={dataQr(params.row)}
             label="Delete"
           />,
         ],
@@ -168,6 +175,29 @@ const Trabajadores = () => {
   );
   return (
     <>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 700,
+            bgcolor: "background.paper",
+            border: "2px solid #000",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <ViewQr dataQr={Qrdata} />
+        </Box>
+      </Modal>
       <Box
         sx={{
           borderBottom: 1,
