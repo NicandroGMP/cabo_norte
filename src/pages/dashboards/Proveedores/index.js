@@ -58,13 +58,13 @@ const Proveedores = () => {
     []
   );
 
-  const dataQr = useCallback(
+  /*  const dataQr = useCallback(
     (number) => () => {
       localStorage.setItem("dataQr", number);
       navigate("/proveedores/ViewQr");
     },
     []
-  );
+  ); */
   const addNewManager = () => {
     navigate("/proveedores/register");
   };
@@ -74,7 +74,7 @@ const Proveedores = () => {
       { field: "name", headerName: "Nombre", width: 200 },
       { field: "service", headerName: "Servicio", width: 200 },
 
-      {
+      /*   {
         field: "qr_code",
         type: "actions",
         headerName: "IDE_QR",
@@ -86,7 +86,7 @@ const Proveedores = () => {
             label="Delete"
           />,
         ],
-      },
+      }, */
       {
         field: "actions",
         type: "actions",
@@ -105,7 +105,7 @@ const Proveedores = () => {
         ],
       },
     ],
-    [deleteWorker, dataUpdate, dataQr]
+    [deleteWorker, dataUpdate /* dataQr */]
   );
   return (
     <>

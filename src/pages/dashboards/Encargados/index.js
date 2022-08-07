@@ -12,11 +12,12 @@ import {
 } from "shared/constants/ActionTypes";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import CustomNoRows from "./components/CustomNoRows";
 const Encargados = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [rows, setrows] = useState([]);
+  const [NotRows, setNotRows] = useState(true);
 
   const dataUpdate = useCallback((datas) => () => {
     const data = datas.row;
@@ -34,11 +35,15 @@ const Encargados = () => {
   useEffect(() => {
     dispatch({ type: FETCH_START });
     try {
-      jwtAxios.get("/managers").then((res) => {
-        setrows(res.data.managers);
-        dispatch({ type: FETCH_SUCCESS });
-      });
+      jwtAxios
+        .get("/managers")
+        .then((res) => {
+          setrows(res.data.managers);
+          dispatch({ type: FETCH_SUCCESS });
+        })
+        .catch(() => setNotRows(false));
     } catch (error) {
+      console.log("dsadasd");
       dispatch({
         type: FETCH_ERROR,
         payload: error?.response?.data?.error || "Error al Registrar",
@@ -83,6 +88,9 @@ const Encargados = () => {
     ],
     [deleteManager, dataUpdate]
   );
+  function CustomNoRowsOverlay() {
+    return <>{NotRows === false && <CustomNoRows />}</>;
+  }
   return (
     <>
       <Box
@@ -103,6 +111,10 @@ const Encargados = () => {
       </Box>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
+          components={{
+            Toolbar: GridToolbar,
+            NoRowsOverlay: CustomNoRowsOverlay,
+          }}
           rows={rows}
           columns={columns}
           pageSize={5}
@@ -110,7 +122,6 @@ const Encargados = () => {
           disableColumnFilter
           disableColumnSelector
           disableDensitySelector
-          components={{ Toolbar: GridToolbar }}
           componentsProps={{
             toolbar: {
               showQuickFilter: true,

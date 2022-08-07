@@ -20,6 +20,8 @@ import {
 } from "shared/constants/ActionTypes";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import PersonAddDisabledIcon from "@mui/icons-material/PersonAddDisabled";
+import AppInfoView from "@crema/core/AppInfoView";
 
 const Trabajadores = () => {
   const dispatch = useDispatch();
@@ -42,24 +44,64 @@ const Trabajadores = () => {
   });
 
   useEffect(() => {
-    dispatch({ type: FETCH_START });
-    try {
-      jwtAxios.get("/workers").then((res) => {
-        setrows(res.data.workers);
-        console.log(res.data.workers);
-        dispatch({ type: FETCH_SUCCESS });
-      });
-    } catch (error) {
-      dispatch({
-        type: FETCH_ERROR,
-        payload: error?.response?.data?.error || "Error de Servidor",
-      });
-    }
+    const getWorkers = async () => {
+      dispatch({ type: FETCH_START });
+      try {
+        await jwtAxios.get("/workers").then((res) => {
+          setrows(res.data.workers);
+          console.log(res.data.workers);
+          dispatch({ type: FETCH_SUCCESS });
+        });
+      } catch (error) {
+        dispatch({
+          type: FETCH_ERROR,
+          payload: error?.response?.data?.error || "Error de Servidor",
+        });
+      }
+    };
+    getWorkers();
   }, []);
 
+  const statusWorker = useCallback(
+    ({ id, currentStatus }) =>
+      () => {
+        dispatch({ type: FETCH_START });
+        if (currentStatus === "Deshabilitado") {
+          setrows((prevRows) =>
+            prevRows.map((row) =>
+              row.id === id ? { ...row, status: "Habilitado" } : row
+            )
+          );
+        } else {
+          setrows((prevRows) =>
+            prevRows.map((row) =>
+              row.id === id ? { ...row, status: "Deshabilitado" } : row
+            )
+          );
+        }
+
+        try {
+          jwtAxios
+            .get("/workers/status/" + id + "/" + currentStatus)
+            .then((res) => {
+              dispatch({
+                type: FETCH_SUCCESS,
+              });
+            });
+        } catch (error) {
+          dispatch({
+            type: FETCH_ERROR,
+            payload: error?.response?.data?.error || "Error en el servidor",
+          });
+        }
+      },
+    []
+  );
   const deleteWorker = useCallback(
     (id) => () => {
-      console.log(id);
+      setTimeout(() => {
+        setrows((prevRows) => prevRows.filter((row) => row.id !== id));
+      });
     },
     []
   );
@@ -78,9 +120,10 @@ const Trabajadores = () => {
   const columns = useMemo(
     () => [
       { field: "fullname", headerName: "Nombre", width: 200 },
-      { field: "job", headerName: "Obra", width: 200 },
+      { field: "job", headerName: "Obra", width: 150 },
       { field: "manager_name", headerName: "Manager", width: 200 },
-      { field: "position", headerName: "Puesto", width: 200 },
+      { field: "position", headerName: "Puesto", width: 100 },
+      { field: "status", headerName: "Status", type: "string", width: 100 },
       {
         field: "qr_code",
         type: "actions",
@@ -96,6 +139,7 @@ const Trabajadores = () => {
       },
       {
         field: "actions",
+        width: 150,
         type: "actions",
         headerName: "Actions",
         getActions: (params) => [
@@ -109,10 +153,18 @@ const Trabajadores = () => {
             onClick={deleteWorker(params.id)}
             label="Delete"
           />,
+          <GridActionsCellItem
+            icon={<PersonAddDisabledIcon />}
+            onClick={statusWorker({
+              id: params.id,
+              currentStatus: params.row.status,
+            })}
+            label="status"
+          />,
         ],
       },
     ],
-    [deleteWorker, dataUpdate, dataQr]
+    [deleteWorker, dataUpdate, dataQr, statusWorker]
   );
   return (
     <>
@@ -141,6 +193,7 @@ const Trabajadores = () => {
           rowsPerPageOptions={[5]}
         />
       </div>
+      <AppInfoView />
     </>
   );
 };

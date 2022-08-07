@@ -3,7 +3,7 @@ import { Box, Button } from "@mui/material";
 import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import jwtAxios from "../../../../@crema/services/auth/jwt-auth/index";
+import jwtAxios from "../../../../../@crema/services/auth/jwt-auth/index";
 import { Link } from "react-router-dom";
 import IntlMessages from "@crema/utility/IntlMessages";
 

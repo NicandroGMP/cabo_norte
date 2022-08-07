@@ -23,7 +23,9 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 const validationSchema = yup.object({
-  work: yup.string().required(<IntlMessages id="Por favor ingrese la Obra!" />),
+  work: yup
+    .string()
+    .required(<IntlMessages id="Por favor ingrese el Subcondominio!" />),
   batch: yup
     .string()
     .required(<IntlMessages id="Por favor ingrese el Lote!" />),
@@ -75,7 +77,7 @@ const FormRegister = () => {
         </Alert>
       </Snackbar>
       <Box sx={{ mb: { xs: 5, xl: 8 }, width: "40%" }}>
-        <h1>Registrar Obra</h1>
+        <h1>Registrar Subcondominio</h1>
       </Box>
       <Box>
         <Formik
@@ -111,9 +113,9 @@ const FormRegister = () => {
                 >
                   <Box sx={{ mb: { xs: 5, xl: 8 } }}>
                     <AppTextField
-                      placeholder={"Obra"}
+                      placeholder={"Subcondominio"}
                       name="work"
-                      label={<IntlMessages id="Obra" />}
+                      label={<IntlMessages id="Subcondominio" />}
                       variant="outlined"
                       sx={{
                         width: "100%",

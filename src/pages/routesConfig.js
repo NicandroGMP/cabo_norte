@@ -5,7 +5,7 @@ import ManagerIcon from "@mui/icons-material/ManageAccounts";
 import WorkIcon from "@mui/icons-material/Work";
 import Proveedores from "@mui/icons-material/PeopleOutline";
 import Guardias from "@mui/icons-material/LocalPolice";
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import AssessmentIcon from "@mui/icons-material/Assessment";
 import { RoutePermittedRole } from "shared/constants/AppConst";
 
 const routesConfig = [
@@ -32,6 +32,7 @@ const routesConfig = [
         icon: <WorkingIcon />,
         url: "/trabajadores",
       },
+
       {
         id: "encargados",
         title: "Encargados",
@@ -67,6 +68,24 @@ const routesConfig = [
         type: "item",
         icon: <Guardias />,
         url: "/guardias",
+      },
+      {
+        id: "bitacora_trabajadores",
+        title: "bitacora_Trabajadores",
+        messageId: "Bitacora Trabajadores",
+        permittedRole: RoutePermittedRole.admin,
+        type: "item",
+        icon: <AssessmentIcon />,
+        url: "/trabajadores/bitacora",
+      },
+      {
+        id: "bitacora_proveedores",
+        title: "bitacora_Proveedores",
+        messageId: "Bitacora Proveedores",
+        permittedRole: RoutePermittedRole.admin,
+        type: "item",
+        icon: <AssessmentIcon />,
+        url: "/proveedores/bitacora",
       },
     ],
   },

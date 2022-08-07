@@ -12,7 +12,7 @@ const Home = () => {
 
   useEffect(() => {
     if (user.type_user === "guardia") {
-      navigate("/guardias/auth");
+      navigate("/guardias/home");
     } else {
       navigate("/home");
     }
