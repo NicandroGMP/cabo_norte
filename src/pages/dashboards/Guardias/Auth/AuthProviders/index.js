@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button } from "@mui/material";
-import { Form, Formik } from "formik";
-import AppTextField from "@crema/core/AppFormComponents/AppTextField";
-import InputLabel from "@mui/material/InputLabel";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { styled } from "@mui/material/styles";
@@ -19,8 +16,6 @@ import jwtAxios from "@crema/services/auth/jwt-auth";
 const ProvidersIndex = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [resultSearch, setResultSearch] = useState(false);
-  const [dataSearch, setDataSearch] = useState(null);
   const [rows, setrows] = useState([]);
 
   useEffect(() => {
