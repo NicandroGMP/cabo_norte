@@ -9,7 +9,7 @@ class AccountRules
     {
         try {
             $model = new AccountsModel();
-            $user = $model->findUserByEmail($data['email']);
+            $user = $model->findUserByUsername($data['username']);
             return password_verify($data['password'], $user['password']);
         } catch (Exception $e) {
             return false;

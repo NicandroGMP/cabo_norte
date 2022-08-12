@@ -6,18 +6,19 @@ use CodeIgniter\Model;
 
 class ManagersModel extends Model
 {
-    protected $table = 'managers';
+    protected $table = "managers";
     protected $primaryKey = "id";
     protected $allowedFields = [
-    'name','lastname','manager_number', 'company', 'position', 'work'
+        "manager_number","name","lastname", "company", "position", "work"
     ];
     protected $updatedField = "updated_at";
-	protected $useTimestamps = true;
     protected $useSoftDeletes = false;
+
+    
     public function findManagerById($id)
     
     {
-        $manager = $this->asArray()->where(['id_manager' => $id])->first();
+        $manager = $this->asArray()->where(['id' => $id])->first();
 
         if (!$manager) {
             throw new \Exception('Could not find manager for specified ID');

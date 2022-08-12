@@ -8,7 +8,7 @@ class WorksModel extends Model {
 		protected $primaryKey = 'id';
 		protected $allowedFields = ['job','batch','status'];
 		protected $updatedField = "updated_at";
-		protected $useTimestamps = true;
 		protected $useSoftDeletes = false;
+
 
 }

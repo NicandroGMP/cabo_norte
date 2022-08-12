@@ -4,41 +4,33 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Libraries\Hash;
 use App\Libraries\StringMake;
-use App\Models\WorkersModel;
+use App\Models\ProvidersModel;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\BitacoraWorkersModel;
 
 
 
-class Workers extends BaseController{
+class Providers extends BaseController{
     public function __construct()
     {
 		helper(["url", "form"]);
 
-        $this->workers = new WorkersModel();
-        $this->BitacoraWorkers = new BitacoraWorkersModel();
+        $this->providers = new ProvidersModel();
     }
     public function index(){
-        $join = $this->workers->table("workers");
-        $join->select('workers.id, workers.register_number,CONCAT(workers.name ," ", workers.lastname) as fullname,workers.name ,workers.lastname,workers.job as job_id , works.job,workers.manager, CONCAT(managers.name," ", managers.lastname )as manager_name, workers.position,  workers.company, workers.status');
-        $join->join("managers", "workers.manager = managers.id");
-        $join->join("works", "workers.job = works.id");
-        $user_date = $join->get()->getResultArray();
+        $user_date = $this->providers->findAll();
         return $this->getResponse([
-            'message' => 'Workers retrieved successfully',
-            'workers' => $user_date
+            'message' => 'Provider retrieved successfully',
+            'providers' => $user_date
         ]);
     }
  
-    public function registerWorker()
+    public function registerProvider()
     {
         $rules = [
             "name" => "required",
-            "lastname"=> "required",
-            "company"=> "required",
-            "position"=> "required",
-            "work" => "required",
-            "manager" => "required"
+            "service"=> "required",
+            "job" => "required",
+            "batch" => "required"
         ];
 
         $input = $this->getRequestInput($this->request);
@@ -50,34 +42,27 @@ class Workers extends BaseController{
             $data = [
                 "register_number" => $number_worker,
                 "name" => $input["name"],
-                "lastname" => $input["lastname"],
-                "company" => $input["company"],
-                "position" => $input["position"],
-                "job" => $input["work"],
-                "manager" => $input["manager"],
-                "status" => "Habilitado"
+                "service" => $input["service"],
+                "work" => $input["job"],
+                "batch" => $input["batch"],
 
             ];
-            $query = $this->workers->insert($data);
+            $query = $this->providers->insert($data);
             if (!$query){
                 return $this->getResponse("", ResponseInterface::HTTP_BAD_REQUEST);
             }else{
                 return $this->getResponse([
-                    "message" => "El Trabajador ". $input["name"]." " .$input["lastname"]." Se Registro Correctamente"
+                    "message" => "El Proveedor ". $input["name"]."Se Registro Correctamente"
                 ]);
             }
         }
 
     }
-    public function updateWorker()
+    public function updateProvider()
     {
         $rules = [
             "name" => "required",
-            "lastname"=> "required",
-            "company"=> "required",
-            "position"=> "required",
-            "work" => "required",
-            "manager" => "required",
+            "service"=> "required",
         ];
         $input = $this->getRequestInput($this->request);
 
@@ -87,13 +72,9 @@ class Workers extends BaseController{
             $id = $input["id"];
             $data = [
                 "name" => $input["name"],
-                "lastname" => $input["lastname"],
-                "company" => $input["company"],
-                "position" => $input["position"],
-                "work" => $input["work"],
-                "manager" => $input["manager"],
+                "service" => $input["service"],
 		];
-        $update = $this->workers->update($id, $data);
+        $update = $this->providers->update($id, $data);
         if(!$update){
             return $this->getResponse("", ResponseInterface::HTTP_BAD_REQUEST);
         }else{
@@ -104,48 +85,26 @@ class Workers extends BaseController{
         }
     }
 
-    public function statusUpdate($id,$data){
-    if (empty($id) || empty($data) ){
-        return $this->getResponse("", ResponseInterface::HTTP_BAD_REQUEST);
-    }else{
-        
-        if ($data === "Habilitado"){
-            $dataUpdate = ["status" => "Deshabilitado"];
-            $update = $this->workers->update($id,$dataUpdate);
-            return $this->getResponse(["message" => "deshabilitado"]);   
-        }elseif($data === "Deshabilitado"){
-            $dataUpdate = ["status" => "Habilitado"];
-            $update = $this->workers->update($id,$dataUpdate);
-            return $this->getResponse(["message" => "habilitado"]);   
-        }
-        }
-        
-    }
-
-    public function getWorkerSearchByRegisterNumber(){
+    public function getProviderSearchByRegisterNumber(){
 
         $input = $this->getRequestInput($this->request);
         $string = $input["search"];
-        $join = $this->workers->table("workers");
+        $join = $this->providers->table("workers");
         $join->select('workers.id as workers_id, workers.name, works.job,workers.lastname, workers.position, workers.register_number, workers.company, CONCAT(managers.name," ",managers.lastname) as manager,CONCAT(works.job," ",works.batch) as job');
         $join->join("works", "workers.job = works.id");
         $join->join("managers", "workers.manager = managers.id")->where("workers.register_number", $string);
         $inf_user =  $join->get()->getResultArray();
-
-        $stateExit = $this->BitacoraWorkers->select("exit_worker")->where("register_number", $input);
-        $stateExit = $stateExit->get()->getResultArray();
 
         if(!$inf_user){
             return $this->getResponse("", ResponseInterface::HTTP_BAD_REQUEST);
         }else{
          
         return $this->getResponse([
-            "worker" => $inf_user,
-            "stateExit"=>$stateExit[0]
+            "worker" => $inf_user
         ]);   
         }
   }
-  public function getWorkerScanByRegisterNumber($number){
+  public function getProviderScanByRegisterNumber($number){
 
     $string = $number;
     $join = $this->workers->table("workers");

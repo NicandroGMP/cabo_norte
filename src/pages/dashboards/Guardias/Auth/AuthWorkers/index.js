@@ -36,6 +36,7 @@ const Guardias = () => {
       const { data } = await jwtAxios.post("/workers/search", {
         search,
       });
+      console.log(data);
       setResultSearch(false);
       setDataSearch(data.worker);
       dispatch({ type: FETCH_SUCCESS });

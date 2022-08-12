@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\AccountsModel;
-use App\Models\RecovePassModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Libraries\Hash;
 use App\Libraries\Message;
@@ -16,9 +15,55 @@ class Auth extends BaseController {
 		helper(["url", "form"]);
 
         $this->accounts = new AccountsModel();
-        $this->recove_pass = new RecovePassModel();
         
     }
+    public function index(){
+        return $this->getResponse([
+            "status" => "ok",
+        ], ResponseInterface::HTTP_CREATED);
+    }
+
+        public function login(){
+            $rules = [
+                'username' => 'required|is_not_unique[accounts.username]',
+                'password' => 'required|min_length[8]|max_length[255]|validateAccount[usernamme, password]',
+            ];
+    
+            $errors = [
+                'password' => [
+                    'validateAccount' => 'Invalid login credentials provided'
+                ],
+                'username' => [
+                    'required' => 'username is required',
+                    "is_not_unique" => "This email is not registered on our service"
+                ]
+            ];
+    
+          /*   $validation = $this->validate([
+                "email" => [
+                "rules" => "required|valid_email|is_not_unique[accounts.email]",
+                "errors" =>[
+                    "required" => "Email is required", 
+                    "valid_email" => "Enter valid email address", 
+                    "is_not_unique" => "This email is not registered on our service"
+                    ] 
+                ],
+                "password" => ["rules" => "required|min_length[5]|max_length[12]", 
+                "errors" => [
+                    "required" => "Password is required",
+                    "min_length" => "Password must have atleast 5 characters in length",
+                    "max_length" => "Password must not have more than 12 characters in length"
+                    ]
+                ]
+            ]);
+     */
+    
+            $input = $this->getRequestInput($this->request);
+            if (!$this->validateRequest($input, $rules, $errors)) {
+                return $this->getResponse($this->validator->getErrors(), ResponseInterface::HTTP_BAD_REQUEST);
+            }
+            return $this->getJWTForUser($input['username']);
+        }
     public function register()
     {
         $rules = [
@@ -37,48 +82,6 @@ class Auth extends BaseController {
         $userModel->save($input);
 
         return $this->getJWTForUser($input['email'], ResponseInterface::HTTP_CREATED);
-    }
-
-    public function login(){
-        $rules = [
-            'email' => 'required|min_length[6]|max_length[50]|valid_email',
-            'password' => 'required|min_length[8]|max_length[255]|validateAccount[email, password]',
-        ];
-
-        $errors = [
-            'password' => [
-                'validateAccount' => 'Invalid login credentials provided'
-            ],
-            'email' => [
-                'required' => 'email is required'
-            ]
-        ];
-
-      /*   $validation = $this->validate([
-            "email" => [
-            "rules" => "required|valid_email|is_not_unique[accounts.email]",
-            "errors" =>[
-                "required" => "Email is required", 
-                "valid_email" => "Enter valid email address", 
-                "is_not_unique" => "This email is not registered on our service"
-                ] 
-            ],
-            "password" => ["rules" => "required|min_length[5]|max_length[12]", 
-            "errors" => [
-                "required" => "Password is required",
-                "min_length" => "Password must have atleast 5 characters in length",
-                "max_length" => "Password must not have more than 12 characters in length"
-                ]
-            ]
-        ]);
- */
-
-        $input = $this->getRequestInput($this->request);
-        if (!$this->validateRequest($input, $rules, $errors)) {
-            return $this->getResponse($this->validator->getErrors(), ResponseInterface::HTTP_BAD_REQUEST);
-        }
-
-        return $this->getJWTForUser($input['email']);
     }
     public function forgetPassword()
     {
@@ -128,7 +131,7 @@ class Auth extends BaseController {
     }
     }
 
-    public function pageExpire($key, $string_cookie){
+  /*   public function pageExpire($key, $string_cookie){
         $verifySessionCookie = Hash::checkString($string_cookie, $key);
 
         if(!$verifySessionCookie){
@@ -145,7 +148,7 @@ class Auth extends BaseController {
             }
 
         }
-    }
+    } */
 
     public function UpdatePassword(){
 
@@ -195,11 +198,11 @@ class Auth extends BaseController {
         }
 
     }
-    private function getJWTForUser(string $email, int $responseCode = ResponseInterface::HTTP_OK)
+    private function getJWTForUser(string $username, int $responseCode = ResponseInterface::HTTP_OK)
     {
         try {
             $model = new AccountsModel();
-            $user = $model->findUserByEmail($email);
+            $user = $model->findUserByUsername($username);
             unset($user['password']);
 
             helper('jwt');
@@ -207,7 +210,7 @@ class Auth extends BaseController {
             return $this->getResponse([
                 'message' => 'User authenticated successfully',
                 'user' => $user,
-                'access_token' => getSignedJWTForUser($email)
+                'access_token' => getSignedJWTForUser($username)
             ]);
         } catch (\Exception $e) {
             return $this->getResponse([

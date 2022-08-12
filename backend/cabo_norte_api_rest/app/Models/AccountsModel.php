@@ -7,11 +7,12 @@ use Exception;
 class AccountsModel extends Model{
     protected $table = "accounts";
     protected $primaryKey = "id";
-    protected $allowedFields = ["user_inf","username" , "email", "password"];
+    protected $allowedFields = ["user_inf","type_user","username" , "password"];
     protected $updatedField = "updated_at";
     protected $beforeInsert = ["beforeInsert"];
     protected $beforeUpdate = ["beforeUpdate"];
     protected $useSoftDeletes = false;
+    
     protected function beforeInsert(array $data):array{
         return $this->getUpadatedDataWhitHashedPassword($data);
     }
@@ -28,11 +29,11 @@ class AccountsModel extends Model{
     }
 
 
-    public function findUserByEmail($email){
-        $user = $this->asArray()->where(["email" => $email])->first();
+    public function findUserByUsername($username){
+        $user = $this->asArray()->where(["username" => $username])->first();
 
         if (!$user){
-            throw new Exception("user does not exist for especified email address");
+            throw new Exception("user does not exist for especified Username");
         }
         return $user;
     }

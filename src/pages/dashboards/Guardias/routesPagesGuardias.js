@@ -3,6 +3,7 @@ const Bitacora = React.lazy(() => import("./Auth/AuthWorkers/Bitacora"));
 const ScanQr = React.lazy(() => import("./Auth/AuthWorkers/ScanQr"));
 const HomeGuards = React.lazy(() => import("./Auth/index"));
 const AuthWorkers = React.lazy(() => import("./Auth/AuthWorkers"));
+const AuthProviders = React.lazy(() => import("./Auth/AuthProviders"));
 const FormRegister = React.lazy(() => import("./register"));
 const FormEdit = React.lazy(() => import("./Edit"));
 export const WardsRoutesConfigs = [
@@ -18,6 +19,10 @@ export const WardsRoutesConfigs = [
   {
     path: "/guardias/entradas/trabajadores",
     element: <AuthWorkers />,
+  },
+  {
+    path: "/guardias/entradas/proveedores",
+    element: <AuthProviders />,
   },
   {
     path: "/guardias/ScanQr",

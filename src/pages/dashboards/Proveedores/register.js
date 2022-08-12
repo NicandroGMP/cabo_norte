@@ -34,9 +34,8 @@ const FormRegister = () => {
   const dispatch = useDispatch();
   const [work, setWork] = useState("");
   const [works, setWorks] = useState([]);
-  const [required, setRequired] = useState(null);
   const [message, messageSuccess] = useState(null);
-  const [manager, setManager] = useState("");
+  const [batch, setBatch] = useState("");
   const [managers, setManagers] = useState([]);
   const [open, setOpen] = useState(false);
   const { user } = useAuthUser();
@@ -55,15 +54,17 @@ const FormRegister = () => {
     setOpen(false);
   };
 
-  const registerWorker = async ({ name, service }) => {
+  const registerWorker = async ({ name, service, job, batch }) => {
     dispatch({ type: FETCH_START });
 
     try {
       const { data } = await jwtAxios.post("/providers/register", {
         name,
         service,
+        job,
+        batch,
       });
-      messageSuccess(data.message);
+      messageSuccess(data.message);   
       setOpen(true);
       dispatch({ type: FETCH_SUCCESS });
     } catch (error) {
@@ -85,12 +86,10 @@ const FormRegister = () => {
     });
 
     jwtAxios.get("/manager/" + user.user_inf).then((res) => {
-      const manager = res.data.manager;
+      const [manager] = res.data.manager;
 
-      manager.map((current_manager) => {
-        setWork(current_manager.work_id);
-        setManager(current_manager.manager_id);
-      });
+      setWork(manager.job);
+      setBatch(manager.batch);
     });
   }, []);
 
@@ -102,7 +101,7 @@ const FormRegister = () => {
         </Alert>
       </Snackbar>
       <Box sx={{ mb: { xs: 5, xl: 8 }, width: "40%" }}>
-        <h1>Registrar Trabajador</h1>
+        <h1>Registrar Proveedor</h1>
       </Box>
       <Box>
         <Formik
@@ -117,6 +116,8 @@ const FormRegister = () => {
             registerWorker({
               name: data.name,
               service: data.service,
+              job: work,
+              batch: batch,
             });
             setSubmitting(false);
             resetForm();

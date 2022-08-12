@@ -23,6 +23,8 @@ import { useNavigate } from "react-router-dom";
 import PersonAddDisabledIcon from "@mui/icons-material/PersonAddDisabled";
 import AppInfoView from "@crema/core/AppInfoView";
 import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Backdrop from "@mui/material/Backdrop";
 import ViewQr from "./ViewQr";
 
 const Trabajadores = () => {
@@ -178,25 +180,31 @@ const Trabajadores = () => {
       <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
       >
-        <Box
-          sx={{
-            
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 700,
-            bgcolor: "background.paper",
-            border: "2px solid #000",
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          <ViewQr dataQr={Qrdata} />
-        </Box>
+        <Fade in={open}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 700,
+              bgcolor: "background.paper",
+              border: "2px solid #000",
+              boxShadow: 24,
+              p: 4,
+            }}
+          >
+            <ViewQr dataQr={Qrdata} />
+          </Box>
+        </Fade>
       </Modal>
       <Box
         sx={{

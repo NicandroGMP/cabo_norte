@@ -79,7 +79,15 @@ class Filters extends BaseConfig
                 'works',
                 'workers/*',
                 'workers',
-            ]
+                'user/*',
+                'user',
+                'guards/*',
+                'guards',
+                'bitacora/*',
+                'bitacora',
+                'providers/*',
+                'providers',
+                ]
         ]
     ];
 }

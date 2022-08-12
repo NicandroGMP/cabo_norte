@@ -173,7 +173,6 @@ const InfWorker = (props) => {
         </Box> */}
         <Box sx={{ width: "100%", margin: "auto" }}>
           {dataBitacora.map((currentWorker) => {
-            console.log(currentWorker);
             return (
               <CardContent
                 key={currentWorker.register_number}

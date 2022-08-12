@@ -22,12 +22,17 @@ const Bitacora = () => {
   const navigate = useNavigate();
   const [rows, setrows] = useState([]);
   const [dontExit, setDontExit] = useState(null);
+  const [completeRegister, setCompleteRegister] = useState(null);
+  const [totalRegister, setTotalRegister] = useState(null);
 
   useEffect(() => {
     dispatch({ type: FETCH_START });
     try {
       jwtAxios.get("/bitacora").then((res) => {
         setrows(res.data.bitacora);
+        console.log(res.data);
+        setCompleteRegister(res.data.success_entry);
+        setTotalRegister(res.data.total_worker);
         setDontExit(res.data.dontExit.dontExit);
         dispatch({ type: FETCH_SUCCESS });
       });
@@ -88,10 +93,16 @@ const Bitacora = () => {
         }}
       >
         <Stack direction="row" spacing={4}>
+          <h5 style={{ mt: 5 }}>Registros de entrada</h5>
+          <Chip sx={{ color: "#fff" }} label={totalRegister} color="primary" />
           <h5 style={{ mt: 5 }}>Sin registros de salida</h5>
           <Chip label={dontExit} color="secondary" />
-          <h5 style={{ mt: 5 }}>Registros de entrada</h5>
-          <Chip label="2" color="success" />
+          <h5 style={{ mt: 5 }}>Registros completados</h5>
+          <Chip
+            sx={{ color: "#fff" }}
+            label={completeRegister}
+            color="success"
+          />
         </Stack>
       </Box>
       <div style={{ height: 400, width: "100%" }}>

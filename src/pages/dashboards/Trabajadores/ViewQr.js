@@ -5,7 +5,6 @@ import ReactToPrint from "react-to-print";
 import QrCode from "./QrCode";
 
 const ViewQr = ({ props, dataQr = [] }) => {
-  console.log(dataQr);
   const componentRef = useRef();
   return (
     <>

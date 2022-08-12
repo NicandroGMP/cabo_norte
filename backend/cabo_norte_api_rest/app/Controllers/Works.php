@@ -38,6 +38,7 @@ class Works extends BaseController{
                 "job" => $input["work"],
                 "batch" => $input["batch"],
                 "status" => $input["status"],
+                "updated_at" => null,
 
             ];
             $query = $this->works->insert($data);
@@ -52,8 +53,41 @@ class Works extends BaseController{
 
     }
 
- 
+    public function updateWork()
+    {
+        $rules = [
+            "work" => "required",
+            "batch"=> "required",
+            "status"=> "required",
+        ];
+        $input = $this->getRequestInput($this->request);
 
+        if (!$this->validateRequest($input, $rules)) {
+            return $this->getResponse($this->validator->getErrors(), ResponseInterface::HTTP_BAD_REQUEST);
+        }else{
+            $id = $input["id"];
+            $data = [
+                "job" => $input["work"],
+                "batch" => $input["batch"],
+                "status" => $input["status"],
+		];
+        $update = $this->works->update($id, $data);
+        if(!$update){
+            return $this->getResponse("", ResponseInterface::HTTP_BAD_REQUEST);
+        }else{
+            return $this->getResponse([
+                "message" => "datos actualizados"
+            ]);
+        }
+        }
+    }
+
+    public function filterUniqueWorks(){
+        $works= $this->works->select("job")->groupBy("job HAVING COUNT(*)=1 OR COUNT(*)>1");
+        $works = $works->get()->getResultArray();
+        return $this->getResponse(["works" => $works]);
+    }
+    
 
 }
 ?>
