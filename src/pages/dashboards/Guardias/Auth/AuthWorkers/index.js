@@ -20,6 +20,9 @@ const Guardias = () => {
   const dispatch = useDispatch();
   const [resultSearch, setResultSearch] = useState(false);
   const [dataSearch, setDataSearch] = useState(null);
+  const [statusWorker, setStatusWorker] = useState(false);
+  const [buttonExit, setButtonExit] = useState(false);
+  const [idWorker, setIdWorker] = useState("");
   const viewSacan = () => {
     navigate("/guardias/ScanQr");
   };
@@ -36,9 +39,18 @@ const Guardias = () => {
       const { data } = await jwtAxios.post("/workers/search", {
         search,
       });
-      console.log(data);
+      const [worker] = data.stateExit;
+      setIdWorker(worker.id);
+      console.log(data.stateExit);
       setResultSearch(false);
       setDataSearch(data.worker);
+      if (!data.stateExit.length) {
+        setButtonExit(false);
+        setStatusWorker(true);
+      } else {
+        setButtonExit(true);
+        setStatusWorker(false);
+      }
       dispatch({ type: FETCH_SUCCESS });
     } catch (error) {
       setResultSearch(true);
@@ -146,7 +158,12 @@ const Guardias = () => {
           {resultSearch && <WorkerError />}
           {dataSearch !== null && (
             <>
-              <InfWorker dataWorker={dataSearch} />
+              <InfWorker
+                idWorker={idWorker}
+                statusWorker={statusWorker}
+                dataWorker={dataSearch}
+                setButton={buttonExit}
+              />
             </>
           )}
         </Box>

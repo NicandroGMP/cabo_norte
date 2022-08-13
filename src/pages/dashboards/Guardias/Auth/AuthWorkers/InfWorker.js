@@ -22,7 +22,9 @@ const InfWorker = (props) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [dataBitacora, setDataBitacora] = useState(props.dataWorker);
-  const [dataInsert, setDataInsert] = useState(null);
+  const [statusWorker, setstatusWorker] = useState(props.statusWorker);
+  const [buttonExit, setButtonExit] = useState(props.setButton);
+  const [idWorker, setIdWorker] = useState(props.idWorker);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -31,10 +33,12 @@ const InfWorker = (props) => {
 
     setOpen(false);
   };
-  /*   useEffect(() => {
-    const [dataInsert] = dataBitacora;
+  useEffect(() => {
+    console.log(statusWorker);
+    console.log(idWorker);
+    console.log(buttonExit);
   }, []);
- */
+
   const addToBitacora = async () => {
     const [dataInsert] = dataBitacora;
     const name = dataInsert.name;
@@ -55,6 +59,22 @@ const InfWorker = (props) => {
         work,
         register_number,
         manager,
+      });
+      messageSuccess(data.message);
+      setOpen(true);
+      dispatch({ type: FETCH_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: FETCH_ERROR,
+        payload: error?.response?.data?.error || "Error al Registrar",
+      });
+    }
+  };
+  const insertExitWorker = async () => {
+    dispatch({ type: FETCH_START });
+    try {
+      const { data } = await jwtAxios.post("/bitacora/update", {
+        idWorker,
       });
       messageSuccess(data.message);
       setOpen(true);
@@ -279,6 +299,24 @@ const InfWorker = (props) => {
         >
           Registrar Entrada
         </Button>
+        {statusWorker === false && (
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={insertExitWorker}
+            type="submit"
+            sx={{
+              marginLeft: "5px",
+              minWidth: 100,
+              fontWeight: 500,
+              fontSize: 16,
+              textTransform: "capitalize",
+              padding: "4px 16px 8px",
+            }}
+          >
+            Registrar Salida
+          </Button>
+        )}
       </Box>
     </>
   );

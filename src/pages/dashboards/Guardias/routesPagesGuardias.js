@@ -8,7 +8,7 @@ const FormRegister = React.lazy(() => import("./register"));
 const FormEdit = React.lazy(() => import("./Edit"));
 export const WardsRoutesConfigs = [
   {
-    path: "/guardias/bitacora",
+    path: "/guardias/bitacora_trabajadores",
     element: <Bitacora />,
   },
   {
