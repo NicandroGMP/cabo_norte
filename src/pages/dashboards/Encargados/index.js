@@ -13,6 +13,8 @@ import {
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CustomNoRows from "./components/CustomNoRows";
+import PersonAddDisabledIcon from "@mui/icons-material/PersonAddDisabled";
+
 const Encargados = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,11 +41,11 @@ const Encargados = () => {
         .get("/managers")
         .then((res) => {
           setrows(res.data.managers);
+          console.log(res.data.managers);
           dispatch({ type: FETCH_SUCCESS });
         })
         .catch(() => setNotRows(false));
     } catch (error) {
-      console.log("dsadasd");
       dispatch({
         type: FETCH_ERROR,
         payload: error?.response?.data?.error || "Error al Registrar",
@@ -61,13 +63,48 @@ const Encargados = () => {
   const addNewManager = () => {
     navigate("/encargados/register");
   };
+  const statusWorker = useCallback(
+    ({ id, currentStatus }) =>
+      () => {
+        dispatch({ type: FETCH_START });
+        if (currentStatus === "Deshabilitado") {
+          setrows((prevRows) =>
+            prevRows.map((row) =>
+              row.id === id ? { ...row, status: "Habilitado" } : row
+            )
+          );
+        } else {
+          setrows((prevRows) =>
+            prevRows.map((row) =>
+              row.id === id ? { ...row, status: "Deshabilitado" } : row
+            )
+          );
+        }
 
+        try {
+          jwtAxios
+            .get("/managers/status/" + id + "/" + currentStatus)
+            .then((res) => {
+              dispatch({
+                type: FETCH_SUCCESS,
+              });
+            });
+        } catch (error) {
+          dispatch({
+            type: FETCH_ERROR,
+            payload: error?.response?.data?.error || "Error en el servidor",
+          });
+        }
+      },
+    []
+  );
   const columns = useMemo(
     () => [
       { field: "fullname", headerName: "Nombre", width: 200 },
-      { field: "position", headerName: "Puesto", width: 200 },
+      { field: "position", headerName: "Puesto", width: 100 },
       { field: "company", headerName: "Empresa", width: 200 },
-      { field: "job", headerName: "Obra", width: 200 },
+      { field: "job", headerName: "Subcondominio", width: 200 },
+      { field: "status", headerName: "Habilitado", width: 180 },
       {
         field: "actions",
         type: "actions",
@@ -83,10 +120,18 @@ const Encargados = () => {
             onClick={deleteManager(params.id)}
             label="Delete"
           />,
+          <GridActionsCellItem
+            icon={<PersonAddDisabledIcon />}
+            onClick={statusWorker({
+              id: params.id,
+              currentStatus: params.row.status,
+            })}
+            label="status"
+          />,
         ],
       },
     ],
-    [deleteManager, dataUpdate]
+    [deleteManager, dataUpdate, statusWorker]
   );
   function CustomNoRowsOverlay() {
     return <>{NotRows === false && <CustomNoRows />}</>;

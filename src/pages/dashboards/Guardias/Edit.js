@@ -38,34 +38,26 @@ const validationSchema = yup.object({
 const formEdit = () => {
   useEffect(() => {
     const id = localStorage.getItem("dataid");
-    const id_manager = localStorage.getItem("dataid_manager");
+    const id_guard = localStorage.getItem("dataid_guard");
     const name = localStorage.getItem("dataname");
     const lastname = localStorage.getItem("datalastname");
     const company = localStorage.getItem("datacompany");
     const position = localStorage.getItem("dataposition");
-    const work = localStorage.getItem("datawork");
-    const work_id = localStorage.getItem("datawork_id");
-
     setDataUpdate([
       {
         id: id,
-        id_manager: id_manager,
+        id_guard: id_guard,
         name: name,
         lastname: lastname,
         company: company,
         position: position,
-        work: work,
-        work_id: work_id,
       },
     ]);
-    setWork(work_id);
   }, []);
   const dispatch = useDispatch();
   const [dataUpdate, setDataUpdate] = useState([]);
   const [work, setWork] = useState("");
-  const [required, setRequired] = useState(null);
   const [message, messageSuccess] = useState(null);
-  const [works, setWorks] = useState([]);
   const [open, setOpen] = useState(false);
 
   const handleChange = (event) => {
@@ -82,28 +74,24 @@ const formEdit = () => {
     setOpen(false);
   };
 
-  const updateManager = async ({
+  const updateGuard = async ({
     id,
-    id_manager,
+    id_guard,
     name,
     lastname,
     company,
     position,
-    work,
-    typeUser,
     username,
   }) => {
     dispatch({ type: FETCH_START });
     try {
-      const { data } = await jwtAxios.post("/managers/update", {
+      const { data } = await jwtAxios.post("/guards/update", {
         id,
-        id_manager,
+        id_guard,
         name,
         lastname,
         company,
         position,
-        work,
-        typeUser,
         username,
       });
       console.log(data);
@@ -117,13 +105,6 @@ const formEdit = () => {
       });
     }
   };
-
-  useEffect(() => {
-    jwtAxios.get("/works").then((res) => {
-      const workers = res.data.works;
-      setWorks(workers);
-    });
-  }, []);
 
   return (
     <>
@@ -150,13 +131,12 @@ const formEdit = () => {
                 validationSchema={validationSchema}
                 onSubmit={(data, { setSubmitting }) => {
                   setSubmitting(true);
-                  updateManager({
-                    id_manager: dataEdit.id_manager,
+                  updateGuard({
+                    id_guard: dataEdit.id_guard,
                     name: data.name,
                     lastname: data.lastname,
                     company: data.company,
                     position: data.position,
-                    work: work,
                   });
                   setSubmitting(false);
                 }}
@@ -239,42 +219,6 @@ const formEdit = () => {
                               },
                             }}
                           />
-                        </Box>
-
-                        <Box sx={{ mb: { xs: 5, xl: 8 }, minWidth: 120 }}>
-                          <InputLabel id="demo-simple-select-label">
-                            Obra
-                          </InputLabel>
-                          <Select
-                            labelId="demo-simple-select-helper-label"
-                            id="demo-simple-select-helper"
-                            displayEmpty
-                            value={work}
-                            defaultValue={1}
-                            label="Obras"
-                            onChange={handleChange}
-                            sx={{
-                              width: "100%",
-                            }}
-                          >
-                            <MenuItem disabled value="">
-                              <em>{dataEdit.work}</em>
-                            </MenuItem>
-                            {works.map((work) => {
-                              return (
-                                <MenuItem key={work.id} value={work.id}>
-                                  {work.job + " " + work.batch}
-                                </MenuItem>
-                              );
-                            })}
-                          </Select>
-                        </Box>
-                        <Box>
-                          {required && (
-                            <p sx={{ color: "red", fontSize: "0.7em" }}>
-                              {required}
-                            </p>
-                          )}
                         </Box>
                       </Box>
                     </div>

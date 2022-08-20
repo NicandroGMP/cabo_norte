@@ -10,14 +10,17 @@ import {
   FETCH_START,
   FETCH_SUCCESS,
 } from "shared/constants/ActionTypes";
-
 import jwtAxios from "@crema/services/auth/jwt-auth";
+import { useCurrentWork, useSelectMethod } from "./SelectWorkHook";
 
 const ProvidersIndex = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [rows, setrows] = useState([]);
+  const { work } = useCurrentWork();
+  const { selectedWork } = useSelectMethod();
 
+  console.log(work);
   useEffect(() => {
     const getWorkers = async () => {
       dispatch({ type: FETCH_START });
@@ -36,12 +39,15 @@ const ProvidersIndex = () => {
     };
     getWorkers();
   }, []);
+
   const BitacoraProviders = () => {
-    navigate("/guardias/ScanQr");
+    navigate("/guardias/bitacora_proveedores");
   };
-  const selectWork = async () => {
-    console.log("enviar aarmura");
+
+  const selectWork = async (props) => {
+    console.log(props.target.innerText);
   };
+
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -76,13 +82,29 @@ const ProvidersIndex = () => {
           gridTemplateColumns: " repeat(auto-fit, minmax(23rem, 1fr))",
         }}
       >
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1, margin: "auto", width: "80%" }}>
           <Grid container spacing={1}>
-            <Grid container item spacing={3}>
+            <Grid container item spacing={1}>
               {rows.map((work) => {
                 return (
                   <Grid item xs={2}>
-                    <Item sx={{ cursor: "pointer" }} onClick={selectWork}>
+                    <Item
+                      sx={{
+                        cursor: "pointer",
+                        width: "100px",
+                        height: "100px",
+                        display: "flex",
+                        alignContent: "center",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        background: `${work.color}`,
+                        color: "white",
+                        fontWeight: "700",
+                        fontSize: "1rem",
+                        wordBreak: "break-all",
+                      }}
+                      onClick={selectedWork}
+                    >
                       {work.job}
                     </Item>
                   </Grid>

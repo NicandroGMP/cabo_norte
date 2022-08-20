@@ -17,6 +17,8 @@ import { useNavigate } from "react-router-dom";
 import PersonAddDisabledIcon from "@mui/icons-material/PersonAddDisabled";
 import AppInfoView from "@crema/core/AppInfoView";
 
+import SelectWorkProvider from "./AuthProviders/selectWorkProvider";
+
 const GuardHome = () => {
   const navigate = useNavigate();
   const workersLink = () => {
@@ -27,42 +29,44 @@ const GuardHome = () => {
   };
   return (
     <>
-      <Box sx={{ width: "100%", display: "block", mt: 30 }}>
-        <Box
-          sx={{
-            width: "50%",
-            margin: "auto",
-            textAlign: "center",
-            height: "150px",
-          }}
-        >
-          <Button
-            color="primary"
-            onClick={workersLink}
-            variant="contained"
-            sx={{ height: "100px", width: "320px", fontSize: "1.5rem" }}
+      <SelectWorkProvider>
+        <Box sx={{ width: "100%", display: "block", mt: 30 }}>
+          <Box
+            sx={{
+              width: "50%",
+              margin: "auto",
+              textAlign: "center",
+              height: "150px",
+            }}
           >
-            Entradas Trabajadores
-          </Button>
-        </Box>
-        <Box
-          sx={{
-            width: "50%",
-            margin: "auto",
-            textAlign: "center",
-            height: "150px",
-          }}
-        >
-          <Button
-            color="primary"
-            onClick={providersLink}
-            variant="contained"
-            sx={{ height: "100px", width: "320px", fontSize: "1.5rem" }}
+            <Button
+              color="primary"
+              onClick={workersLink}
+              variant="contained"
+              sx={{ height: "100px", width: "320px", fontSize: "1.5rem" }}
+            >
+              Entradas Trabajadores
+            </Button>
+          </Box>
+          <Box
+            sx={{
+              width: "50%",
+              margin: "auto",
+              textAlign: "center",
+              height: "150px",
+            }}
           >
-            Entradas Proveedores
-          </Button>
+            <Button
+              color="primary"
+              onClick={providersLink}
+              variant="contained"
+              sx={{ height: "100px", width: "320px", fontSize: "1.5rem" }}
+            >
+              Entradas Proveedores
+            </Button>
+          </Box>
         </Box>
-      </Box>
+      </SelectWorkProvider>
     </>
   );
 };

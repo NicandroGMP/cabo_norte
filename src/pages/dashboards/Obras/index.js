@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Box, Button } from "@mui/material";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import jwtAxios from "../../../@crema/services/auth/jwt-auth/index";
@@ -96,10 +96,17 @@ const Obras = () => {
       </Box>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
+          components={{ Toolbar: GridToolbar }}
           rows={rows}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
+          componentsProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}
         />
       </div>
     </>

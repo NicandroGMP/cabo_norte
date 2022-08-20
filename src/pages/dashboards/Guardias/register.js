@@ -3,9 +3,6 @@ import { Box, Button } from "@mui/material";
 import { Form, Formik } from "formik";
 import IntlMessages from "@crema/utility/IntlMessages";
 import AppTextField from "@crema/core/AppFormComponents/AppTextField";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import MuiAlert from "@mui/material/Alert";
 import { Snackbar } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -43,13 +40,9 @@ const validationSchema = yup.object({
 
 const FormRegister = () => {
   const dispatch = useDispatch();
-  const [work, setWork] = useState("");
   const [required, setRequired] = useState(null);
   const [message, messageSuccess] = useState(null);
-  const [works, setWorks] = useState([]);
   const [open, setOpen] = useState(false);
-
-  const [typeUser, setTypeUser] = useState("");
 
   const handleChange = (event) => {
     setWork(event.target.value);
@@ -63,7 +56,7 @@ const FormRegister = () => {
     setOpen(false);
   };
 
-  const registerManager = async ({
+  const registerGuards = async ({
     name,
     lastname,
     company,
@@ -76,7 +69,7 @@ const FormRegister = () => {
     dispatch({ type: FETCH_START });
 
     try {
-      const { data } = await jwtAxios.post("/managers/register", {
+      const { data } = await jwtAxios.post("/guards/register", {
         name,
         lastname,
         company,
@@ -96,12 +89,6 @@ const FormRegister = () => {
       });
     }
   };
-  useEffect(() => {
-    jwtAxios.get("/works").then((res) => {
-      const workers = res.data.works;
-      setWorks(workers);
-    });
-  }, []);
 
   return (
     <>
@@ -121,31 +108,23 @@ const FormRegister = () => {
             lastname: "",
             company: "",
             position: "",
-            work: "",
             username: "",
             password: "",
           }}
           validationSchema={validationSchema}
           onSubmit={(data, { setSubmitting, resetForm }) => {
-            if (work == "") {
-              setSubmitting(true);
-              setRequired("El Campo Obra Es Requerido");
-              setSubmitting(false);
-            } else {
-              setSubmitting(true);
-              registerManager({
-                name: data.name,
-                lastname: data.lastname,
-                company: data.company,
-                position: data.position,
-                work: work,
-                typeUser: "guardia",
-                username: data.username,
-                password: data.password,
-              });
-              setSubmitting(false);
-              resetForm();
-            }
+            setSubmitting(true);
+            registerGuards({
+              name: data.name,
+              lastname: data.lastname,
+              company: data.company,
+              position: data.position,
+              typeUser: "guardia",
+              username: data.username,
+              password: data.password,
+            });
+            setSubmitting(false);
+            resetForm();
           }}
         >
           {({ isSubmitting }) => (
@@ -214,37 +193,6 @@ const FormRegister = () => {
                         },
                       }}
                     />
-                  </Box>
-
-                  <Box sx={{ mb: { xs: 5, xl: 8 }, minWidth: 120 }}>
-                    <InputLabel id="demo-simple-select-label">Obra</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={work}
-                      label="Obras"
-                      onChange={handleChange}
-                      sx={{
-                        width: "100%",
-                      }}
-                      name="work"
-                    >
-                      <MenuItem disabled value="">
-                        <em>Obras</em>
-                      </MenuItem>
-                      {works.map((work) => {
-                        return (
-                          <MenuItem key={work.id} value={work.id}>
-                            {work.job + " " + work.batch}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </Box>
-                  <Box>
-                    {required && (
-                      <p sx={{ color: "red", fontSize: "0.7em" }}>{required}</p>
-                    )}
                   </Box>
                 </Box>
               </div>

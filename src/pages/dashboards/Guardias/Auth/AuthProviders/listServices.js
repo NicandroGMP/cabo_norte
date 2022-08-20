@@ -4,7 +4,7 @@ import { Box, Button } from "@mui/material";
 import { DataGrid, GridToolbar, GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import jwtAxios from "../../../@crema/services/auth/jwt-auth/index";
+import jwtAxios from "@crema/services/auth/jwt-auth/index";
 import {
   FETCH_ERROR,
   FETCH_START,
@@ -12,36 +12,35 @@ import {
 } from "shared/constants/ActionTypes";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import CustomNoRows from "./components/CustomNoRows";
+import { useCurrentWork, useSelectMethod } from "./SelectWorkHook";
+import { BsConeStriped } from "react-icons/bs";
 
-const Guardias = () => {
+const ListServices = () => {
+  const { batch } = useCurrentWork();
+  const { getProvider } = useSelectMethod();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [rows, setrows] = useState([]);
+  const [NotRows, setNotRows] = useState(true);
 
-  const dataUpdate = useCallback((datas) => () => {
-    const data = datas.row;
-    console.log(data);
-    localStorage.setItem("dataid", data.id);
-    localStorage.setItem("dataid_guard", data.manager_id);
-    localStorage.setItem("dataname", data.name);
-    localStorage.setItem("datalastname", data.lastname);
-    localStorage.setItem("datacompany", data.company);
-    localStorage.setItem("dataposition", data.position);
-    navigate("/guardias/edit");
-  });
   useEffect(() => {
-    dispatch({ type: FETCH_START });
-    try {
-      jwtAxios.get("/guards").then((res) => {
-        setrows(res.data.guards);
-        dispatch({ type: FETCH_SUCCESS });
-      });
-    } catch (error) {
-      dispatch({
-        type: FETCH_ERROR,
-        payload: error?.response?.data?.error || "Error al Registrar",
-      });
-    }
+    const getBatch = async () => {
+      dispatch({ type: FETCH_START });
+      try {
+        await jwtAxios.get("/providers/services/" + batch).then((res) => {
+          console.log(res.data);
+          setrows(res.data.services);
+          dispatch({ type: FETCH_SUCCESS });
+        });
+      } catch (error) {
+        dispatch({
+          type: FETCH_ERROR,
+          payload: error?.response?.data?.error || "Error de Servidor",
+        });
+      }
+    };
+    getBatch();
   }, []);
 
   const deleteManager = useCallback(
@@ -51,36 +50,40 @@ const Guardias = () => {
     []
   );
 
-  const addNewManager = () => {
-    navigate("/guardias/register");
+  /* const getCones = useCallback(
+    (id) => () => {
+      navigate("/guardias/entradas/cones");
+    },
+    []
+  ); */
+  const returned = () => {
+    navigate("/guardias/entradas/lotes");
   };
 
   const columns = useMemo(
     () => [
-      { field: "fullname", headerName: "Nombre", width: 200 },
-      { field: "position", headerName: "Puesto", width: 200 },
-      { field: "company", headerName: "Empresa", width: 200 },
       { field: "job", headerName: "Obra", width: 200 },
+      { field: "name", headerName: "Nombre", width: 200 },
+      { field: "service", headerName: "Servicio", width: 600 },
       {
         field: "actions",
         type: "actions",
-        headerName: "Actions",
+        headerName: "Asignar Cono",
+        width: 200,
         getActions: (params) => [
           <GridActionsCellItem
-            icon={<EditIcon />}
-            onClick={dataUpdate(params)}
-            label="Delete"
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            onClick={deleteManager(params.id)}
+            icon={<BsConeStriped />}
+            onClick={getProvider(params.id)}
             label="Delete"
           />,
         ],
       },
     ],
-    [deleteManager, dataUpdate]
+    [getProvider]
   );
+  function CustomNoRowsOverlay() {
+    return <>{NotRows === false && <CustomNoRows />}</>;
+  }
   return (
     <>
       <Box
@@ -91,16 +94,20 @@ const Guardias = () => {
         }}
       >
         <Button
-          onClick={addNewManager}
+          onClick={returned}
           color="primary"
-          variant="outlined"
+          variant="contained"
           sx={{ ml: 1 }}
         >
-          Registrar Guardia
+          Regresar
         </Button>
       </Box>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
+          components={{
+            Toolbar: GridToolbar,
+            NoRowsOverlay: CustomNoRowsOverlay,
+          }}
           rows={rows}
           columns={columns}
           pageSize={5}
@@ -108,7 +115,6 @@ const Guardias = () => {
           disableColumnFilter
           disableColumnSelector
           disableDensitySelector
-          components={{ Toolbar: GridToolbar }}
           componentsProps={{
             toolbar: {
               showQuickFilter: true,
@@ -120,4 +126,4 @@ const Guardias = () => {
     </>
   );
 };
-export default Guardias;
+export default ListServices;

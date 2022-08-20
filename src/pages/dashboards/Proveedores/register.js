@@ -54,17 +54,16 @@ const FormRegister = () => {
     setOpen(false);
   };
 
-  const registerWorker = async ({ name, service, job, batch }) => {
+  const registerWorker = async ({ name, service, work_id }) => {
     dispatch({ type: FETCH_START });
 
     try {
       const { data } = await jwtAxios.post("/providers/register", {
         name,
         service,
-        job,
-        batch,
+        work_id,
       });
-      messageSuccess(data.message);   
+      messageSuccess(data.message);
       setOpen(true);
       dispatch({ type: FETCH_SUCCESS });
     } catch (error) {
@@ -87,9 +86,8 @@ const FormRegister = () => {
 
     jwtAxios.get("/manager/" + user.user_inf).then((res) => {
       const [manager] = res.data.manager;
-
-      setWork(manager.job);
-      setBatch(manager.batch);
+      console.log(manager);
+      setWork(manager.work_id);
     });
   }, []);
 
@@ -116,8 +114,7 @@ const FormRegister = () => {
             registerWorker({
               name: data.name,
               service: data.service,
-              job: work,
-              batch: batch,
+              work_id: work,
             });
             setSubmitting(false);
             resetForm();

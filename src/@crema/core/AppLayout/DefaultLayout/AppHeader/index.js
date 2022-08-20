@@ -26,7 +26,7 @@ const AppHeader = ({ color, props }) => {
   const navigate = useNavigate();
   const navCollapsed = useSelector(({ settings }) => settings.navCollapsed);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  console.log(props);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };

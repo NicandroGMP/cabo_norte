@@ -6,7 +6,6 @@ import React, {
   createContext,
   useMemo,
 } from "react";
-import PropTypes from "prop-types";
 import { Box, Button } from "@mui/material";
 import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -229,6 +228,12 @@ const Trabajadores = () => {
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
+          componentsProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}
         />
       </div>
       <AppInfoView />

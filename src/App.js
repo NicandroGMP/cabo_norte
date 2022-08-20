@@ -10,6 +10,7 @@ import configureStore, { history } from "redux/store";
 import JWTAuthProvider from "@crema/services/auth/jwt-auth/JWTAuthProvider";
 //import FirebaseAuthProvider from "@crema/services/auth/firebase/FirebaseAuthProvider";
 import { BrowserRouter, Routes } from "react-router-dom";
+import SelectWorkProvider from "pages/dashboards/Guardias/Auth/AuthProviders/selectWorkProvider";
 
 const store = configureStore();
 
@@ -21,8 +22,10 @@ const App = () => (
           <AppLocaleProvider>
             <BrowserRouter history={history}>
               <JWTAuthProvider>
-                <CssBaseline />
-                <AppLayout />
+                <SelectWorkProvider>
+                  <CssBaseline />
+                  <AppLayout />
+                </SelectWorkProvider>
               </JWTAuthProvider>
             </BrowserRouter>
           </AppLocaleProvider>

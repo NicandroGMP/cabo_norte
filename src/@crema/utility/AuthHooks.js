@@ -3,9 +3,11 @@ import { getUserFromJwtAuth } from "./helper/AuthHelper";
 import {
   useJWTAuth,
   useJWTAuthActions,
+  useJWTAlgo,
 } from "../services/auth/jwt-auth/JWTAuthProvider";
 export const useAuthUser = () => {
   const { user, isAuthenticated, isLoading } = useJWTAuth();
+  const { algo } = useJWTAlgo();
   //const { data } = useAlgoContext();
   /*   console.log(user); */
   return {

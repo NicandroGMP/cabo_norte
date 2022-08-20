@@ -10,8 +10,10 @@ import jwtAxios, { setAuthToken } from "./index";
 
 const JWTAuthContext = createContext();
 const JWTAuthActionsContext = createContext();
+const JWTAuthAlgo = createContext();
 
 export const useJWTAuth = () => useContext(JWTAuthContext);
+export const useJWTAlgo = () => useContext(JWTAuthAlgo);
 
 export const useJWTAuthActions = () => useContext(JWTAuthActionsContext);
 
@@ -21,9 +23,11 @@ const JWTAuthAuthProvider = ({ children }) => {
     isAuthenticated: false,
     isLoading: true,
   });
+  const [algo, setJWTAlgo] = useState({ algo: "ssdada" });
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setJWTAlgo({ algo: "sadsad" });
     const getAuthUser = () => {
       const token = localStorage.getItem("token");
       const id_user = localStorage.getItem("id_user");
@@ -136,15 +140,17 @@ const JWTAuthAuthProvider = ({ children }) => {
         ...firebaseData,
       }}
     >
-      <JWTAuthActionsContext.Provider
-        value={{
-          signUpUser,
-          signInUser,
-          logout,
-        }}
-      >
-        {children}
-      </JWTAuthActionsContext.Provider>
+      <JWTAuthAlgo.Provider value={{ ...algo }}>
+        <JWTAuthActionsContext.Provider
+          value={{
+            signUpUser,
+            signInUser,
+            logout,
+          }}
+        >
+          {children}
+        </JWTAuthActionsContext.Provider>
+      </JWTAuthAlgo.Provider>
     </JWTAuthContext.Provider>
   );
 };

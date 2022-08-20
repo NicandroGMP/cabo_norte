@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import IntlMessages from "@crema/utility/IntlMessages";
 import AppTextField from "@crema/core/AppFormComponents/AppTextField";
-import { useAuthMethod } from "@crema/utility/AuthHooks";
+import { useAuthMethod, useAuthUser } from "@crema/utility/AuthHooks";
 import { Fonts } from "shared/constants/AppEnums";
 import { useState } from "react";
 import Alert from "@mui/material/Alert";
@@ -27,9 +27,12 @@ const SigninJwtAuth = () => {
 
   const navigate = useNavigate();
   const { signInUser } = useAuthMethod();
+  const { user } = useAuthUser();
   const onGoToForgetPassword = () => {
     navigate("/forget-password", { tab: "jwtAuth" });
   };
+
+  console.log(user);
 
   return (
     <>
