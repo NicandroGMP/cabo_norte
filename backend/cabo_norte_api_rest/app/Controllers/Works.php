@@ -83,9 +83,16 @@ class Works extends BaseController{
     }
 
     public function filterUniqueWorks(){
-        $works= $this->works->select("job")->groupBy("job HAVING COUNT(*)=1 OR COUNT(*)>1");
+        $works= $this->works->select("job, color")->groupBy("job, color HAVING COUNT(*)=1 OR COUNT(*)>1");
         $works = $works->get()->getResultArray();
         return $this->getResponse(["works" => $works]);
+    }
+    
+    public function searchWorksByName($work){
+        $works = $this->works->where("job", $work)->like("status" , "Habilitado");
+        $works = $works->get()->getResultArray();
+
+        return $this->getResponse(["works" =>  $works]);
     }
     
 

@@ -123,7 +123,8 @@ class Workers extends BaseController{
     }
 
     public function getWorkerSearchByRegisterNumber(){
-
+        date_default_timezone_set('America/Merida');   
+        $currentDate =  date("Y-m-d ");
         $input = $this->getRequestInput($this->request);
         $string = $input["search"];
         $join = $this->workers->table("workers");
@@ -132,16 +133,16 @@ class Workers extends BaseController{
         $join->join("managers", "workers.manager = managers.id")->where("workers.register_number", $string);
         $inf_user =  $join->get()->getResultArray();
 
-        $stateExit = $this->BitacoraWorkers->select("exit_worker")->where("register_number", $input);
+        $stateExit = $this->BitacoraWorkers->select("exit_worker, id")->where("register_number", $string)->like("entry_worker", $currentDate);
         $stateExit = $stateExit->get()->getResultArray();
+
 
         if(!$inf_user){
             return $this->getResponse("", ResponseInterface::HTTP_BAD_REQUEST);
         }else{
-         
         return $this->getResponse([
             "worker" => $inf_user,
-            "stateExit"=>$stateExit[0]
+            "stateExit"=> $stateExit
         ]);   
         }
   }

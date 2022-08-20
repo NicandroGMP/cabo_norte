@@ -4,7 +4,7 @@
 class ProvidersModel extends Model {
 		protected $table = "providers";
 		protected $primaryKey = "id";
-		protected $allowedFields = ["register_number","name","service", "work", "batch"];
+		protected $allowedFields = ["register_number","name","service", "work", ];
 		protected $useSoftDeletes = false;
 		protected $updatedField = 'updated_at';
 

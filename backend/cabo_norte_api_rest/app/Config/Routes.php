@@ -52,11 +52,12 @@ $routes->post('/managers/register', 'Managers::RegisterManager');
 $routes->post('/managers/update', 'Managers::updateManager');
 $routes->post('/managers/updatePass', 'Managers::updateManagerPass');
 $routes->post('/managers/delete', 'Managers::deleteManager');
+$routes->get('/managers/status/(:num)/(:hash)/', 'Managers::statusUpdate/$1/$2');
 //end routes managers crete,read,update,delete
 
 //routes guards crete,read,update,delete
 $routes->get('/guards', 'Guards::index');
-$routes->post('/guards/register', 'Guards::registerGuards');
+$routes->post('/guards/register', 'Guards::RegisterGuards');
 $routes->post('/guards/update', 'Guards::updateGuards');
 $routes->post('/guards/delete', 'Guards::deleteGuards');
 //end routes guards crete,read,update,delete
@@ -64,6 +65,7 @@ $routes->post('/guards/delete', 'Guards::deleteGuards');
 //routes works crete,read,update,delete
 $routes->get('/works', 'Works::index');
 $routes->get('/works/filterWorks', 'Works::filterUniqueWorks');
+$routes->get('/works/search/(:hash)', 'Works::searchWorksByName/$1');
 $routes->post('/works/register', 'Works::registerWork');
 $routes->post('/works/update', 'Works::updateWork');
 $routes->post('/works/delete', 'Works::deleteWork');
@@ -80,19 +82,37 @@ $routes->get('/workers/status/(:num)/(:hash)/', 'Workers::statusUpdate/$1/$2');
 //end routes workers crete,read,update,delete
 //routes workers crete,read,update,delete
 $routes->get('/providers', 'Providers::index');
+$routes->get('/provider/(:hash)/', 'Providers::searchServicesById/$1');
+$routes->get('/providers/services/(:hash)/', 'Providers::searchServicesByWorkId/$1');
+$routes->get('/providers/scanQr/(:hash)/', 'Providers::getProviderScanByRegisterNumber/$1');
 $routes->post('/providers/register', 'Providers::registerProvider');
 $routes->post('/providers/search', 'Providers::getProviderSearchByRegisterNumber');
-$routes->get('/providers/scanQr/(:hash)/', 'Providers::getProviderScanByRegisterNumber/$1');
 $routes->post('/providers/update', 'Providers::updateProvider');
 $routes->post('/providers/delete', 'Providers::deleteProvider');
+
 //end routes workers crete,read,update,delete
 
 //routes Bitacora crete,read,update,delete
-$routes->get('/bitacora', 'BitacoraWorkers::index');
+$routes->get('/bitacora/(:hash)/', 'BitacoraWorkers::index/$1');
 $routes->post('/bitacora/register', 'BitacoraWorkers::registerWorker');
-$routes->post('/bitacora/update', 'BitacoraWorkers::updateWorker');
+$routes->post('/bitacora/update', 'BitacoraWorkers::registerExitWorker');
 $routes->post('/bitacora/delete', 'BitacoraWorkers::deleteWorker');
 //end routes Bitacora crete,read,update,delete
+
+//routes Bitacora providers crete,read,update,delete
+$routes->get('/bitacoraProviders/(:hash)/', 'BitacoraProviders::index/$1');
+$routes->post('/bitacoraProviders/register', 'BitacoraProviders::registerProvider');
+$routes->post('/bitacoraProviders/update', 'BitacoraProviders::registerExitWorker');
+$routes->post('/bitacoraProviders/delete', 'BitacoraProviders::deleteWorker');
+//end routes Bitacora providers crete,read,update,delete
+
+//routes Cones crete,read,update,delete
+$routes->get('/cones', 'Cones::index');
+$routes->post('/cones/search', 'Cones::SearchConeById');
+$routes->post('/cones/register', 'Cones::ocuppiedCones');
+$routes->post('/cones/update', 'BitacoraWorkers::registerExitWorker');
+$routes->post('/cones/delete', 'BitacoraWorkers::deleteWorker');
+//end routes Cones crete,read,update,delete
 
 
 

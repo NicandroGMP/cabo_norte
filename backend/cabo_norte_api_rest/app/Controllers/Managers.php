@@ -22,7 +22,7 @@ class Managers extends BaseController
     public function index()
     {
         $join = $this->managers->table("managers");
-        $join->select('accounts.id, managers.id as manager_id,accounts.username, CONCAT(managers.name," ",managers.lastname)as fullname ,managers.name,managers.lastname, managers.position,managers.company, managers.work as work_id, CONCAT(works.job," ", works.batch)as job');
+        $join->select('accounts.id,accounts.status, managers.id as manager_id,accounts.username, CONCAT(managers.name," ",managers.lastname)as fullname ,managers.name,managers.lastname, managers.position,managers.company, managers.work as work_id, CONCAT(works.job," ", works.batch)as job');
         $join->join("accounts", "accounts.user_inf = managers.id");
         $join->join("works", "managers.work = works.id")->where("accounts.type_user", "encargado");
         $user_date = $join->get()->getResultArray();
@@ -151,7 +151,23 @@ class Managers extends BaseController
         }
         }
     }
-
+    public function statusUpdate($id,$data){
+        if (empty($id) || empty($data) ){
+            return $this->getResponse("", ResponseInterface::HTTP_BAD_REQUEST);
+        }else{
+            
+            if ($data === "Habilitado"){
+                $dataUpdate = ["status" => "Deshabilitado"];
+                $update = $this->accounts->update($id,$dataUpdate);
+                return $this->getResponse(["message" => "deshabilitado"]);   
+            }elseif($data === "Deshabilitado"){
+                $dataUpdate = ["status" => "Habilitado"];
+                $update = $this->accounts->update($id,$dataUpdate);
+                return $this->getResponse(["message" => "habilitado"]);   
+            }
+            }
+            
+        }
     public function destroy($id)
    {
     }

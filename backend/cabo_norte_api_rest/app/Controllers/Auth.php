@@ -26,12 +26,12 @@ class Auth extends BaseController {
         public function login(){
             $rules = [
                 'username' => 'required|is_not_unique[accounts.username]',
-                'password' => 'required|min_length[8]|max_length[255]|validateAccount[usernamme, password]',
+                'password' => 'required|min_length[5]|max_length[12]',
             ];
     
             $errors = [
                 'password' => [
-                    'validateAccount' => 'Invalid login credentials provided'
+                    'required' => 'Your password is required'
                 ],
                 'username' => [
                     'required' => 'username is required',
@@ -62,7 +62,20 @@ class Auth extends BaseController {
             if (!$this->validateRequest($input, $rules, $errors)) {
                 return $this->getResponse($this->validator->getErrors(), ResponseInterface::HTTP_BAD_REQUEST);
             }
-            return $this->getJWTForUser($input['username']);
+
+            $username = $input["username"];
+            $password = $input["password"];
+            $user_info = $this->accounts->where("username", $username)->first();
+            $check_pass = Hash::check($password, $user_info["password"]);
+            if (!$check_pass){
+
+                return $this->getResponse(["error" => "Invalid password"],ResponseInterface::HTTP_BAD_REQUEST);
+            }else{
+
+                return $this->getJWTForUser($input['username']); 
+            }
+/* 
+            */
         }
     public function register()
     {

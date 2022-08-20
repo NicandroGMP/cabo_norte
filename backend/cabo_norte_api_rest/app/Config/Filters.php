@@ -85,8 +85,12 @@ class Filters extends BaseConfig
                 'guards',
                 'bitacora/*',
                 'bitacora',
+                'bitacoraProviders/*',
+                'bitacoraProviders',
                 'providers/*',
                 'providers',
+                'cones/*',
+                'cones',
                 ]
         ]
     ];

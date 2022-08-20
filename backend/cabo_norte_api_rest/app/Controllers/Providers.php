@@ -29,8 +29,7 @@ class Providers extends BaseController{
         $rules = [
             "name" => "required",
             "service"=> "required",
-            "job" => "required",
-            "batch" => "required"
+            "work_id" => "required"
         ];
 
         $input = $this->getRequestInput($this->request);
@@ -43,8 +42,7 @@ class Providers extends BaseController{
                 "register_number" => $number_worker,
                 "name" => $input["name"],
                 "service" => $input["service"],
-                "work" => $input["job"],
-                "batch" => $input["batch"],
+                "work" => $input["work_id"],
 
             ];
             $query = $this->providers->insert($data);
@@ -121,6 +119,22 @@ class Providers extends BaseController{
         "worker" => $inf_user
     ]);   
     }
+}
+public function searchServicesByWorkId($id){
+    $join = $this->providers->table("providers");
+    $join->select('providers.id, providers.name, providers.service, providers.work as work_id,  CONCAT(works.job," ",works.batch) as job, providers.status as status_provider');
+    $join->join("works", "providers.work = works.id")->where("providers.work", $id)->like("providers.status" , "Habilitado");
+    $services = $join->get()->getResultArray();
+
+    return $this->getResponse(["services" =>  $services]);
+}
+public function searchServicesById($id){
+    $join = $this->providers->table("providers");
+    $join->select('providers.id, providers.register_number ,providers.name, providers.service, providers.work as work_id,  CONCAT(works.job," ",works.batch) as job, providers.status as status_provider');
+    $join->join("works", "providers.work = works.id")->where("providers.id", $id)->like("providers.status" , "Habilitado");
+    $services = $join->get()->getResultArray();
+
+    return $this->getResponse(["provider" =>  $services]);
 }
 
 }
