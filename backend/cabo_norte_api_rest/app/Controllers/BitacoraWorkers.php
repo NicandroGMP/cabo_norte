@@ -86,7 +86,7 @@ class BitacoraWorkers extends BaseController
     }
     public function registerExitWorker(){
         $rules = [
-            "idWorker" => "required",
+            "id" => "required",
         ];
 
         $input = $this->getRequestInput($this->request);
@@ -100,7 +100,7 @@ class BitacoraWorkers extends BaseController
                 "exit_worker" =>  $exit_worker ,
 
             ];
-            $query = $this->BitacoraWorkers->update($input["idWorker"],$data);
+            $query = $this->BitacoraWorkers->update($input["id"],$data);
             if (!$query){
                 return $this->getResponse("", ResponseInterface::HTTP_BAD_REQUEST);
             }else{
@@ -109,5 +109,26 @@ class BitacoraWorkers extends BaseController
                 ]);
             }
         }
+    }
+    
+    public function bitacoraWorkerSearch(){
+        date_default_timezone_set('America/Merida');   
+        $entry_worker =  date("Y-m-d");
+        $input = $this->getRequestInput($this->request);
+        $search = $input["search"];
+        $result = $this->BitacoraWorkers->where("register_number",$search)->like('entry_worker', $entry_worker,'both');
+        $result = $result->get()->getResultArray();
+        return $this->getResponse([
+            "worker" => $result
+        ]);
+    }
+    public function bitacoraWorkerScan($search){
+        date_default_timezone_set('America/Merida');   
+        $entry_worker =  date("Y-m-d");
+        $result = $this->BitacoraWorkers->where("register_number",$search)->like('entry_worker', $entry_worker,'both');
+        $result = $result->get()->getResultArray();
+        return $this->getResponse([
+            "worker" => $result
+        ]);
     }
 }

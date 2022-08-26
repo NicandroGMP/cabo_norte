@@ -19,12 +19,13 @@ import {
 } from "shared/constants/ActionTypes";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import PersonAddDisabledIcon from "@mui/icons-material/PersonAddDisabled";
 import AppInfoView from "@crema/core/AppInfoView";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Backdrop from "@mui/material/Backdrop";
 import ViewQr from "./ViewQr";
+import PersonOffIcon from "@mui/icons-material/PersonOff";
+import PersonIcon from "@mui/icons-material/Person";
 
 const Trabajadores = () => {
   const dispatch = useDispatch();
@@ -162,7 +163,21 @@ const Trabajadores = () => {
             label="Delete"
           />,
           <GridActionsCellItem
-            icon={<PersonAddDisabledIcon />}
+            icon={
+              params.row.status == "Habilitado" ? (
+                <PersonIcon />
+              ) : (
+                <PersonOffIcon />
+              )
+            }
+            sx={{
+              background: `${
+                params.row.status == "Habilitado" ? "#91E87C" : "#FFA0A0"
+              }`,
+              color: `${
+                params.row.status == "Habilitado" ? "#1E9900" : "#FF0101"
+              }`,
+            }}
             onClick={statusWorker({
               id: params.id,
               currentStatus: params.row.status,

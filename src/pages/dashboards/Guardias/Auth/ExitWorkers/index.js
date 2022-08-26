@@ -25,7 +25,7 @@ const Guardias = () => {
     dispatch({ type: FETCH_START });
 
     try {
-      const { data } = await jwtAxios.post("/workers/search", {
+      const { data } = await jwtAxios.post("/bitacora/search", {
         search,
       });
       setDataSearch(data.worker);
@@ -50,7 +50,7 @@ const Guardias = () => {
         }}
       >
         <Button
-          onClick={() => navigate("/guardias/entrada/scanQr")}
+          onClick={() => navigate("/guardias/salida/scanQr")}
           color="primary"
           variant="outlined"
         >

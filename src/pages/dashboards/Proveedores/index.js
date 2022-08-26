@@ -6,13 +6,12 @@ import React, {
   createContext,
   useMemo,
 } from "react";
-import PropTypes from "prop-types";
 import { Box, Button } from "@mui/material";
 import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import QrCode2Icon from "@mui/icons-material/QrCode2";
 import jwtAxios from "../../../@crema/services/auth/jwt-auth/index";
+import AppInfoView from "@crema/core/AppInfoView";
 import {
   FETCH_ERROR,
   FETCH_START,
@@ -20,7 +19,9 @@ import {
 } from "shared/constants/ActionTypes";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import PersonOffIcon from "@mui/icons-material/PersonOff";
+import PersonIcon from "@mui/icons-material/Person";
 const Proveedores = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -68,11 +69,47 @@ const Proveedores = () => {
   const addNewManager = () => {
     navigate("/proveedores/register");
   };
+  const statusProvider = useCallback(
+    ({ id, currentStatus }) =>
+      () => {
+        dispatch({ type: FETCH_START });
+        if (currentStatus === "Deshabilitado") {
+          setrows((prevRows) =>
+            prevRows.map((row) =>
+              row.id === id ? { ...row, status: "Habilitado" } : row
+            )
+          );
+        } else {
+          setrows((prevRows) =>
+            prevRows.map((row) =>
+              row.id === id ? { ...row, status: "Deshabilitado" } : row
+            )
+          );
+        }
+
+        try {
+          jwtAxios
+            .get("/providers/status/" + id + "/" + currentStatus)
+            .then((res) => {
+              dispatch({
+                type: FETCH_SUCCESS,
+              });
+            });
+        } catch (error) {
+          dispatch({
+            type: FETCH_ERROR,
+            payload: error?.response?.data?.error || "Error en el servidor",
+          });
+        }
+      },
+    []
+  );
 
   const columns = useMemo(
     () => [
       { field: "name", headerName: "Nombre", width: 200 },
-      { field: "service", headerName: "Servicio", width: 200 },
+      { field: "service", headerName: "Servicio", width: 500 },
+      { field: "status", headerName: "Estatus", width: 150 },
 
       /*   {
         field: "qr_code",
@@ -90,6 +127,7 @@ const Proveedores = () => {
       {
         field: "actions",
         type: "actions",
+        width: 180,
         headerName: "Actions",
         getActions: (params) => [
           <GridActionsCellItem
@@ -102,10 +140,32 @@ const Proveedores = () => {
             onClick={deleteWorker(params.id)}
             label="Delete"
           />,
+          <GridActionsCellItem
+            icon={
+              params.row.status == "Habilitado" ? (
+                <PersonIcon />
+              ) : (
+                <PersonOffIcon />
+              )
+            }
+            sx={{
+              background: `${
+                params.row.status == "Habilitado" ? "#91E87C" : "#FFA0A0"
+              }`,
+              color: `${
+                params.row.status == "Habilitado" ? "#1E9900" : "#FF0101"
+              }`,
+            }}
+            onClick={statusProvider({
+              id: params.id,
+              currentStatus: params.row.status,
+            })}
+            label="status"
+          />,
         ],
       },
     ],
-    [deleteWorker, dataUpdate /* dataQr */]
+    [deleteWorker, dataUpdate, statusProvider /* dataQr */]
   );
   return (
     <>
@@ -132,8 +192,15 @@ const Proveedores = () => {
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
+          componentsProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}
         />
       </div>
+      <AppInfoView />
     </>
   );
 };

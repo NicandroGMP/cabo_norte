@@ -18,6 +18,11 @@ import { useNavigate } from "react-router-dom";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import moment from "moment";
+import BadgeIcon from "@mui/icons-material/Badge";
+import ViewIdentification from "./components/ViewIdentification";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Backdrop from "@mui/material/Backdrop";
 
 const Bitacora = () => {
   const dispatch = useDispatch();
@@ -27,6 +32,9 @@ const Bitacora = () => {
   const [completeRegister, setCompleteRegister] = useState(null);
   const [totalRegister, setTotalRegister] = useState(null);
   const [value, setValue] = useState(new Date());
+
+  const [open, setOpen] = useState(false);
+  const [dataIde, setDataIde] = useState([]);
 
   useEffect(() => {
     console.log(value);
@@ -57,6 +65,17 @@ const Bitacora = () => {
     []
   );
 
+  const dataIdentification = useCallback(
+    (data) => () => {
+      console.log(data);
+      setOpen(true);
+      setDataIde(data);
+      /* localStorage.setItem("dataQr", number);
+      navigate("/trabajadores/ViewQr"); */
+    },
+    []
+  );
+  const handleClose = () => setOpen(false);
   const columns = useMemo(
     () => [
       { field: "name", headerName: "Nombre", width: 200 },
@@ -65,30 +84,70 @@ const Bitacora = () => {
       { field: "num_cone", headerName: "Cono Asignado", width: 150 },
       { field: "entry_provider", headerName: "Entrada", width: 100 },
       { field: "exit_provider", headerName: "Salida", width: 200 },
-      { field: "identification", headerName: "Identificacion", width: 200 },
+      {
+        field: "identification",
+        type: "actions",
+        headerName: "Identification",
+        width: 100,
+        getActions: (params) => [
+          <GridActionsCellItem
+            icon={<BadgeIcon />}
+            onClick={dataIdentification(params.row)}
+            label="Delete"
+          />,
+        ],
+      },
     ],
-    []
+    [dataIdentification]
   );
   return (
     <>
-      <Box sx={{ mb: 9, mt: 5 }}>
-        <Link to="/guardias/entradas/proveedores">
-          <Button
-            variant="contained"
-            color="secondary"
-            type="button"
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <Box
             sx={{
-              mx: 5,
-              minWidth: 160,
-              fontWeight: 500,
-              fontSize: 16,
-              textTransform: "capitalize",
-              padding: "4px 16px 8px",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 700,
+              bgcolor: "background.paper",
+              border: "2px solid #000",
+              boxShadow: 24,
+              p: 4,
             }}
           >
-            <IntlMessages id="Regresar" />
-          </Button>
-        </Link>
+            <ViewIdentification dataIde={dataIde} />
+          </Box>
+        </Fade>
+      </Modal>
+      <Box sx={{ mb: 9, mt: 5 }}>
+        <Button
+          onClick={() => navigate("/guardias/home")}
+          variant="contained"
+          color="secondary"
+          type="button"
+          sx={{
+            mx: 5,
+            minWidth: 160,
+            fontWeight: 500,
+            fontSize: 16,
+            textTransform: "capitalize",
+            padding: "4px 16px 8px",
+          }}
+        >
+          <IntlMessages id="Regresar" />
+        </Button>
       </Box>
       <Box sx={{ mb: 8, mt: 5 }}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>

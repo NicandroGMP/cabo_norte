@@ -43,6 +43,7 @@ class Providers extends BaseController{
                 "name" => $input["name"],
                 "service" => $input["service"],
                 "work" => $input["work_id"],
+                "status" => "Habilitado",
 
             ];
             $query = $this->providers->insert($data);
@@ -120,22 +121,57 @@ class Providers extends BaseController{
     ]);   
     }
 }
+//consultar datos de provedor que registrados en el subcondominio y esten habilitados
 public function searchServicesByWorkId($id){
     $join = $this->providers->table("providers");
     $join->select('providers.id, providers.name, providers.service, providers.work as work_id,  CONCAT(works.job," ",works.batch) as job, providers.status as status_provider');
-    $join->join("works", "providers.work = works.id")->where("providers.work", $id)->like("providers.status" , "Habilitado");
+    $join->join("works", "providers.work = works.id")->where("providers.work", $id)->where("providers.status" , "Habilitado");
     $services = $join->get()->getResultArray();
 
     return $this->getResponse(["services" =>  $services]);
 }
+
+//consultar datos de provedor que solicita un cono 
 public function searchServicesById($id){
     $join = $this->providers->table("providers");
     $join->select('providers.id, providers.register_number ,providers.name, providers.service, providers.work as work_id,  CONCAT(works.job," ",works.batch) as job, providers.status as status_provider');
-    $join->join("works", "providers.work = works.id")->where("providers.id", $id)->like("providers.status" , "Habilitado");
+    $join->join("works", "providers.work = works.id")->where("providers.id", $id)->where("providers.status" , "Habilitado");
     $services = $join->get()->getResultArray();
 
     return $this->getResponse(["provider" =>  $services]);
 }
+public function statusUpdate($id,$data){
+    if (empty($id) || empty($data) ){
+        return $this->getResponse("", ResponseInterface::HTTP_BAD_REQUEST);
+    }else{
+        if ($data === "Habilitado"){
+            $dataUpdate = ["status" => "Deshabilitado"];
+            $update = $this->providers->update($id,$dataUpdate);
+            return $this->getResponse(["message" => "deshabilitado"]);   
+        }elseif($data === "Deshabilitado"){
+            $dataUpdate = ["status" => "Habilitado"];
+            $update = $this->providers->update($id,$dataUpdate);
+            return $this->getResponse(["message" => "habilitado"]);   
+        }
+        }
+    }
+    public function deleteProvider() {
+    $rules = [
+        "id"=> "required",
+    ];
+    $input = $this->getRequestInput($this->request);
+    if (!$this->validateRequest($input, $rules)) {
+        return $this->getResponse($this->validator->getErrors(), ResponseInterface::HTTP_BAD_REQUEST);
+    }else{
+        $id = $input["id"];
+        $delete = $this->providers->delete($id);
+        if (!$delete){
+            return $this->getResponse("Error al eliminar Proveedor", ResponseInterface::HTTP_BAD_REQUEST);
+        }
+        return $this->getResponse(["message" => "El Proveedor se ha eliminado"]);
+    }
+    }
+
 
 }
 ?>

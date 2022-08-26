@@ -58,11 +58,45 @@ const GuardHome = () => {
           >
             <Button
               color="primary"
+              onClick={() => navigate("/guardias/salidas/trabajadores")}
+              variant="contained"
+              sx={{ height: "100px", width: "320px", fontSize: "1.5rem" }}
+            >
+              Salidas Trabajadores
+            </Button>
+          </Box>
+          <Box
+            sx={{
+              width: "50%",
+              margin: "auto",
+              textAlign: "center",
+              height: "150px",
+            }}
+          >
+            <Button
+              color="primary"
               onClick={providersLink}
               variant="contained"
               sx={{ height: "100px", width: "320px", fontSize: "1.5rem" }}
             >
               Entradas Proveedores
+            </Button>
+          </Box>
+          <Box
+            sx={{
+              width: "50%",
+              margin: "auto",
+              textAlign: "center",
+              height: "150px",
+            }}
+          >
+            <Button
+              color="primary"
+              onClick={() => navigate("/guardias/entradas/cones")}
+              variant="contained"
+              sx={{ height: "100px", width: "320px", fontSize: "1.5rem" }}
+            >
+              Salida Proveedores
             </Button>
           </Box>
         </Box>

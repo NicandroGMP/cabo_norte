@@ -72,23 +72,22 @@ const Bitacora = () => {
   return (
     <>
       <Box sx={{ mb: 9, mt: 5 }}>
-        <Link to="/guardias/auth">
-          <Button
-            variant="contained"
-            color="secondary"
-            type="button"
-            sx={{
-              mx: 5,
-              minWidth: 160,
-              fontWeight: 500,
-              fontSize: 16,
-              textTransform: "capitalize",
-              padding: "4px 16px 8px",
-            }}
-          >
-            <IntlMessages id="Regresar" />
-          </Button>
-        </Link>
+        <Button
+          onClick={() => navigate("/guardias/home")}
+          variant="contained"
+          color="secondary"
+          type="button"
+          sx={{
+            mx: 5,
+            minWidth: 160,
+            fontWeight: 500,
+            fontSize: 16,
+            textTransform: "capitalize",
+            padding: "4px 16px 8px",
+          }}
+        >
+          <IntlMessages id="Regresar" />
+        </Button>
       </Box>
       <Box sx={{ mb: 8, mt: 5 }}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>

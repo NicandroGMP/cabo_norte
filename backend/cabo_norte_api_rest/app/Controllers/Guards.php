@@ -21,7 +21,7 @@ class Guards extends BaseController
     public function index(){
         
         $join = $this->managers->table("managers");
-        $join->select('accounts.id, managers.id as manager_id,accounts.username, CONCAT(managers.name," ",managers.lastname)as fullname ,managers.name,managers.lastname, managers.position,managers.company');
+        $join->select('accounts.id,accounts.status, managers.id as guards_id,accounts.username, CONCAT(managers.name," ",managers.lastname)as fullname ,managers.name,managers.lastname, managers.position,managers.company');
         $join->join("accounts", "accounts.user_inf = managers.id")->where("accounts.type_user", "guardia");
         $user_date = $join->get()->getResultArray();
 
@@ -66,6 +66,7 @@ class Guards extends BaseController
                 "username" => $input["username"],
                 "type_user" => $input["typeUser"],
                 "password" => Hash::make($input["password"]),
+                "status" => "Habilitado"
             ];
             $query2 = $this->accounts->insert($dataForm2);
             if (!$query && !$query2){
@@ -107,5 +108,39 @@ class Guards extends BaseController
             ]);
         }
         }
+    }
+    public function statusUpdate($id,$data){
+        if (empty($id) || empty($data) ){
+            return $this->getResponse("", ResponseInterface::HTTP_BAD_REQUEST);
+        }else{
+            if ($data === "Habilitado"){
+                $dataUpdate = ["status" => "Deshabilitado"];
+                $update = $this->accounts->update($id,$dataUpdate);
+                return $this->getResponse(["message" => "deshabilitado"]);   
+            }elseif($data === "Deshabilitado"){
+                $dataUpdate = ["status" => "Habilitado"];
+                $update = $this->accounts->update($id,$dataUpdate);
+                return $this->getResponse(["message" => "habilitado"]);   
+            }
+            }
+        }
+
+
+    public function deleteGuard(){
+
+    $rules = [
+        "id_guards"=> "required",
+    ];
+    $input = $this->getRequestInput($this->request);
+    if (!$this->validateRequest($input, $rules)) {
+        return $this->getResponse($this->validator->getErrors(), ResponseInterface::HTTP_BAD_REQUEST);
+    }else{
+        $id = $input["id_guards"];
+        $delete = $this->managers->delete($id);
+        if (!$delete){
+            return $this->getResponse("Error al eliminar Guardia", ResponseInterface::HTTP_BAD_REQUEST);
+        }
+        return $this->getResponse(["message" => "El Guardia se ha eliminado"]);
+    }
     }
 }

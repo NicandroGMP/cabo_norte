@@ -49,7 +49,7 @@ const FormRegister = () => {
     setOpen(false);
   };
 
-  const registerWork = async ({ work, batch, status }) => {
+  const registerWork = async ({ work, batch, status, color }) => {
     dispatch({ type: FETCH_START });
 
     try {
@@ -57,6 +57,7 @@ const FormRegister = () => {
         work,
         batch,
         status,
+        color,
       });
       messageSuccess(data.message);
       setOpen(true);
@@ -86,6 +87,7 @@ const FormRegister = () => {
             work: "",
             batch: "",
             status: "",
+            color: "",
           }}
           validationSchema={validationSchema}
           onSubmit={(data, { setSubmitting, resetForm }) => {
@@ -99,6 +101,7 @@ const FormRegister = () => {
                 work: data.work,
                 batch: data.batch,
                 status: status,
+                color: data.color,
               });
               setSubmitting(false);
               resetForm();
@@ -132,6 +135,21 @@ const FormRegister = () => {
                       name="batch"
                       label={<IntlMessages id="Lote" />}
                       variant="outlined"
+                      sx={{
+                        width: "100%",
+                        "& .MuiInputBase-input": {
+                          fontSize: 14,
+                        },
+                      }}
+                    />
+                  </Box>
+                  <Box sx={{ mb: { xs: 5, xl: 8 } }}>
+                    <AppTextField
+                      placeholder={"Color"}
+                      name="color"
+                      label={<IntlMessages id="Color" />}
+                      variant="outlined"
+                      type="color"
                       sx={{
                         width: "100%",
                         "& .MuiInputBase-input": {

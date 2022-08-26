@@ -30,9 +30,9 @@ const ScanQr = (props) => {
     <>
       <Box sx={{ mb: 9 }}>
         <Button
+          onClick={() => navigate("/guardias/entradas/trabajadores")}
           variant="contained"
           color="secondary"
-          onClick={() => navigate("/guardias/entradas/trabajadores")}
           type="button"
           sx={{
             mx: 5,
@@ -53,10 +53,13 @@ const ScanQr = (props) => {
               setData(result?.text);
               dispatch({ type: FETCH_START });
               try {
-                jwtAxios.get("/workers/scanQr/" + result?.text).then((res) => {
-                  setDataSearch(res.data.worker);
-                  dispatch({ type: FETCH_SUCCESS });
-                });
+                jwtAxios
+                  .get("/bitacora/scanWorker/" + result?.text)
+                  .then((res) => {
+                    setDataSearch(res.data.worker);
+                    setResultSearch(true);
+                    dispatch({ type: FETCH_SUCCESS });
+                  });
               } catch (error) {
                 dispatch({
                   type: FETCH_ERROR,
@@ -74,15 +77,10 @@ const ScanQr = (props) => {
           autoFocus={true}
         />
       )}
-
+      {resultSearch === false && <WorkerError />}
       {dataSearch !== null && (
         <>
-          <InfWorker
-            dataWorker={dataSearch}
-            idWorker={idWorker}
-            statusWorker={statusWorker}
-            setButton={buttonExit}
-          />
+          <InfWorker dataWorker={dataSearch} />
         </>
       )}
     </>

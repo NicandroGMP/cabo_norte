@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-08-2022 a las 02:54:06
+-- Tiempo de generación: 27-08-2022 a las 00:16:01
 -- Versión del servidor: 10.4.16-MariaDB
 -- Versión de PHP: 7.4.12
 
@@ -44,9 +44,8 @@ CREATE TABLE `accounts` (
 
 INSERT INTO `accounts` (`id`, `user_inf`, `type_user`, `username`, `password`, `status`, `updated_at`, `created_at`) VALUES
 (1, NULL, 'administrador', 'Admin', '$2y$10$jkBM8YkQ1XaTymoaaQD5.O/YAFOxt2/2fJjRDEG40poZUyIq3Bc1e', 'Habilitado', NULL, '2022-07-06 13:18:08'),
-(50, 54, 'encargado', 'AndrezHT', '$2y$10$5womR6TsrL4szPiyD46EhucM.4A3BFKrq91xFUgd7us1TtDw1LEye', 'Habilitado', NULL, '2022-08-16 12:34:29'),
-(60, 64, 'encargado', 'encargado', '$2y$10$y9SOCF2Hqtaafx5FIM4G3eTT/oTOH27bm2fvnlRhyCy3rvK0zmxUa', 'Habilitado', NULL, '2022-08-16 18:35:16'),
-(61, 65, 'guardia', 'guardia', '$2y$10$9Ti7Q8mu/fjQEuXNG5qgbOThwFcdfSLISxNNPJzgosSci..do1F..', 'Habilitado', NULL, '2022-08-16 18:40:01');
+(83, 87, 'encargado', 'AndrezHT', '$2y$10$MXAWIwnPk9Y2tJJmdRGIyOTEvDqLKSRrrBACzhfBgEAEnjCDlnu9S', 'Habilitado', NULL, '2022-08-26 16:14:07'),
+(84, 88, 'guardia', 'guardia', '$2y$10$wEyvnbnyam946qSc0.k9fuRrj6cqFTXEWOuhgHLUcQo3Ql.sHGhPK', 'Habilitado', NULL, '2022-08-26 16:14:38');
 
 -- --------------------------------------------------------
 
@@ -71,7 +70,7 @@ CREATE TABLE `bitacora_providers` (
 --
 
 INSERT INTO `bitacora_providers` (`id`, `num_provider`, `name`, `work`, `service`, `num_cone`, `entry_provider`, `exit_provider`, `identification`) VALUES
-(9, NULL, 'Metales', 'Armura 40', 'metales de aluminio', '1', '2022-08-19 01:22:48', NULL, '58818523.png');
+(16, 'SCK60J', 'materiales ea', 'armura 5', 'proveedro de materiales', '1', '2022-08-26 16:21:19', '2022-08-26 16:21:41', '58818523.png');
 
 -- --------------------------------------------------------
 
@@ -96,10 +95,8 @@ CREATE TABLE `bitacora_workers` (
 --
 
 INSERT INTO `bitacora_workers` (`id`, `register_number`, `fullname`, `company`, `manager`, `work`, `position`, `entry_worker`, `exit_worker`) VALUES
-(33, 'W461KR', 'nicandro martinez perez', 'Limpiezas MR', 'andres Gomez Alvarez', 'cabo_norte 5 y 6', 'limpieza', '2022-07-22 11:20:43', NULL),
-(34, 'W461KR', 'nicandro martinez perez', 'Limpiezas MR', 'andres Gomez Alvarez', 'cabo_norte 5 y 6', 'limpieza', '2022-07-25 11:22:08', NULL),
-(35, 'W461KR', 'nicandro martinez perez', 'Limpiezas MR', 'andres Gomez Alvarez', 'cabo_norte 5 y 6', 'limpieza', '2022-07-26 16:35:47', NULL),
-(39, 'W461KR', 'nicandro martinez perez', 'Limpiezas MR', 'andres Gomez Alvarez', 'cabo_norte 5 y 6', 'limpieza', '2022-08-12 19:48:00', '2022-08-12 19:51:01');
+(46, 'BVI53A', 'Jose  Martinez lopwz', 'dsadsad', 'Andrez martinez', 'armura 5', 'dasdd', '2022-08-26 16:18:39', '2022-08-26 16:19:09'),
+(47, '0SQOUN', 'Fernando Hernandez Hernandez', 'Limpezas Mr', 'Andrez martinez', 'armura 5', 'limpieza', '2022-08-26 16:26:35', '2022-08-26 16:27:09');
 
 -- --------------------------------------------------------
 
@@ -120,7 +117,7 @@ CREATE TABLE `cones` (
 --
 
 INSERT INTO `cones` (`id`, `num_cone`, `status`, `provider`, `register_number`) VALUES
-(1, 1, 0, 3, 'OXVZYL'),
+(1, 1, 1, NULL, NULL),
 (2, 2, 1, NULL, NULL),
 (3, 3, 1, NULL, NULL),
 (4, 4, 1, NULL, NULL),
@@ -174,9 +171,8 @@ CREATE TABLE `managers` (
 --
 
 INSERT INTO `managers` (`id`, `manager_number`, `name`, `lastname`, `company`, `position`, `work`, `updated_at`, `created_at`) VALUES
-(54, 'AT0U4Z', 'Andres', 'Hernandez Gomez', 'cabo_norte', 'Encargado', 27, NULL, '2022-08-16 12:34:29'),
-(64, '0XL2G4', 'nicandro', 'martinez', 'martinezAR', 'limoieza', 30, NULL, '2022-08-16 18:35:15'),
-(65, 'TUAKO3', 'guardia', 'guardia', 'guardiasAR', 'guardia de seguridad cabo norte', NULL, NULL, '2022-08-16 18:40:01');
+(87, 'KZ2TDX', 'Andrez', 'martinez', 'dasas', 'encargado', 35, NULL, '2022-08-26 16:14:07'),
+(88, '39O14A', 'guardia', 'martinezdada', 'dasd', 'dasdd', NULL, NULL, '2022-08-26 16:14:38');
 
 -- --------------------------------------------------------
 
@@ -200,9 +196,7 @@ CREATE TABLE `providers` (
 --
 
 INSERT INTO `providers` (`id`, `register_number`, `name`, `service`, `work`, `status`, `updated_at`, `created_at`) VALUES
-(3, 'OXVZYL', 'Metales', 'metales de aluminio', 27, 'Habilitado', NULL, '2022-08-16 12:59:30'),
-(4, '3EXOLT', 'PlastiSr', 'Materiales plasticos', 27, 'Habilitado', NULL, '2022-08-16 15:52:34'),
-(5, 'YWQ70P', 'ElectronicsAr', 'servicios de electronica', 30, 'Habilitado', NULL, '2022-08-16 21:17:20');
+(6, 'SCK60J', 'materiales ea', 'proveedro de materiales', 35, 'Habilitado', NULL, '2022-08-26 16:16:37');
 
 -- --------------------------------------------------------
 
@@ -229,7 +223,8 @@ CREATE TABLE `workers` (
 --
 
 INSERT INTO `workers` (`id`, `register_number`, `name`, `lastname`, `company`, `position`, `job`, `manager`, `status`, `updated_at`, `created_at`) VALUES
-(23, 'W461KR', 'Nicandro ', 'martinez perez', 'LimpiezaMr', 'limpieza', 27, 54, 'Habilitado', NULL, '2022-08-16 15:53:46');
+(24, 'BVI53A', 'Jose ', 'Martinez lopwz', 'dsadsad', 'dasdd', 35, 87, 'Habilitado', NULL, '2022-08-26 16:16:05'),
+(25, '0SQOUN', 'Fernando', 'Hernandez Hernandez', 'Limpezas Mr', 'limpieza', 35, 87, 'Habilitado', NULL, '2022-08-26 16:24:49');
 
 -- --------------------------------------------------------
 
@@ -252,10 +247,7 @@ CREATE TABLE `works` (
 --
 
 INSERT INTO `works` (`id`, `job`, `batch`, `color`, `status`, `updated_at`, `created_at`) VALUES
-(27, 'Armura', '40', '#12896A', 'Habilitado', '2022-08-18 19:07:18', '2022-08-16 12:33:17'),
-(30, 'cabo_norte', '4 y 5', '#DA20CC', 'Habilitado', '2022-08-18 19:07:38', '2022-08-16 15:57:00'),
-(31, 'Andana', '5 y 6', '#DA2031', 'Habilitado', '2022-08-18 19:08:13', '2022-08-16 15:57:19'),
-(32, 'Armura', '6', '#12896A', 'Habilitado', '2022-08-18 19:23:32', '2022-08-16 21:19:14');
+(35, 'armura', '5', '#fa0000', 'Habilitado', NULL, '2022-08-26 16:13:21');
 
 --
 -- Índices para tablas volcadas
@@ -327,19 +319,19 @@ ALTER TABLE `works`
 -- AUTO_INCREMENT de la tabla `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT de la tabla `bitacora_providers`
 --
 ALTER TABLE `bitacora_providers`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `bitacora_workers`
 --
 ALTER TABLE `bitacora_workers`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de la tabla `cones`
@@ -351,25 +343,25 @@ ALTER TABLE `cones`
 -- AUTO_INCREMENT de la tabla `managers`
 --
 ALTER TABLE `managers`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT de la tabla `providers`
 --
 ALTER TABLE `providers`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `workers`
 --
 ALTER TABLE `workers`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `works`
 --
 ALTER TABLE `works`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- Restricciones para tablas volcadas
@@ -385,7 +377,7 @@ ALTER TABLE `accounts`
 -- Filtros para la tabla `cones`
 --
 ALTER TABLE `cones`
-  ADD CONSTRAINT `cones_ibfk_1` FOREIGN KEY (`provider`) REFERENCES `providers` (`id`);
+  ADD CONSTRAINT `cones_ibfk_1` FOREIGN KEY (`provider`) REFERENCES `providers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `managers`

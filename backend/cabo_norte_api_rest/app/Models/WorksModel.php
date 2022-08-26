@@ -6,7 +6,7 @@ namespace App\Models;
 class WorksModel extends Model {
 		protected $table = 'works';
 		protected $primaryKey = 'id';
-		protected $allowedFields = ['job','batch','status'];
+		protected $allowedFields = ['job','batch','status', 'color'];
 		protected $updatedField = "updated_at";
 		protected $useSoftDeletes = false;
 

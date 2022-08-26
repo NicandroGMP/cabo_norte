@@ -52,25 +52,24 @@ class Cones extends BaseController{
         }
     }
     public function SearchConeById(){
-        date_default_timezone_set('America/Merida');   
-        $currentDate =  date("Y-m-d ");
         $input = $this->getRequestInput($this->request);
+/*         date_default_timezone_set('America/Merida');   
+        $currentDate =  date("Y-m-d ");
     $join = $this->cones->table("cones");
-    $join->select('cones.id as cone_id, cones.status, ');
-    $join->join("providers", "cones.provider = providers.id")->where("cones.register_number", $input["register_num"]);
+    $join->select('cones.id as cone_id, cones.status, cones.register_number as setPovider');
+    $join->join("providers", "cones.provider = providers.id")->where("register_number", $input["register_num"]);
     $inf_user =  $join->get()->getResultArray();
 
-
+ */
     $data_cone = $this->bitacoraProviders->select("identification, id, name, service")->where("num_provider", $input["register_num"]);
     $data_cone = $data_cone->get()->getResultArray();
 
 
-    if(!$inf_user){
+    if(!$data_cone){
         return $this->getResponse("", ResponseInterface::HTTP_BAD_REQUEST);
     }else{
      
     return $this->getResponse([
-        "cone" => $inf_user,
         "conesData" => $data_cone,
     ]);
     }

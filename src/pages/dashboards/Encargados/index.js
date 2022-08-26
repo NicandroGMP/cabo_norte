@@ -10,16 +10,21 @@ import {
   FETCH_START,
   FETCH_SUCCESS,
 } from "shared/constants/ActionTypes";
+import AppInfoView from "@crema/core/AppInfoView";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CustomNoRows from "./components/CustomNoRows";
-import PersonAddDisabledIcon from "@mui/icons-material/PersonAddDisabled";
+import PersonOffIcon from "@mui/icons-material/PersonOff";
+import PersonIcon from "@mui/icons-material/Person";
+import ModalDelete from "./components/ModalDelete";
 
 const Encargados = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [rows, setrows] = useState([]);
   const [NotRows, setNotRows] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [dataDelete, setDataDelete] = useState([]);
 
   const dataUpdate = useCallback((datas) => () => {
     const data = datas.row;
@@ -35,8 +40,8 @@ const Encargados = () => {
     navigate("/encargados/edit");
   });
   useEffect(() => {
-    dispatch({ type: FETCH_START });
-    try {
+    const getManagers = () => {
+      dispatch({ type: FETCH_START });
       jwtAxios
         .get("/managers")
         .then((res) => {
@@ -44,21 +49,43 @@ const Encargados = () => {
           console.log(res.data.managers);
           dispatch({ type: FETCH_SUCCESS });
         })
-        .catch(() => setNotRows(false));
-    } catch (error) {
-      dispatch({
-        type: FETCH_ERROR,
-        payload: error?.response?.data?.error || "Error al Registrar",
-      });
-    }
+        .catch(() => {
+          setNotRows(false);
+          dispatch({ type: FETCH_SUCCESS });
+        });
+    };
+    getManagers();
   }, []);
 
-  const deleteManager = useCallback(
-    (id) => () => {
-      console.log(id);
+  const Modaldelete = useCallback(
+    (data) => () => {
+      setOpen(true);
+      setDataDelete(data);
     },
     []
   );
+  const deleteManager = async () => {
+    const id_manager = dataDelete.id_manager;
+    const id = dataDelete.id;
+    dispatch({ type: FETCH_START });
+
+    try {
+      const { data } = await jwtAxios.post("/managers/delete", {
+        id_manager,
+      });
+      setTimeout(() => {
+        setrows((prevRows) => prevRows.filter((row) => row.id !== id));
+      });
+      setOpen(false);
+      dispatch({ type: FETCH_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: FETCH_ERROR,
+        payload: error?.response?.data?.error || "Error al Eliminar",
+      });
+    }
+  };
+  const handleClose = () => setOpen(false);
 
   const addNewManager = () => {
     navigate("/encargados/register");
@@ -101,14 +128,15 @@ const Encargados = () => {
   const columns = useMemo(
     () => [
       { field: "fullname", headerName: "Nombre", width: 200 },
-      { field: "position", headerName: "Puesto", width: 100 },
-      { field: "company", headerName: "Empresa", width: 200 },
-      { field: "job", headerName: "Subcondominio", width: 200 },
-      { field: "status", headerName: "Habilitado", width: 180 },
+      { field: "position", headerName: "Puesto", width: 120 },
+      { field: "company", headerName: "Empresa", width: 180 },
+      { field: "job", headerName: "Subcondominio", width: 150 },
+      { field: "status", headerName: "Status", width: 180 },
       {
         field: "actions",
         type: "actions",
         headerName: "Actions",
+        width: 130,
         getActions: (params) => [
           <GridActionsCellItem
             icon={<EditIcon />}
@@ -117,13 +145,31 @@ const Encargados = () => {
           />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
-            onClick={deleteManager(params.id)}
+            onClick={Modaldelete({
+              id_manager: params.row.manager_id,
+              name: params.row.name,
+              id: params.id,
+            })}
             label="Delete"
           />,
           <GridActionsCellItem
-            icon={<PersonAddDisabledIcon />}
+            icon={
+              params.row.status == "Habilitado" ? (
+                <PersonIcon />
+              ) : (
+                <PersonOffIcon />
+              )
+            }
+            sx={{
+              background: `${
+                params.row.status == "Habilitado" ? "#91E87C" : "#FFA0A0"
+              }`,
+              color: `${
+                params.row.status == "Habilitado" ? "#1E9900" : "#FF0101"
+              }`,
+            }}
             onClick={statusWorker({
-              id: params.id,
+              id: params.row.manager_id,
               currentStatus: params.row.status,
             })}
             label="status"
@@ -131,13 +177,20 @@ const Encargados = () => {
         ],
       },
     ],
-    [deleteManager, dataUpdate, statusWorker]
+    [Modaldelete, dataUpdate, statusWorker]
   );
   function CustomNoRowsOverlay() {
     return <>{NotRows === false && <CustomNoRows />}</>;
   }
+
   return (
     <>
+      <ModalDelete
+        open={open}
+        handleClose={handleClose}
+        dataDelete={dataDelete}
+        deleteManager={deleteManager}
+      />
       <Box
         sx={{
           borderBottom: 1,
@@ -175,6 +228,7 @@ const Encargados = () => {
           }}
         />
       </div>
+      <AppInfoView />
     </>
   );
 };

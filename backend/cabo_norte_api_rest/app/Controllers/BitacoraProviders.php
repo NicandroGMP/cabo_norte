@@ -6,9 +6,13 @@ use Exception;
 use App\Models\ManagersModel;
 use App\Models\AccountsModel;
 use App\Models\BitacoraProvidersModel;
+use App\Models\ConesModel;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use DateTime;
+use CodeIgniter\Database\Query;
+use CodeIgniter\HTTP\Request;
+use CodeIgniter\HTTP\RequestInterface;
 
 class BitacoraProviders extends BaseController
 {
@@ -17,6 +21,7 @@ class BitacoraProviders extends BaseController
     {
         $this->managers = new ManagersModel();
         $this->accounts = new AccountsModel();
+        $this->cones = new ConesModel();
         $this->bitacoraProviders = new BitacoraProvidersModel();
     }
     public function index($date){
@@ -46,12 +51,24 @@ class BitacoraProviders extends BaseController
             'success_entry' =>  $success_entry 
         ]);
     }
+
+    public function UploadFileImages(){
+        $name = $this->request->getPost("filename");
+        $name = $this->request->getFile("uploadFile");
+        var_dump($name);
+        return $this->getResponse([
+            'message' => $name
+        ]);
+    }
     public function registerProvider(){
+
+
         $rules = [
             "name" => "required",
             "work"=> "required",
             "service"=> "required",
             "num_cone" => "required",
+            "register_num" => "required",
             "identification" => "required"
         ];
 
@@ -67,6 +84,7 @@ class BitacoraProviders extends BaseController
                 "work" => $input["work"],
                 "service" => $input["service"],
                 "num_cone" => $input["num_cone"],
+                "num_provider" => $input["register_num"],
                 "entry_provider" => $entry_provider,
                 "identification" => $input["identification"]
 
@@ -83,7 +101,8 @@ class BitacoraProviders extends BaseController
     }
     public function registerExitWorker(){
         $rules = [
-            "idWorker" => "required",
+            "id_cone" => "required",
+            "id_bitacora" => "required",
         ];
 
         $input = $this->getRequestInput($this->request);
@@ -92,13 +111,20 @@ class BitacoraProviders extends BaseController
             return $this->getResponse($this->validator->getErrors(), ResponseInterface::HTTP_BAD_REQUEST);
         }else{
             date_default_timezone_set('America/Merida');   
-            $exit_worker =  date("Y-m-d H:i:s");
+            $exit_provider =  date("Y-m-d H:i:s");
             $data = [
-                "exit_worker" =>  $exit_worker ,
+                "exit_provider" =>  $exit_provider ,
 
             ];
-            $query = $this->BitacoraWorkers->update($input["idWorker"],$data);
-            if (!$query){
+            $data2 = [
+                "status" =>  1 ,
+                "provider" =>  null,
+                "register_number" =>  null,
+
+            ];
+            $query = $this->bitacoraProviders->update($input["id_bitacora"],$data);
+            $query2 = $this->cones->update($input["id_cone"],$data2);
+            if (!$query && !$query2){
                 return $this->getResponse("", ResponseInterface::HTTP_BAD_REQUEST);
             }else{
                 return $this->getResponse([
@@ -107,4 +133,5 @@ class BitacoraProviders extends BaseController
             }
         }
     }
+    
 }

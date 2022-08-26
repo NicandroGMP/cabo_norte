@@ -6,7 +6,7 @@ namespace App\Models;
 class BitacoraProvidersModel extends Model {
 		protected $table = 'bitacora_providers';
 		protected $primaryKey = 'id';
-		protected $allowedFields = ['name','work','service','num_cone','entry_provider', 'exit_provider', 'identification'];
+		protected $allowedFields = ['name','work','num_provider','service','num_cone','entry_provider', 'exit_provider', 'identification'];
 		protected $useSoftDeletes = false;
 
 

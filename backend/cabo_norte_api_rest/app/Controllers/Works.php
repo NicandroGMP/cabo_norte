@@ -27,6 +27,7 @@ class Works extends BaseController{
             "work" => "required",
             "batch"=> "required",
             "status"=> "required",
+            "color" => "required"
         ];
 
         $input = $this->getRequestInput($this->request);
@@ -38,6 +39,7 @@ class Works extends BaseController{
                 "job" => $input["work"],
                 "batch" => $input["batch"],
                 "status" => $input["status"],
+                "color" => $input["color"],
                 "updated_at" => null,
 
             ];
@@ -89,12 +91,45 @@ class Works extends BaseController{
     }
     
     public function searchWorksByName($work){
-        $works = $this->works->where("job", $work)->like("status" , "Habilitado");
+        $works = $this->works->where("job", $work)->where("status" , "Habilitado" );
         $works = $works->get()->getResultArray();
 
         return $this->getResponse(["works" =>  $works]);
     }
-    
+
+    public function statusUpdate($id,$data){
+        if (empty($id) || empty($data) ){
+            return $this->getResponse("", ResponseInterface::HTTP_BAD_REQUEST);
+        }else{
+            if ($data === "Habilitado"){
+                $dataUpdate = ["status" => "Deshabilitado"];
+                $update = $this->works->update($id,$dataUpdate);
+                return $this->getResponse(["message" => "deshabilitado"]);   
+            }elseif($data === "Deshabilitado"){
+                $dataUpdate = ["status" => "Habilitado"];
+                $update = $this->works->update($id,$dataUpdate);
+                return $this->getResponse(["message" => "habilitado"]);   
+            }
+            }
+        }
+
+    public function deleteWork() {
+            $rules = [
+                "id"=> "required",
+            ];
+            $input = $this->getRequestInput($this->request);
+            if (!$this->validateRequest($input, $rules)) {
+                return $this->getResponse($this->validator->getErrors(), ResponseInterface::HTTP_BAD_REQUEST);
+            }else{
+                $id = $input["id"];
+                $delete = $this->works->delete($id);
+                if (!$delete){
+                    return $this->getResponse(["error"=>"Error al eliminar Subcondominio"], ResponseInterface::HTTP_BAD_REQUEST);
+                }
+                return $this->getResponse(["message" => "El Subcondominio se ha eliminado"]);
+            }
+            }
+
 
 }
 ?>

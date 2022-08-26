@@ -21,6 +21,7 @@ import MuiAlert from "@mui/material/Alert";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
+import axios from "axios";
 
 const Cones = () => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const Cones = () => {
   const [currentprovider, setProvider] = useState([]);
   const [providerModal, setProviderModal] = useState([]);
   const [currentCone, setCone] = useState(null);
-  const [file, setFileName] = useState("");
+  const [file, setFileName] = useState([]);
   const [imageUrl, setImageUrl] = useState([]);
   const { provider } = useCurrentWork();
   const [message, messageSuccess] = useState(null);
@@ -39,7 +40,7 @@ const Cones = () => {
   const [openContentImg, setContentImage] = useState(false);
 
   useEffect(() => {
-    console.log(provider);
+    console.log(imageUrl);
     const getCones = async () => {
       dispatch({ type: FETCH_START });
       try {
@@ -82,8 +83,10 @@ const Cones = () => {
     setOpen(true);
     setCone(props.target.innerText);
     const register_num = props.target.attributes.provider.value;
+    console.log(register_num);
     if (register_num === "null") {
       setContentImage(true);
+      console.log("imgcTrue");
     } else {
       await jwtAxios.post("/cones/search", { register_num }).then((res) => {
         setProviderModal(res.data.conesData);
@@ -94,8 +97,9 @@ const Cones = () => {
   };
   const inputimage = async (props) => {
     const [fileName] = props.target.files;
-    setFileName(fileName.name);
-
+    setFileName(props.target.files[0]);
+    console.log(props.target.files[0]);
+    console.log(fileName);
     setImageUrl(URL.createObjectURL(fileName));
   };
 
@@ -117,13 +121,29 @@ const Cones = () => {
   };
 
   const addToBitacora = async () => {
+    /*  const dataArray = new FormData();
+    dataArray.append("filename", "dasdasd");
+    dataArray.append("uploadFile", file);
+    console.log(dataArray);
+    console.log(file.name);
+
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    const { data } = await jwtAxios.post(
+      "/bitacoraProviders/upload",
+      dataArray,
+      config
+    ); */
     const [dataInsert] = currentprovider;
     const name = dataInsert.name;
     const work = dataInsert.job;
     const service = dataInsert.service;
     const register_num = dataInsert.register_number;
     const num_cone = currentCone;
-    const identification = file;
+    const identification = file.name;
     dispatch({ type: FETCH_START });
     try {
       const { data } = await jwtAxios.post("/bitacoraProviders/register", {
@@ -132,6 +152,7 @@ const Cones = () => {
         service,
         num_cone,
         identification,
+        register_num,
       });
       const { asignCone } = await jwtAxios.post("/cones/register", {
         currentCone,
@@ -146,6 +167,27 @@ const Cones = () => {
       dispatch({
         type: FETCH_ERROR,
         payload: error?.response?.data?.error || "Error al Registrar",
+      });
+    }
+  };
+  const addExitToBitacora = async () => {
+    const id_cone = currentCone;
+    const [dataBitacora] = providerModal;
+    console.log(dataBitacora.id);
+    const id_bitacora = dataBitacora.id;
+
+    dispatch({ type: FETCH_START });
+    try {
+      const { data } = await jwtAxios.post("/bitacoraProviders/update", {
+        id_cone,
+        id_bitacora,
+      });
+      navigate("/guardias/bitacora_proveedores");
+      dispatch({ type: FETCH_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: FETCH_ERROR,
+        payload: error?.response?.data?.error || "Error al Actualizar",
       });
     }
   };
@@ -172,7 +214,7 @@ const Cones = () => {
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
-          timeout: 500,
+          timeout: 300,
         }}
       >
         <Fade in={open}>
@@ -197,10 +239,10 @@ const Cones = () => {
               sx={{ width: "100%", height: "100%" }}
             >
               <Box sx={{ width: "50%" }}>
+                {openContentImg === true && <img src={imageUrl} />}
                 {providerModal.map((provider_inf) => {
                   return (
                     <>
-                      {openContentImg === true && <img src={imageUrl} />}
                       {openContentImg === false && (
                         <img
                           src={"/assets/images/" + provider_inf.identification}
@@ -231,14 +273,26 @@ const Cones = () => {
                     />
                   </Button>
                 )}
-                <Button
-                  sx={{ mt: 10 }}
-                  variant="contained"
-                  color="primary"
-                  onClick={addToBitacora}
-                >
-                  Registrar Entrada de Proveedor
-                </Button>
+                {openContentImg === true && (
+                  <Button
+                    sx={{ mt: 10 }}
+                    variant="contained"
+                    color="primary"
+                    onClick={addToBitacora}
+                  >
+                    Registrar Entrada de Proveedor
+                  </Button>
+                )}
+                {openContentImg === false && (
+                  <Button
+                    sx={{ mt: 10 }}
+                    variant="contained"
+                    color="secondary"
+                    onClick={addExitToBitacora}
+                  >
+                    Registrar Salida de Proveedor
+                  </Button>
+                )}
               </Box>
             </Stack>
           </Box>
@@ -256,6 +310,13 @@ const Cones = () => {
       >
         <Button onClick={BitacoraProviders} color="primary" variant="outlined">
           Bitacora Proveedores
+        </Button>
+        <Button
+          onClick={() => navigate("/guardias/home")}
+          color="primary"
+          variant="outlined"
+        >
+          Home
         </Button>
       </Box>
 

@@ -59,8 +59,10 @@ $routes->get('/managers/status/(:num)/(:hash)/', 'Managers::statusUpdate/$1/$2')
 $routes->get('/guards', 'Guards::index');
 $routes->post('/guards/register', 'Guards::RegisterGuards');
 $routes->post('/guards/update', 'Guards::updateGuards');
-$routes->post('/guards/delete', 'Guards::deleteGuards');
+$routes->post('/guards/delete', 'Guards::deleteGuard');
+$routes->get('/guards/status/(:num)/(:hash)/', 'Guards::statusUpdate/$1/$2');
 //end routes guards crete,read,update,delete
+
 
 //routes works crete,read,update,delete
 $routes->get('/works', 'Works::index');
@@ -69,6 +71,7 @@ $routes->get('/works/search/(:hash)', 'Works::searchWorksByName/$1');
 $routes->post('/works/register', 'Works::registerWork');
 $routes->post('/works/update', 'Works::updateWork');
 $routes->post('/works/delete', 'Works::deleteWork');
+$routes->get('/works/status/(:num)/(:hash)/', 'Works::statusUpdate/$1/$2');
 //end routes works crete,read,update,delete
 
 //routes workers crete,read,update,delete
@@ -87,6 +90,7 @@ $routes->get('/providers/services/(:hash)/', 'Providers::searchServicesByWorkId/
 $routes->get('/providers/scanQr/(:hash)/', 'Providers::getProviderScanByRegisterNumber/$1');
 $routes->post('/providers/register', 'Providers::registerProvider');
 $routes->post('/providers/search', 'Providers::getProviderSearchByRegisterNumber');
+$routes->get('/providers/status/(:num)/(:hash)/', 'Providers::statusUpdate/$1/$2');
 $routes->post('/providers/update', 'Providers::updateProvider');
 $routes->post('/providers/delete', 'Providers::deleteProvider');
 
@@ -97,6 +101,8 @@ $routes->get('/bitacora/(:hash)/', 'BitacoraWorkers::index/$1');
 $routes->post('/bitacora/register', 'BitacoraWorkers::registerWorker');
 $routes->post('/bitacora/update', 'BitacoraWorkers::registerExitWorker');
 $routes->post('/bitacora/delete', 'BitacoraWorkers::deleteWorker');
+$routes->post('/bitacora/search', 'BitacoraWorkers::bitacoraWorkerSearch');
+$routes->get('/bitacora/scanWorker/(:hash)', 'BitacoraWorkers::bitacoraWorkerScan/$1');
 //end routes Bitacora crete,read,update,delete
 
 //routes Bitacora providers crete,read,update,delete
@@ -114,6 +120,7 @@ $routes->post('/cones/update', 'BitacoraWorkers::registerExitWorker');
 $routes->post('/cones/delete', 'BitacoraWorkers::deleteWorker');
 //end routes Cones crete,read,update,delete
 
+$routes->post('/bitacoraProviders/upload', 'BitacoraProviders::UploadFileImages');
 
 
 /*

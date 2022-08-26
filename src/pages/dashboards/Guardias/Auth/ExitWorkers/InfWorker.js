@@ -34,42 +34,13 @@ const InfWorker = (props) => {
     console.log(dataBitacora);
   }, []);
 
-  const addToBitacora = async () => {
-    const [dataInsert] = dataBitacora;
-    const name = dataInsert.name;
-    const lastname = dataInsert.lastname;
-    const company = dataInsert.company;
-    const position = dataInsert.position;
-    const work = dataInsert.job;
-    const register_number = dataInsert.register_number;
-    const manager = dataInsert.manager;
-    console.log(dataInsert);
-    dispatch({ type: FETCH_START });
-    try {
-      const { data } = await jwtAxios.post("/bitacora/register", {
-        name,
-        lastname,
-        company,
-        position,
-        work,
-        register_number,
-        manager,
-      });
-      messageSuccess(data.message);
-      setOpen(true);
-      dispatch({ type: FETCH_SUCCESS });
-    } catch (error) {
-      dispatch({
-        type: FETCH_ERROR,
-        payload: error?.response?.data?.error || "Error al Registrar",
-      });
-    }
-  };
   const insertExitWorker = async () => {
+    const [dataExit] = dataBitacora;
+    const id = dataExit.id;
     dispatch({ type: FETCH_START });
     try {
       const { data } = await jwtAxios.post("/bitacora/update", {
-        idWorker,
+        id,
       });
       messageSuccess(data.message);
       setOpen(true);
@@ -91,7 +62,7 @@ const InfWorker = (props) => {
       </Snackbar>
       <Box>
         <Box sx={{ mb: { xs: 5, xl: 8 }, width: "100%" }}>
-          <h3>Registrar entrada del Trabajador</h3>
+          <h3>Registrar Salida del Trabajador</h3>
         </Box>
         {/*  <Box>
           {dataBitacora.map((current_worker) => {
@@ -215,9 +186,7 @@ const InfWorker = (props) => {
                       fontWeight: "700",
                     }}
                   >
-                    {currentWorker.name.toUpperCase() +
-                      " " +
-                      currentWorker.lastname.toUpperCase()}
+                    {currentWorker.fullname.toUpperCase()}
                   </Typography>
                   <Typography
                     sx={{
@@ -239,7 +208,7 @@ const InfWorker = (props) => {
                       fontWeight: "600",
                     }}
                   >
-                    Subcondominio: {currentWorker.job}
+                    Subcondominio: {currentWorker.work}
                   </Typography>
                   <Typography
                     sx={{
@@ -282,10 +251,11 @@ const InfWorker = (props) => {
 
         <Button
           variant="contained"
-          color="primary"
-          onClick={addToBitacora}
+          color="secondary"
+          onClick={insertExitWorker}
           type="submit"
           sx={{
+            marginLeft: "5px",
             minWidth: 100,
             fontWeight: 500,
             fontSize: 16,
@@ -293,7 +263,7 @@ const InfWorker = (props) => {
             padding: "4px 16px 8px",
           }}
         >
-          Registrar Entrada
+          Registrar Salida
         </Button>
       </Box>
     </>

@@ -147,7 +147,8 @@ class Workers extends BaseController{
         }
   }
   public function getWorkerScanByRegisterNumber($number){
-
+    date_default_timezone_set('America/Merida');   
+    $currentDate =  date("Y-m-d ");
     $string = $number;
     $join = $this->workers->table("workers");
     $join->select('workers.id as workers_id, workers.name, works.job,workers.lastname, workers.position, workers.register_number, workers.company, CONCAT(managers.name," ",managers.lastname) as manager,CONCAT(works.job," ",works.batch) as job');
@@ -160,10 +161,26 @@ class Workers extends BaseController{
     }else{
      
     return $this->getResponse([
-        "worker" => $inf_user
+        "worker" => $inf_user,
     ]);   
     }
 }
+public function deleteWorker() {
+    $rules = [
+        "id"=> "required",
+    ];
+    $input = $this->getRequestInput($this->request);
+    if (!$this->validateRequest($input, $rules)) {
+        return $this->getResponse($this->validator->getErrors(), ResponseInterface::HTTP_BAD_REQUEST);
+    }else{
+        $id = $input["id"];
+        $delete = $this->workers->delete($id);
+        if (!$delete){
+            return $this->getResponse("Error al eliminar Trabajador", ResponseInterface::HTTP_BAD_REQUEST);
+        }
+        return $this->getResponse(["message" => "El Trabajador se ha eliminado"]);
+    }
+    }
 
 }
 ?>

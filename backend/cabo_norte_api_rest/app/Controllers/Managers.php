@@ -39,10 +39,14 @@ class Managers extends BaseController
         $join->join("works", "managers.work = works.id")
         ->where("managers.id", $id);
         $inf_user =  $join->get()->getResultArray();
-
-        return $this->getResponse([
-            "manager" => $inf_user
-        ]);
+        if (!$inf_user) {
+            return $this->getResponse("La session ha Expirado", ResponseInterface::HTTP_BAD_REQUEST);
+        }else{
+            return $this->getResponse([
+                "manager" => $inf_user
+            ]);
+        }
+       
     }
 
     public function RegisterManager()
@@ -71,7 +75,7 @@ class Managers extends BaseController
                 "company" => $input["company"],
                 "position" => $input["position"],
                 "work" => $input["work"],
-
+                
             ];
             $query = $this->managers->insert($dataForm1);
             $data_user = $this->managers->where("manager_number", $number_manger)->first();
@@ -82,6 +86,8 @@ class Managers extends BaseController
                 "username" => $input["username"],
                 "type_user" => $input["typeUser"],
                 "password" => Hash::make($input["password"]),
+                "status" => "Habilitado",
+
             ];
             $query2 = $this->accounts->insert($dataForm2);
             if (!$query && !$query2){
@@ -168,7 +174,22 @@ class Managers extends BaseController
             }
             
         }
-    public function destroy($id)
+    public function deleteManager()
    {
+    $rules = [
+        "id_manager"=> "required",
+    ];
+    $input = $this->getRequestInput($this->request);
+    if (!$this->validateRequest($input, $rules)) {
+        return $this->getResponse($this->validator->getErrors(), ResponseInterface::HTTP_BAD_REQUEST);
+    }else{
+        $id = $input["id_manager"];
+        $delete = $this->managers->delete($id);
+        if (!$delete){
+            return $this->getResponse("Error al eliminar encargado", ResponseInterface::HTTP_BAD_REQUEST);
+        }
+        return $this->getResponse(["message" => "El encargado se ha eliminado"]);
     }
+    }
+    
 }
