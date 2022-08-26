@@ -99,7 +99,7 @@ class BitacoraProviders extends BaseController
             }
         }
     }
-    public function registerExitWorker(){
+    public function registerExitProvider(){
         $rules = [
             "id_cone" => "required",
             "id_bitacora" => "required",

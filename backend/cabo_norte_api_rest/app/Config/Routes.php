@@ -100,16 +100,16 @@ $routes->post('/providers/delete', 'Providers::deleteProvider');
 $routes->get('/bitacora/(:hash)/', 'BitacoraWorkers::index/$1');
 $routes->post('/bitacora/register', 'BitacoraWorkers::registerWorker');
 $routes->post('/bitacora/update', 'BitacoraWorkers::registerExitWorker');
-$routes->post('/bitacora/delete', 'BitacoraWorkers::deleteWorker');
 $routes->post('/bitacora/search', 'BitacoraWorkers::bitacoraWorkerSearch');
 $routes->get('/bitacora/scanWorker/(:hash)', 'BitacoraWorkers::bitacoraWorkerScan/$1');
+//$routes->post('/bitacora/delete', 'BitacoraWorkers::deleteWorker');
 //end routes Bitacora crete,read,update,delete
 
 //routes Bitacora providers crete,read,update,delete
 $routes->get('/bitacoraProviders/(:hash)/', 'BitacoraProviders::index/$1');
 $routes->post('/bitacoraProviders/register', 'BitacoraProviders::registerProvider');
-$routes->post('/bitacoraProviders/update', 'BitacoraProviders::registerExitWorker');
-$routes->post('/bitacoraProviders/delete', 'BitacoraProviders::deleteWorker');
+$routes->post('/bitacoraProviders/update', 'BitacoraProviders::registerExitProvider');
+//$routes->post('/bitacoraProviders/delete', 'BitacoraProviders::deleteWorker');
 //end routes Bitacora providers crete,read,update,delete
 
 //routes Cones crete,read,update,delete
