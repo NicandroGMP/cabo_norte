@@ -15,6 +15,8 @@ import {
   FETCH_SUCCESS,
 } from "shared/constants/ActionTypes";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import * as yup from "yup";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -40,6 +42,8 @@ const validationSchema = yup.object({
 
 const FormRegister = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [required, setRequired] = useState(null);
   const [message, messageSuccess] = useState(null);
   const [open, setOpen] = useState(false);
@@ -238,23 +242,24 @@ const FormRegister = () => {
                 </Box>
               </div>
               <div>
-                <Link to="/encargados">
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    type="button"
-                    sx={{
-                      mx: 5,
-                      minWidth: 160,
-                      fontWeight: 500,
-                      fontSize: 16,
-                      textTransform: "capitalize",
-                      padding: "4px 16px 8px",
-                    }}
-                  >
-                    <IntlMessages id="Regresar" />
-                  </Button>
-                </Link>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  type="button"
+                  sx={{
+                    mx: 5,
+                    minWidth: 160,
+                    fontWeight: 500,
+                    fontSize: 16,
+                    textTransform: "capitalize",
+                    padding: "4px 16px 8px",
+                  }}
+                  onClick={() => {
+                    navigate("/guardias");
+                  }}
+                >
+                  <IntlMessages id="Regresar" />
+                </Button>
                 <Button
                   variant="contained"
                   color="primary"

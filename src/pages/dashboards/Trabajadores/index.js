@@ -26,6 +26,8 @@ import Backdrop from "@mui/material/Backdrop";
 import ViewQr from "./ViewQr";
 import PersonOffIcon from "@mui/icons-material/PersonOff";
 import PersonIcon from "@mui/icons-material/Person";
+import ModalDelete from "./components/ModalDelete";
+import CustomNoRows from "./components/CustomNoRows";
 
 const Trabajadores = () => {
   const dispatch = useDispatch();
@@ -33,6 +35,9 @@ const Trabajadores = () => {
   const [rows, setrows] = useState([]);
   const [open, setOpen] = useState(false);
   const [Qrdata, setDataQr] = useState([]);
+  const [openMD, setOpenMD] = useState(false);
+  const [dataDelete, setDataDelete] = useState([]);
+  const [NotRows, setNotRows] = useState(true);
 
   const dataUpdate = useCallback((datas) => () => {
     const data = datas.row;
@@ -52,18 +57,16 @@ const Trabajadores = () => {
   useEffect(() => {
     const getWorkers = async () => {
       dispatch({ type: FETCH_START });
-      try {
-        await jwtAxios.get("/workers").then((res) => {
+      jwtAxios
+        .get("/workers")
+        .then((res) => {
           setrows(res.data.workers);
-          console.log(res.data.workers);
+          dispatch({ type: FETCH_SUCCESS });
+        })
+        .catch(() => {
+          setNotRows(false);
           dispatch({ type: FETCH_SUCCESS });
         });
-      } catch (error) {
-        dispatch({
-          type: FETCH_ERROR,
-          payload: error?.response?.data?.error || "Error de Servidor",
-        });
-      }
     };
     getWorkers();
   }, []);
@@ -103,15 +106,38 @@ const Trabajadores = () => {
       },
     []
   );
-  const deleteWorker = useCallback(
-    (id) => () => {
-      setTimeout(() => {
-        setrows((prevRows) => prevRows.filter((row) => row.id !== id));
-      });
+  const Modaldelete = useCallback(
+    (data) => () => {
+      setOpenMD(true);
+      setDataDelete(data);
     },
     []
   );
+  const handleCloseMD = () => setOpenMD(false);
 
+  const deleteWorker = async () => {
+    const id = dataDelete.id;
+    console.log(id);
+    dispatch({ type: FETCH_START });
+
+    try {
+      const { data } = await jwtAxios.post("/workers/delete", {
+        id,
+      });
+      setTimeout(() => {
+        setrows((prevRows) => prevRows.filter((row) => row.id !== id));
+      });
+      setOpenMD(false);
+      dispatch({ type: FETCH_SUCCESS });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: FETCH_ERROR,
+        payload:
+          error?.response?.data?.error || "Error al eliminar el proveedor",
+      });
+    }
+  };
   const dataQr = useCallback(
     (data) => () => {
       setOpen(true);
@@ -159,7 +185,7 @@ const Trabajadores = () => {
           />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
-            onClick={deleteWorker(params.id)}
+            onClick={Modaldelete({ id: params.id, name: params.row.fullname })}
             label="Delete"
           />,
           <GridActionsCellItem
@@ -187,10 +213,19 @@ const Trabajadores = () => {
         ],
       },
     ],
-    [deleteWorker, dataUpdate, dataQr, statusWorker]
+    [Modaldelete, dataUpdate, dataQr, statusWorker]
   );
+  function CustomNoRowsOverlay() {
+    return <>{NotRows === false && <CustomNoRows />}</>;
+  }
   return (
     <>
+      <ModalDelete
+        open={openMD}
+        handleClose={handleCloseMD}
+        dataDelete={dataDelete}
+        deleteWorker={deleteWorker}
+      />
       <Modal
         open={open}
         onClose={handleClose}
@@ -214,6 +249,7 @@ const Trabajadores = () => {
               border: "2px solid #000",
               boxShadow: 24,
               p: 4,
+              height: "620px",
             }}
           >
             <ViewQr dataQr={Qrdata} />
@@ -238,7 +274,10 @@ const Trabajadores = () => {
       </Box>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
-          components={{ Toolbar: GridToolbar }}
+          components={{
+            Toolbar: GridToolbar,
+            NoRowsOverlay: CustomNoRowsOverlay,
+          }}
           rows={rows}
           columns={columns}
           pageSize={5}

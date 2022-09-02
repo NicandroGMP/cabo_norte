@@ -19,13 +19,19 @@ import {
 } from "shared/constants/ActionTypes";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import ModalDelete from "./components/ModalDelete";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import PersonOffIcon from "@mui/icons-material/PersonOff";
 import PersonIcon from "@mui/icons-material/Person";
+import CustomNoRows from "./components/CustomNoRows";
+
 const Proveedores = () => {
+  const [open, setOpen] = useState(false);
+  const [dataDelete, setDataDelete] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [rows, setrows] = useState([]);
+  const [NotRows, setNotRows] = useState(true);
 
   const dataUpdate = useCallback((datas) => () => {
     const data = datas.row;
@@ -37,19 +43,20 @@ const Proveedores = () => {
   });
 
   useEffect(() => {
-    dispatch({ type: FETCH_START });
-    try {
-      jwtAxios.get("/providers").then((res) => {
-        setrows(res.data.providers);
-        console.log(res.data.providers);
-        dispatch({ type: FETCH_SUCCESS });
-      });
-    } catch (error) {
-      dispatch({
-        type: FETCH_ERROR,
-        payload: error?.response?.data?.error || "Error de Servidor",
-      });
-    }
+    const getProviders = () => {
+      dispatch({ type: FETCH_START });
+      jwtAxios
+        .get("/providers")
+        .then((res) => {
+          setrows(res.data.providers);
+          dispatch({ type: FETCH_SUCCESS });
+        })
+        .catch(() => {
+          setNotRows(false);
+          dispatch({ type: FETCH_SUCCESS });
+        });
+    };
+    getProviders();
   }, []);
 
   const deleteWorker = useCallback(
@@ -104,7 +111,38 @@ const Proveedores = () => {
       },
     []
   );
+  const Modaldelete = useCallback(
+    (data) => () => {
+      setOpen(true);
+      setDataDelete(data);
+    },
+    []
+  );
 
+  const handleClose = () => setOpen(false);
+  const deleteProvider = async () => {
+    const id = dataDelete.id;
+    console.log(id);
+    dispatch({ type: FETCH_START });
+
+    try {
+      const { data } = await jwtAxios.post("/providers/delete", {
+        id,
+      });
+      setTimeout(() => {
+        setrows((prevRows) => prevRows.filter((row) => row.id !== id));
+      });
+      setOpen(false);
+      dispatch({ type: FETCH_SUCCESS });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: FETCH_ERROR,
+        payload:
+          error?.response?.data?.error || "Error al eliminar el proveedor",
+      });
+    }
+  };
   const columns = useMemo(
     () => [
       { field: "name", headerName: "Nombre", width: 200 },
@@ -137,7 +175,7 @@ const Proveedores = () => {
           />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
-            onClick={deleteWorker(params.id)}
+            onClick={Modaldelete({ id: params.id, name: params.row.name })}
             label="Delete"
           />,
           <GridActionsCellItem
@@ -165,10 +203,19 @@ const Proveedores = () => {
         ],
       },
     ],
-    [deleteWorker, dataUpdate, statusProvider /* dataQr */]
+    [Modaldelete, dataUpdate, statusProvider /* dataQr */]
   );
+  function CustomNoRowsOverlay() {
+    return <>{NotRows === false && <CustomNoRows />}</>;
+  }
   return (
     <>
+      <ModalDelete
+        open={open}
+        handleClose={handleClose}
+        dataDelete={dataDelete}
+        deleteProvider={deleteProvider}
+      />
       <Box
         sx={{
           borderBottom: 1,
@@ -187,7 +234,10 @@ const Proveedores = () => {
       </Box>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
-          components={{ Toolbar: GridToolbar }}
+          components={{
+            Toolbar: GridToolbar,
+            NoRowsOverlay: CustomNoRowsOverlay,
+          }}
           rows={rows}
           columns={columns}
           pageSize={5}

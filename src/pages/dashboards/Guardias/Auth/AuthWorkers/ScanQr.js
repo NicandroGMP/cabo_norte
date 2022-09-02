@@ -19,10 +19,7 @@ const ScanQr = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [dataSearch, setDataSearch] = useState(null);
-  const [resultSearch, setResultSearch] = useState(false);
-  const [statusWorker, setStatusWorker] = useState(false);
-  const [buttonExit, setButtonExit] = useState(false);
-  const [idWorker, setIdWorker] = useState("");
+  const [entryWorkerExist, setEntryWorkerExist] = useState(false);
   useEffect(() => {
     console.log(data);
   }, []);
@@ -55,6 +52,9 @@ const ScanQr = (props) => {
               try {
                 jwtAxios.get("/workers/scanQr/" + result?.text).then((res) => {
                   setDataSearch(res.data.worker);
+                  if (res.data.stateExit.length > 0) {
+                    setEntryWorkerExist(true);
+                  }
                   dispatch({ type: FETCH_SUCCESS });
                 });
               } catch (error) {
@@ -79,9 +79,7 @@ const ScanQr = (props) => {
         <>
           <InfWorker
             dataWorker={dataSearch}
-            idWorker={idWorker}
-            statusWorker={statusWorker}
-            setButton={buttonExit}
+            workerRegister={entryWorkerExist}
           />
         </>
       )}

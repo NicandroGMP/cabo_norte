@@ -98,8 +98,6 @@ const Cones = () => {
   const inputimage = async (props) => {
     const [fileName] = props.target.files;
     setFileName(props.target.files[0]);
-    console.log(props.target.files[0]);
-    console.log(fileName);
     setImageUrl(URL.createObjectURL(fileName));
   };
 
@@ -121,29 +119,15 @@ const Cones = () => {
   };
 
   const addToBitacora = async () => {
-    /*  const dataArray = new FormData();
-    dataArray.append("filename", "dasdasd");
-    dataArray.append("uploadFile", file);
-    console.log(dataArray);
-    console.log(file.name);
+    const fechaGmt = +new Date();
 
-    const config = {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    };
-    const { data } = await jwtAxios.post(
-      "/bitacoraProviders/upload",
-      dataArray,
-      config
-    ); */
     const [dataInsert] = currentprovider;
     const name = dataInsert.name;
     const work = dataInsert.job;
     const service = dataInsert.service;
     const register_num = dataInsert.register_number;
     const num_cone = currentCone;
-    const identification = file.name;
+    const identification = fechaGmt + file.name;
     dispatch({ type: FETCH_START });
     try {
       const { data } = await jwtAxios.post("/bitacoraProviders/register", {
@@ -159,8 +143,21 @@ const Cones = () => {
         provider,
         register_num,
       });
-      messageSuccess(data.message);
-      setOpenAlert(true);
+      const dataArray = new FormData();
+      dataArray.append("filename", fechaGmt + file.name);
+      dataArray.append("uploadFile", file);
+
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      const { upload } = await jwtAxios.post(
+        "/bitacoraProviders/upload",
+        dataArray,
+        config
+      );
+      console.log(upload);
       navigate("/guardias/bitacora_proveedores");
       dispatch({ type: FETCH_SUCCESS });
     } catch (error) {
@@ -230,8 +227,12 @@ const Cones = () => {
               border: "2px solid #000",
               boxShadow: 24,
               p: 4,
+              textAlign: "center",
             }}
           >
+            <Box>
+              <h1>Agregar identificacion</h1>
+            </Box>
             <Stack
               direction="row"
               alignItems="center"
@@ -245,7 +246,10 @@ const Cones = () => {
                     <>
                       {openContentImg === false && (
                         <img
-                          src={"/assets/images/" + provider_inf.identification}
+                          src={
+                            "http://localhost/cabo_norte_api_rest/public/uploads/" +
+                            provider_inf.identification
+                          }
                         />
                       )}
                     </>
@@ -262,7 +266,7 @@ const Cones = () => {
                       margin: "auto",
                     }}
                   >
-                    Upload
+                    Subir Imagen
                     <input
                       name="image"
                       onChange={inputimage}
@@ -326,37 +330,46 @@ const Cones = () => {
           width: "100%",
         }}
       >
-        <Box sx={{ flexGrow: 1, margin: "auto", width: "50%" }}>
-          <Grid container spacing={1}>
-            <Grid container item spacing={3}>
-              {rows.map((cones) => {
-                return (
-                  <Grid item xs={2}>
-                    <Item
-                      sx={{
-                        width: "80px",
-                        height: "80px",
-                        cursor: "pointer",
-                        background: `${
-                          cones.status == 1 ? "#3D9E22" : "#EC2506"
-                        }`,
-                        color: "white",
-                        display: "flex",
-                        alignContent: "center",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                      }}
-                      onClick={selectCone}
-                      provider={
-                        cones.register_number ? cones.register_number : "null"
-                      }
-                    >
-                      {cones.num_cone}
-                    </Item>
-                  </Grid>
-                );
-              })}
-            </Grid>
+        <Box
+          sx={{
+            flexGrow: 1,
+            margin: "auto",
+            width: "70%",
+          }}
+          maxWidth="sm"
+        >
+          <Grid
+            container
+            spacing={{ sm: 2, md: 2, xs: 2 }}
+            columns={{ sm: 20, xs: 20, md: 50 }}
+          >
+            {rows.map((cones) => {
+              return (
+                <Grid item xs={4} md={10} sm={4}>
+                  <Item
+                    sx={{
+                      height: 80,
+                      width: 80,
+                      cursor: "pointer",
+                      background: `${
+                        cones.status == 1 ? "#3D9E22" : "#EC2506"
+                      }`,
+                      color: "white",
+                      display: "flex",
+                      alignContent: "center",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                    onClick={selectCone}
+                    provider={
+                      cones.register_number ? cones.register_number : "null"
+                    }
+                  >
+                    {cones.num_cone}
+                  </Item>
+                </Grid>
+              );
+            })}
           </Grid>
         </Box>
       </div>

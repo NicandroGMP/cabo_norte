@@ -16,6 +16,7 @@ import AppInfoView from "@crema/core/AppInfoView";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import PersonOffIcon from "@mui/icons-material/PersonOff";
 import PersonIcon from "@mui/icons-material/Person";
+import CustomNoRows from "./components/CustomNoRows";
 import ModalDelete from "./components/ModalDelete";
 
 const Guardias = () => {
@@ -24,6 +25,8 @@ const Guardias = () => {
   const [rows, setrows] = useState([]);
   const [open, setOpen] = useState(false);
   const [dataDelete, setDataDelete] = useState([]);
+  const [NotRows, setNotRows] = useState(true);
+
   const dataUpdate = useCallback((datas) => () => {
     const data = datas.row;
     console.log(data);
@@ -36,19 +39,20 @@ const Guardias = () => {
     navigate("/guardias/edit");
   });
   useEffect(() => {
-    dispatch({ type: FETCH_START });
-    try {
-      jwtAxios.get("/guards").then((res) => {
-        setrows(res.data.guards);
-        console.log(res.data.guards);
-        dispatch({ type: FETCH_SUCCESS });
-      });
-    } catch (error) {
-      dispatch({
-        type: FETCH_ERROR,
-        payload: error?.response?.data?.error || "Error al Registrar",
-      });
-    }
+    const getGuards = () => {
+      dispatch({ type: FETCH_START });
+      jwtAxios
+        .get("/guards")
+        .then((res) => {
+          setrows(res.data.guards);
+          dispatch({ type: FETCH_SUCCESS });
+        })
+        .catch(() => {
+          setNotRows(false);
+          dispatch({ type: FETCH_SUCCESS });
+        });
+    };
+    getGuards();
   }, []);
 
   const Modaldelete = useCallback(
@@ -177,6 +181,9 @@ const Guardias = () => {
     ],
     [Modaldelete, dataUpdate, statusGuards]
   );
+  function CustomNoRowsOverlay() {
+    return <>{NotRows === false && <CustomNoRows />}</>;
+  }
   return (
     <>
       <ModalDelete
@@ -210,7 +217,10 @@ const Guardias = () => {
           disableColumnFilter
           disableColumnSelector
           disableDensitySelector
-          components={{ Toolbar: GridToolbar }}
+          components={{
+            Toolbar: GridToolbar,
+            NoRowsOverlay: CustomNoRowsOverlay,
+          }}
           componentsProps={{
             toolbar: {
               showQuickFilter: true,

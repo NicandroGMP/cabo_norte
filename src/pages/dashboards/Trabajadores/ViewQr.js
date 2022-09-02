@@ -8,9 +8,9 @@ const ViewQr = ({ props, dataQr = [] }) => {
   const componentRef = useRef();
   return (
     <>
-      <div style={{ margin: "auto" }}>
-        <Box>
-          <div style={{ textAlign: "center" }}>
+      <div style={{ margin: "auto", height: "100%" }}>
+        <Box sx={{ height: "100%" }}>
+          <div style={{ textAlign: "center", height: "100%" }}>
             <QrCode Qr={dataQr} ref={componentRef} />
             <ReactToPrint
               trigger={() => (

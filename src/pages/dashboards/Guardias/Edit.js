@@ -3,9 +3,7 @@ import { Box, Button } from "@mui/material";
 import { Form, Formik } from "formik";
 import IntlMessages from "@crema/utility/IntlMessages";
 import AppTextField from "@crema/core/AppFormComponents/AppTextField";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
+import { useNavigate } from "react-router-dom";
 import MuiAlert from "@mui/material/Alert";
 import { Snackbar } from "@mui/material";
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -36,6 +34,7 @@ const validationSchema = yup.object({
 });
 
 const formEdit = () => {
+  const navigate = useNavigate();
   useEffect(() => {
     const id = localStorage.getItem("dataid");
     const id_guard = localStorage.getItem("dataid_guard");
@@ -289,6 +288,9 @@ const formEdit = () => {
                           fontSize: 16,
                           textTransform: "capitalize",
                           padding: "4px 16px 8px",
+                        }}
+                        onClick={() => {
+                          navigate("/guardias");
                         }}
                       >
                         <IntlMessages id="Regresar" />

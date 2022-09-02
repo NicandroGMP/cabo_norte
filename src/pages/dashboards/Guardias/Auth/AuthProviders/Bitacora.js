@@ -23,6 +23,8 @@ import ViewIdentification from "./components/ViewIdentification";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Backdrop from "@mui/material/Backdrop";
+import CustomNoRows from "./components/CustomNoRows";
+import { useAuthUser } from "@crema/utility/AuthHooks";
 
 const Bitacora = () => {
   const dispatch = useDispatch();
@@ -32,42 +34,39 @@ const Bitacora = () => {
   const [completeRegister, setCompleteRegister] = useState(null);
   const [totalRegister, setTotalRegister] = useState(null);
   const [value, setValue] = useState(new Date());
-
+  const [NotRows, setNotRows] = useState(true);
   const [open, setOpen] = useState(false);
   const [dataIde, setDataIde] = useState([]);
-
+  const { user } = useAuthUser();
   useEffect(() => {
-    console.log(value);
-    dispatch({ type: FETCH_START });
-    try {
-      jwtAxios
-        .get("/bitacoraProviders/" + moment(value).format("Y-MM-DD"))
-        .then((res) => {
-          setrows(res.data.bitacora);
-          console.log(res.data);
-          setCompleteRegister(res.data.success_entry);
-          setTotalRegister(res.data.total_provider);
-          setDontExit(res.data.dontExit.dontExit);
-          dispatch({ type: FETCH_SUCCESS });
-        });
-    } catch (error) {
-      dispatch({
-        type: FETCH_ERROR,
-        payload: error?.response?.data?.error || "Error de Servidor",
-      });
-    }
+    getBitacora();
+
+    const interval = setInterval(() => {
+      getBitacora();
+    }, 30000);
+
+    return () => clearInterval(interval);
   }, [value]);
 
-  const deleteWorker = useCallback(
-    (id) => () => {
-      console.log(id);
-    },
-    []
-  );
+  const getBitacora = () => {
+    dispatch({ type: FETCH_START });
+    jwtAxios
+      .get("/bitacoraProviders/" + moment(value).format("Y-MM-DD"))
+      .then((res) => {
+        setrows(res.data.bitacora);
+        setCompleteRegister(res.data.success_entry);
+        setTotalRegister(res.data.total_provider);
+        setDontExit(res.data.dontExit.dontExit);
+        dispatch({ type: FETCH_SUCCESS });
+      })
+      .catch(() => {
+        setNotRows(false);
+        dispatch({ type: FETCH_SUCCESS });
+      });
+  };
 
   const dataIdentification = useCallback(
     (data) => () => {
-      console.log(data);
       setOpen(true);
       setDataIde(data);
       /* localStorage.setItem("dataQr", number);
@@ -100,6 +99,9 @@ const Bitacora = () => {
     ],
     [dataIdentification]
   );
+  function CustomNoRowsOverlay() {
+    return <>{NotRows === false && <CustomNoRows />}</>;
+  }
   return (
     <>
       <Modal
@@ -132,22 +134,24 @@ const Bitacora = () => {
         </Fade>
       </Modal>
       <Box sx={{ mb: 9, mt: 5 }}>
-        <Button
-          onClick={() => navigate("/guardias/home")}
-          variant="contained"
-          color="secondary"
-          type="button"
-          sx={{
-            mx: 5,
-            minWidth: 160,
-            fontWeight: 500,
-            fontSize: 16,
-            textTransform: "capitalize",
-            padding: "4px 16px 8px",
-          }}
-        >
-          <IntlMessages id="Regresar" />
-        </Button>
+        {user.role === "guardia" && (
+          <Button
+            onClick={() => navigate("/guardias/home")}
+            variant="contained"
+            color="secondary"
+            type="button"
+            sx={{
+              mx: 5,
+              minWidth: 160,
+              fontWeight: 500,
+              fontSize: 16,
+              textTransform: "capitalize",
+              padding: "4px 16px 8px",
+            }}
+          >
+            <IntlMessages id="Regresar" />
+          </Button>
+        )}
       </Box>
       <Box sx={{ mb: 8, mt: 5 }}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -184,7 +188,10 @@ const Bitacora = () => {
       </Box>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
-          components={{ Toolbar: GridToolbar }}
+          components={{
+            Toolbar: GridToolbar,
+            NoRowsOverlay: CustomNoRowsOverlay,
+          }}
           rows={rows}
           columns={columns}
           pageSize={5}

@@ -62,9 +62,9 @@ const ListServices = () => {
 
   const columns = useMemo(
     () => [
-      { field: "job", headerName: "Obra", width: 200 },
+      { field: "job", headerName: "Subcondominio", width: 120 },
       { field: "name", headerName: "Nombre", width: 200 },
-      { field: "service", headerName: "Servicio", width: 600 },
+      { field: "service", headerName: "Servicio", width: 200 },
       {
         field: "actions",
         type: "actions",

@@ -15,10 +15,11 @@ import {
 
 import jwtAxios from "@crema/services/auth/jwt-auth";
 
-const Guardias = () => {
+const Guardias = (children) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [resultSearch, setResultSearch] = useState();
+  const [entryWorkerExist, setEntryWorkerExist] = useState(false);
   const [dataSearch, setDataSearch] = useState(null);
 
   const Search = async ({ search }) => {
@@ -28,6 +29,10 @@ const Guardias = () => {
       const { data } = await jwtAxios.post("/workers/search", {
         search,
       });
+      if (data.stateExit.length > 0) {
+        setEntryWorkerExist(true);
+      }
+
       setDataSearch(data.worker);
       setResultSearch(true);
 
@@ -150,7 +155,10 @@ const Guardias = () => {
           {resultSearch === false && <WorkerError />}
           {dataSearch !== null && (
             <>
-              <InfWorker dataWorker={dataSearch} />
+              <InfWorker
+                dataWorker={dataSearch}
+                workerRegister={entryWorkerExist}
+              />
             </>
           )}
         </Box>

@@ -45,10 +45,11 @@ const InfWorker = (props) => {
       messageSuccess(data.message);
       setOpen(true);
       dispatch({ type: FETCH_SUCCESS });
+      navigate("/guardias/bitacora_trabajadores");
     } catch (error) {
       dispatch({
         type: FETCH_ERROR,
-        payload: error?.response?.data?.error || "Error al Registrar",
+        payload: error?.response?.data?.error || "Error al Registrar Salida",
       });
     }
   };

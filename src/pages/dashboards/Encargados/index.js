@@ -46,7 +46,6 @@ const Encargados = () => {
         .get("/managers")
         .then((res) => {
           setrows(res.data.managers);
-          console.log(res.data.managers);
           dispatch({ type: FETCH_SUCCESS });
         })
         .catch(() => {

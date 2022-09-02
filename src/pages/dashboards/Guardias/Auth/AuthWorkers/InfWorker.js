@@ -4,7 +4,8 @@ import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import MuiAlert from "@mui/material/Alert";
-
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
 import Card from "@mui/material/Card";
 import {
   FETCH_ERROR,
@@ -22,7 +23,6 @@ const InfWorker = (props) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [dataBitacora, setDataBitacora] = useState(props.dataWorker);
-
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -58,6 +58,7 @@ const InfWorker = (props) => {
       messageSuccess(data.message);
       setOpen(true);
       dispatch({ type: FETCH_SUCCESS });
+      navigate("/guardias/bitacora_trabajadores");
     } catch (error) {
       dispatch({
         type: FETCH_ERROR,
@@ -65,7 +66,7 @@ const InfWorker = (props) => {
       });
     }
   };
-  const insertExitWorker = async () => {
+  /*  const insertExitWorker = async () => {
     dispatch({ type: FETCH_START });
     try {
       const { data } = await jwtAxios.post("/bitacora/update", {
@@ -81,7 +82,7 @@ const InfWorker = (props) => {
       });
     }
   };
-
+ */
   return (
     <>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
@@ -279,22 +280,38 @@ const InfWorker = (props) => {
             );
           })}
         </Box>
-
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={addToBitacora}
-          type="submit"
-          sx={{
-            minWidth: 100,
-            fontWeight: 500,
-            fontSize: 16,
-            textTransform: "capitalize",
-            padding: "4px 16px 8px",
-          }}
-        >
-          Registrar Entrada
-        </Button>
+        {props.workerRegister === true && (
+          <Box>
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{ justifyContent: "center" }}
+            >
+              <Chip
+                label="El trabajador ya ha sido Registrado el día de hoy "
+                color="secondary"
+                variant="outlined"
+              />
+            </Stack>
+          </Box>
+        )}
+        {props.workerRegister === false && (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={addToBitacora}
+            type="submit"
+            sx={{
+              minWidth: 100,
+              fontWeight: 500,
+              fontSize: 16,
+              textTransform: "capitalize",
+              padding: "4px 16px 8px",
+            }}
+          >
+            Registrar Entrada
+          </Button>
+        )}
       </Box>
     </>
   );

@@ -232,6 +232,7 @@ const FormRegister = () => {
                       sx={{
                         width: "100%",
                       }}
+                      disabled
                       name="work"
                     >
                       <MenuItem disabled value="">
@@ -239,7 +240,7 @@ const FormRegister = () => {
                       </MenuItem>
                       {works.map((work) => {
                         return (
-                          <MenuItem key={work.id} value={work.id}>
+                          <MenuItem disabled key={work.id} value={work.id}>
                             {work.job + " " + work.batch}
                           </MenuItem>
                         );
@@ -251,6 +252,7 @@ const FormRegister = () => {
                       Encargado
                     </InputLabel>
                     <Select
+                      disabled
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       value={manager}
@@ -267,6 +269,7 @@ const FormRegister = () => {
                       {managers.map((manager) => {
                         return (
                           <MenuItem
+                            disabled
                             key={manager.manager_id}
                             value={manager.manager_id}
                           >

@@ -16,6 +16,7 @@ import ModalDelete from "./components/ModalDelete";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import PersonOffIcon from "@mui/icons-material/PersonOff";
 import PersonIcon from "@mui/icons-material/Person";
+import CustomNoRows from "./components/CustomNoRows";
 
 const Obras = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const Obras = () => {
   const [rows, setrows] = useState([]);
   const [open, setOpen] = useState(false);
   const [dataDelete, setDataDelete] = useState([]);
+  const [NotRows, setNotRows] = useState(true);
 
   const dataUpdate = useCallback((datas) => () => {
     const data = datas.row;
@@ -33,18 +35,20 @@ const Obras = () => {
     navigate("/obras/edit");
   });
   useEffect(() => {
-    dispatch({ type: FETCH_START });
-    try {
-      jwtAxios.get("/works").then((res) => {
-        setrows(res.data.works);
-        dispatch({ type: FETCH_SUCCESS });
-      });
-    } catch (error) {
-      dispatch({
-        type: FETCH_ERROR,
-        payload: error?.response?.data?.error || "Error de Servidor",
-      });
-    }
+    const getWorks = () => {
+      dispatch({ type: FETCH_START });
+      jwtAxios
+        .get("/works")
+        .then((res) => {
+          setrows(res.data.works);
+          dispatch({ type: FETCH_SUCCESS });
+        })
+        .catch(() => {
+          setNotRows(false);
+          dispatch({ type: FETCH_SUCCESS });
+        });
+    };
+    getWorks();
   }, []);
 
   const Modaldelete = useCallback(
@@ -170,6 +174,9 @@ const Obras = () => {
     ],
     [Modaldelete, dataUpdate, statusWorks]
   );
+  function CustomNoRowsOverlay() {
+    return <>{NotRows === false && <CustomNoRows />}</>;
+  }
   return (
     <>
       <ModalDelete
@@ -196,7 +203,10 @@ const Obras = () => {
       </Box>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
-          components={{ Toolbar: GridToolbar }}
+          components={{
+            Toolbar: GridToolbar,
+            NoRowsOverlay: CustomNoRowsOverlay,
+          }}
           rows={rows}
           columns={columns}
           pageSize={5}

@@ -9,13 +9,9 @@ import React, {
 import PropTypes from "prop-types";
 import { Box, Button } from "@mui/material";
 import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+import Divider from "@mui/material/Divider";
 
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import PersonAddDisabledIcon from "@mui/icons-material/PersonAddDisabled";
-import AppInfoView from "@crema/core/AppInfoView";
 
 import SelectWorkProvider from "./AuthProviders/selectWorkProvider";
 
@@ -40,10 +36,14 @@ const GuardHome = () => {
             }}
           >
             <Button
-              color="primary"
               onClick={workersLink}
               variant="contained"
-              sx={{ height: "100px", width: "320px", fontSize: "1.5rem" }}
+              sx={{
+                height: "100px",
+                width: "320px",
+                fontSize: "1.5rem",
+                background: "#ab47bc",
+              }}
             >
               Entradas Trabajadores
             </Button>
@@ -57,10 +57,15 @@ const GuardHome = () => {
             }}
           >
             <Button
-              color="primary"
+              color="secondary"
               onClick={() => navigate("/guardias/salidas/trabajadores")}
               variant="contained"
-              sx={{ height: "100px", width: "320px", fontSize: "1.5rem" }}
+              sx={{
+                height: "100px",
+                width: "320px",
+                fontSize: "1.5rem",
+                background: "#ab47bc",
+              }}
             >
               Salidas Trabajadores
             </Button>
@@ -69,6 +74,29 @@ const GuardHome = () => {
             sx={{
               width: "50%",
               margin: "auto",
+              textAlign: "center",
+              height: "150px",
+            }}
+          >
+            <Button
+              onClick={() => {
+                navigate("/guardias/bitacora_trabajadores");
+              }}
+              variant="contained"
+              sx={{
+                height: "100px",
+                width: "320px",
+                fontSize: "1.5rem",
+                background: "#ab47bc",
+              }}
+            >
+              Bitacora Trabajadores
+            </Button>
+          </Box>
+          <Divider />
+          <Box
+            sx={{
+              mt: 10,
               textAlign: "center",
               height: "150px",
             }}
@@ -97,6 +125,29 @@ const GuardHome = () => {
               sx={{ height: "100px", width: "320px", fontSize: "1.5rem" }}
             >
               Salida Proveedores
+            </Button>
+          </Box>
+          <Box
+            sx={{
+              width: "50%",
+              margin: "auto",
+              textAlign: "center",
+              height: "150px",
+            }}
+          >
+            <Button
+              color="primary"
+              onClick={() => {
+                navigate("/guardias/bitacora_proveedores");
+              }}
+              variant="contained"
+              sx={{
+                height: "100px",
+                width: "320px",
+                fontSize: "1.5rem",
+              }}
+            >
+              Bitacora Proveedores
             </Button>
           </Box>
         </Box>

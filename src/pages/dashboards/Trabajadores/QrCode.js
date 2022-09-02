@@ -17,7 +17,6 @@ const QrCode = forwardRef((props, ref) => {
         ref={ref}
         style={{
           background: "white",
-          padding: "16px",
           display: "block",
           textAlign: "center",
         }}
@@ -28,11 +27,12 @@ const QrCode = forwardRef((props, ref) => {
             <>
               <Box
                 sx={{
-                  width: "50%",
-                  height: "500px",
+                  width: "330px",
                   alignItems: "center",
                   margin: "auto",
                   position: "relative",
+                  height: "100%",
+                  marginTop: "25px",
                 }}
               >
                 <img src={Logo} alt="logo" />
@@ -72,10 +72,13 @@ const QrCode = forwardRef((props, ref) => {
                       marginLeft: "5px",
                     }}
                   >
-                    <h4>Nombre:{data.register_number}</h4>
+                    <h4>Nombre:{data.fullname}</h4>
                     <h4>Empresa:{data.company}</h4>
                     <h4>Subcondominio:{data.job}</h4>
                     <h4>Puesto:{data.position}</h4>
+                    <h4 style={{ marginLeft: "160px" }}>
+                      Matricula:{data.register_number}
+                    </h4>
                   </Box>
                 </Box>
                 {/*  <Box

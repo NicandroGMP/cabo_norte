@@ -26,13 +26,18 @@ const Identification = forwardRef((props, ref) => {
               <Box
                 sx={{
                   width: "50%",
-                  height: "500px",
+                  height: "300px",
                   alignItems: "center",
                   margin: "auto",
                   position: "relative",
                 }}
               >
-                <img src={"/assets/images/" + data.identification} />
+                <img
+                  src={
+                    "http://localhost/cabo_norte_api_rest/public/uploads/" +
+                    data.identification
+                  }
+                />
               </Box>
             </>
           );

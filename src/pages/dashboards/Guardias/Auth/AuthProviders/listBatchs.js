@@ -47,12 +47,13 @@ const ListBatch = () => {
 
   const columns = useMemo(
     () => [
-      { field: "job", headerName: "Subcondominio", width: 400 },
-      { field: "batch", headerName: "Lote", width: 800 },
+      { field: "job", headerName: "Subcondominio", width: 200 },
+      { field: "batch", headerName: "Lote", width: 200 },
       {
         field: "actions",
         type: "actions",
-        headerName: "Actions",
+        width: 300,
+        headerName: "Seleccionar Subcondominio y Lote",
         getActions: (params) => [
           <GridActionsCellItem
             icon={<KeyboardDoubleArrowRightIcon />}

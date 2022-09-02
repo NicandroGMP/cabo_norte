@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, IconButton } from "@mui/material";
 import { Form, Formik } from "formik";
 import IntlMessages from "@crema/utility/IntlMessages";
 import AppTextField from "@crema/core/AppFormComponents/AppTextField";
@@ -8,6 +8,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import MuiAlert from "@mui/material/Alert";
 import { Snackbar } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -21,7 +23,7 @@ import {
 } from "shared/constants/ActionTypes";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
-
+import { useNavigate } from "react-router-dom";
 const validationSchema = yup.object({
   name: yup.string().required(<IntlMessages id="validation.nameRequired" />),
   lastname: yup
@@ -44,6 +46,7 @@ const validationSchemaPass = yup.object({
 });
 
 const formEdit = () => {
+  const navigate = useNavigate();
   useEffect(() => {
     const id = localStorage.getItem("dataid");
     const id_manager = localStorage.getItem("dataid_manager");
@@ -75,7 +78,7 @@ const formEdit = () => {
   const [message, messageSuccess] = useState(null);
   const [works, setWorks] = useState([]);
   const [open, setOpen] = useState(false);
-
+  const [TypePass, setTypePass] = useState("password");
   const handleChange = (event) => {
     setWork(event.target.value);
     console.log(event.target.value);
@@ -370,6 +373,7 @@ const formEdit = () => {
                           textTransform: "capitalize",
                           padding: "4px 16px 8px",
                         }}
+                        onClick={() => navigate("/encargados")}
                       >
                         <IntlMessages id="Regresar" />
                       </Button>
@@ -401,7 +405,7 @@ const formEdit = () => {
         {dataUpdate.map((dataEdit) => {
           return (
             <>
-              <Box sx={{ mb: { xs: 5, xl: 8 }, width: "80%" }}>
+              <Box sx={{ mt: 10, mb: { xs: 5, xl: 8 }, width: "80%" }}>
                 <h1>Cambiar contraseña {dataEdit.name}</h1>
               </Box>
               <Box>
@@ -437,17 +441,19 @@ const formEdit = () => {
                       noValidate
                       autoComplete="off"
                     >
-                      <div style={{ width: "100%", display: "flex" }}>
+                      <div style={{ width: "100%" }}>
                         <Box
                           sx={{
                             mb: { xs: 5, xl: 8 },
-                            width: "50%",
+                            width: "100%",
                             padding: "10px",
+                            display: "flex",
                           }}
                         >
                           <Box
                             sx={{
                               mb: { xs: 4, lg: 6 },
+                              width: "40%",
                             }}
                           >
                             <AppTextField
@@ -457,13 +463,32 @@ const formEdit = () => {
                                 width: "100%",
                               }}
                               variant="outlined"
-                              type="password"
+                              type={TypePass}
+                              InputProps={{
+                                endAdornment: (
+                                  <IconButton
+                                    onClick={() =>
+                                      TypePass === "password"
+                                        ? setTypePass("text")
+                                        : setTypePass("password")
+                                    }
+                                  >
+                                    {TypePass === "password" ? (
+                                      <VisibilityIcon />
+                                    ) : (
+                                      <VisibilityOffIcon />
+                                    )}
+                                  </IconButton>
+                                ),
+                              }}
                             />
                           </Box>
 
                           <Box
                             sx={{
+                              width: "40%",
                               mb: { xs: 4, lg: 6 },
+                              ml: 5,
                             }}
                           >
                             <AppTextField
@@ -475,7 +500,24 @@ const formEdit = () => {
                                 width: "100%",
                               }}
                               variant="outlined"
-                              type="password"
+                              type={TypePass}
+                              InputProps={{
+                                endAdornment: (
+                                  <IconButton
+                                    onClick={() =>
+                                      TypePass === "password"
+                                        ? setTypePass("text")
+                                        : setTypePass("password")
+                                    }
+                                  >
+                                    {TypePass === "password" ? (
+                                      <VisibilityIcon />
+                                    ) : (
+                                      <VisibilityOffIcon />
+                                    )}
+                                  </IconButton>
+                                ),
+                              }}
                             />
                           </Box>
                         </Box>

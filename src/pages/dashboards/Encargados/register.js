@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, IconButton } from "@mui/material";
 import { Form, Formik } from "formik";
 import IntlMessages from "@crema/utility/IntlMessages";
 import AppTextField from "@crema/core/AppFormComponents/AppTextField";
@@ -19,7 +19,8 @@ import {
 } from "shared/constants/ActionTypes";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
-import { type } from "@testing-library/user-event/dist/type";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -49,7 +50,7 @@ const FormRegister = () => {
   const [message, messageSuccess] = useState(null);
   const [works, setWorks] = useState([]);
   const [open, setOpen] = useState(false);
-
+  const [TypePass, setTypePass] = useState("password");
   const [typeUser, setTypeUser] = useState("");
 
   const handleChange = (event) => {
@@ -258,9 +259,9 @@ const FormRegister = () => {
                 >
                   <Box sx={{ mb: { xs: 5, xl: 8 } }}>
                     <AppTextField
-                      placeholder={"password"}
-                      name="password"
-                      label={<IntlMessages id="common.password" />}
+                      placeholder={"Usuario"}
+                      name="username"
+                      label={<IntlMessages id="Usuario" />}
                       variant="outlined"
                       sx={{
                         width: "100%",
@@ -276,15 +277,33 @@ const FormRegister = () => {
                 >
                   <Box sx={{ mb: { xs: 5, xl: 8 } }}>
                     <AppTextField
-                      placeholder={"Usuario"}
-                      name="username"
-                      label={<IntlMessages id="Usuario" />}
+                      placeholder={"password"}
+                      name="password"
+                      label={<IntlMessages id="common.password" />}
                       variant="outlined"
                       sx={{
                         width: "100%",
                         "& .MuiInputBase-input": {
                           fontSize: 14,
                         },
+                      }}
+                      type={TypePass}
+                      InputProps={{
+                        endAdornment: (
+                          <IconButton
+                            onClick={() =>
+                              TypePass === "password"
+                                ? setTypePass("text")
+                                : setTypePass("password")
+                            }
+                          >
+                            {TypePass === "password" ? (
+                              <VisibilityIcon />
+                            ) : (
+                              <VisibilityOffIcon />
+                            )}
+                          </IconButton>
+                        ),
                       }}
                     />
                   </Box>
