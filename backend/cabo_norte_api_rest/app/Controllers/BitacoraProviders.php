@@ -54,10 +54,10 @@ class BitacoraProviders extends BaseController
 
     public function UploadFileImages(){
         $name = $this->request->getPost("filename");
-        $name = $this->request->getFile("uploadFile");
-        var_dump($name);
+        $profile_img = $this->request->getFile("uploadFile");
+        $profile_img->move(WRITEPATH.'../public/uploads',$name);
         return $this->getResponse([
-            'message' => $name
+            'message' => "imagen subida",
         ]);
     }
     public function registerProvider(){

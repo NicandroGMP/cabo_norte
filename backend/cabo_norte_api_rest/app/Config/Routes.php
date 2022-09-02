@@ -76,21 +76,21 @@ $routes->get('/works/status/(:num)/(:hash)/', 'Works::statusUpdate/$1/$2');
 
 //routes workers crete,read,update,delete
 $routes->get('/workers', 'Workers::index');
+$routes->get('/workers/scanQr/(:hash)/', 'Workers::getWorkerScanByRegisterNumber/$1');
+$routes->get('/workers/status/(:num)/(:hash)/', 'Workers::statusUpdate/$1/$2');
 $routes->post('/workers/register', 'Workers::registerWorker');
 $routes->post('/workers/search', 'Workers::getWorkerSearchByRegisterNumber');
-$routes->get('/workers/scanQr/(:hash)/', 'Workers::getWorkerScanByRegisterNumber/$1');
 $routes->post('/workers/update', 'Workers::updateWorker');
 $routes->post('/workers/delete', 'Workers::deleteWorker');
-$routes->get('/workers/status/(:num)/(:hash)/', 'Workers::statusUpdate/$1/$2');
 //end routes workers crete,read,update,delete
 //routes workers crete,read,update,delete
 $routes->get('/providers', 'Providers::index');
 $routes->get('/provider/(:hash)/', 'Providers::searchServicesById/$1');
-$routes->get('/providers/services/(:hash)/', 'Providers::searchServicesByWorkId/$1');
+$routes->get('/providers/status/(:num)/(:hash)/', 'Providers::statusUpdate/$1/$2');
 $routes->get('/providers/scanQr/(:hash)/', 'Providers::getProviderScanByRegisterNumber/$1');
+$routes->get('/providers/services/(:hash)/', 'Providers::searchServicesByWorkId/$1');
 $routes->post('/providers/register', 'Providers::registerProvider');
 $routes->post('/providers/search', 'Providers::getProviderSearchByRegisterNumber');
-$routes->get('/providers/status/(:num)/(:hash)/', 'Providers::statusUpdate/$1/$2');
 $routes->post('/providers/update', 'Providers::updateProvider');
 $routes->post('/providers/delete', 'Providers::deleteProvider');
 
@@ -116,8 +116,6 @@ $routes->post('/bitacoraProviders/update', 'BitacoraProviders::registerExitProvi
 $routes->get('/cones', 'Cones::index');
 $routes->post('/cones/search', 'Cones::SearchConeById');
 $routes->post('/cones/register', 'Cones::ocuppiedCones');
-$routes->post('/cones/update', 'BitacoraWorkers::registerExitWorker');
-$routes->post('/cones/delete', 'BitacoraWorkers::deleteWorker');
 //end routes Cones crete,read,update,delete
 
 $routes->post('/bitacoraProviders/upload', 'BitacoraProviders::UploadFileImages');

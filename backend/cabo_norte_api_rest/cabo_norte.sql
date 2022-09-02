@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-08-2022 a las 00:16:01
+-- Tiempo de generación: 03-09-2022 a las 01:31:56
 -- Versión del servidor: 10.4.16-MariaDB
 -- Versión de PHP: 7.4.12
 
@@ -44,8 +44,8 @@ CREATE TABLE `accounts` (
 
 INSERT INTO `accounts` (`id`, `user_inf`, `type_user`, `username`, `password`, `status`, `updated_at`, `created_at`) VALUES
 (1, NULL, 'administrador', 'Admin', '$2y$10$jkBM8YkQ1XaTymoaaQD5.O/YAFOxt2/2fJjRDEG40poZUyIq3Bc1e', 'Habilitado', NULL, '2022-07-06 13:18:08'),
-(83, 87, 'encargado', 'AndrezHT', '$2y$10$MXAWIwnPk9Y2tJJmdRGIyOTEvDqLKSRrrBACzhfBgEAEnjCDlnu9S', 'Habilitado', NULL, '2022-08-26 16:14:07'),
-(84, 88, 'guardia', 'guardia', '$2y$10$wEyvnbnyam946qSc0.k9fuRrj6cqFTXEWOuhgHLUcQo3Ql.sHGhPK', 'Habilitado', NULL, '2022-08-26 16:14:38');
+(86, 90, 'guardia', 'gr', '$2y$10$rvJ2N8VupaJZJOmvOE1RxeKCvZCoRSEqf8.K/pnh2PPkJi3gDnPba', 'Habilitado', NULL, '2022-09-01 17:37:40'),
+(88, 92, 'encargado', 'Gama', '$2y$10$S12K.AZJywWUktZ3eHL3t.BHoYv1ALC4dshLr6AE5FJwDR3Y1jFM.', 'Habilitado', NULL, '2022-09-01 21:07:21');
 
 -- --------------------------------------------------------
 
@@ -70,7 +70,9 @@ CREATE TABLE `bitacora_providers` (
 --
 
 INSERT INTO `bitacora_providers` (`id`, `num_provider`, `name`, `work`, `service`, `num_cone`, `entry_provider`, `exit_provider`, `identification`) VALUES
-(16, 'SCK60J', 'materiales ea', 'armura 5', 'proveedro de materiales', '1', '2022-08-26 16:21:19', '2022-08-26 16:21:41', '58818523.png');
+(21, 'SCK60J', 'materiales ea', 'armura 5', 'proveedro de materiales', '1', '2022-08-30 22:21:53', NULL, 'descarga.jpg'),
+(22, 'ESRZHM', 'hjkhhk', 'armura 5', 'rytryt', '2', '2022-08-31 10:17:41', NULL, '1661959060731Ejma5EuXcAEIBMU.jpg'),
+(23, '94BC2Z', 'dasd1', 'armura 5', 'ddaasd', '1', '2022-09-01 15:44:25', '2022-09-01 15:44:41', '1662065065444images.jpg');
 
 -- --------------------------------------------------------
 
@@ -96,7 +98,9 @@ CREATE TABLE `bitacora_workers` (
 
 INSERT INTO `bitacora_workers` (`id`, `register_number`, `fullname`, `company`, `manager`, `work`, `position`, `entry_worker`, `exit_worker`) VALUES
 (46, 'BVI53A', 'Jose  Martinez lopwz', 'dsadsad', 'Andrez martinez', 'armura 5', 'dasdd', '2022-08-26 16:18:39', '2022-08-26 16:19:09'),
-(47, '0SQOUN', 'Fernando Hernandez Hernandez', 'Limpezas Mr', 'Andrez martinez', 'armura 5', 'limpieza', '2022-08-26 16:26:35', '2022-08-26 16:27:09');
+(47, '0SQOUN', 'Fernando Hernandez Hernandez', 'Limpezas Mr', 'Andrez martinez', 'armura 5', 'limpieza', '2022-08-26 16:26:35', '2022-08-26 16:27:09'),
+(49, 'BVI53A', 'Jose  Martinez lopwz', 'dsadsad', 'Andrez martinez', 'armura 5', 'dasdd', '2022-08-30 19:17:50', '2022-08-30 19:18:06'),
+(50, 'BVI53A', 'Jose  Martinez lopwz', 'Ann', 'Andrez martinez', 'armura 5', 'Admin', '2022-09-01 15:35:12', '2022-09-01 15:35:31');
 
 -- --------------------------------------------------------
 
@@ -171,8 +175,9 @@ CREATE TABLE `managers` (
 --
 
 INSERT INTO `managers` (`id`, `manager_number`, `name`, `lastname`, `company`, `position`, `work`, `updated_at`, `created_at`) VALUES
-(87, 'KZ2TDX', 'Andrez', 'martinez', 'dasas', 'encargado', 35, NULL, '2022-08-26 16:14:07'),
-(88, '39O14A', 'guardia', 'martinezdada', 'dasd', 'dasdd', NULL, NULL, '2022-08-26 16:14:38');
+(90, '4PHW0I', 'nicandro', 'martinez', 'xzxsdasd', 'dasdsad', NULL, NULL, '2022-09-01 17:37:40'),
+(91, 'TOYEJS', 'nicandro', 'martinez', 'lñllñlñl', 'nnn', 36, NULL, '2022-09-01 17:39:55'),
+(92, '214QZB', 'nicandro', 'martinez', 'qweqwe', 'qweqwe', 36, NULL, '2022-09-01 21:07:21');
 
 -- --------------------------------------------------------
 
@@ -190,13 +195,6 @@ CREATE TABLE `providers` (
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `providers`
---
-
-INSERT INTO `providers` (`id`, `register_number`, `name`, `service`, `work`, `status`, `updated_at`, `created_at`) VALUES
-(6, 'SCK60J', 'materiales ea', 'proveedro de materiales', 35, 'Habilitado', NULL, '2022-08-26 16:16:37');
 
 -- --------------------------------------------------------
 
@@ -217,14 +215,6 @@ CREATE TABLE `workers` (
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `workers`
---
-
-INSERT INTO `workers` (`id`, `register_number`, `name`, `lastname`, `company`, `position`, `job`, `manager`, `status`, `updated_at`, `created_at`) VALUES
-(24, 'BVI53A', 'Jose ', 'Martinez lopwz', 'dsadsad', 'dasdd', 35, 87, 'Habilitado', NULL, '2022-08-26 16:16:05'),
-(25, '0SQOUN', 'Fernando', 'Hernandez Hernandez', 'Limpezas Mr', 'limpieza', 35, 87, 'Habilitado', NULL, '2022-08-26 16:24:49');
 
 -- --------------------------------------------------------
 
@@ -247,7 +237,7 @@ CREATE TABLE `works` (
 --
 
 INSERT INTO `works` (`id`, `job`, `batch`, `color`, `status`, `updated_at`, `created_at`) VALUES
-(35, 'armura', '5', '#fa0000', 'Habilitado', NULL, '2022-08-26 16:13:21');
+(36, 'jhkkk', 'kkjjkj', '#73ff00', 'Habilitado', NULL, '2022-09-01 17:39:34');
 
 --
 -- Índices para tablas volcadas
@@ -319,19 +309,19 @@ ALTER TABLE `works`
 -- AUTO_INCREMENT de la tabla `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT de la tabla `bitacora_providers`
 --
 ALTER TABLE `bitacora_providers`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `bitacora_workers`
 --
 ALTER TABLE `bitacora_workers`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT de la tabla `cones`
@@ -343,13 +333,13 @@ ALTER TABLE `cones`
 -- AUTO_INCREMENT de la tabla `managers`
 --
 ALTER TABLE `managers`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- AUTO_INCREMENT de la tabla `providers`
 --
 ALTER TABLE `providers`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `workers`
@@ -361,7 +351,7 @@ ALTER TABLE `workers`
 -- AUTO_INCREMENT de la tabla `works`
 --
 ALTER TABLE `works`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- Restricciones para tablas volcadas
@@ -377,7 +367,7 @@ ALTER TABLE `accounts`
 -- Filtros para la tabla `cones`
 --
 ALTER TABLE `cones`
-  ADD CONSTRAINT `cones_ibfk_1` FOREIGN KEY (`provider`) REFERENCES `providers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `cones_ibfk_1` FOREIGN KEY (`provider`) REFERENCES `providers` (`id`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `managers`
