@@ -77,40 +77,46 @@ const ProvidersIndex = () => {
       <div
         style={{
           marginTop: "20px",
-          width: "100%",
-          display: "grid",
-          gridTemplateColumns: " repeat(auto-fit, minmax(23rem, 1fr))",
         }}
       >
-        <Box sx={{ flexGrow: 1, margin: "auto", width: "80%" }}>
-          <Grid container spacing={1}>
-            <Grid container item spacing={1}>
-              {rows.map((work) => {
-                return (
-                  <Grid item xs={2}>
-                    <Item
-                      sx={{
-                        cursor: "pointer",
-                        width: "100px",
-                        height: "100px",
-                        display: "flex",
-                        alignContent: "center",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        background: `${work.color}`,
-                        color: "white",
-                        fontWeight: "700",
-                        fontSize: "1rem",
-                        wordBreak: "break-all",
-                      }}
-                      onClick={selectedWork}
-                    >
-                      {work.job}
-                    </Item>
-                  </Grid>
-                );
-              })}
-            </Grid>
+        <Box
+          sx={{
+            flexGrow: 1,
+            margin: "auto",
+            width: "100%",
+          }}
+          maxWidth="md"
+        >
+          <Grid
+            container
+            spacing={{ sm: 2, md: 2, xs: 2 }}
+            columns={{ sm: 20, xs: 20, md: 50 }}
+          >
+            {rows.map((work) => {
+              return (
+                <Grid item xs={4} md={10} sm={4}>
+                  <Item
+                    sx={{
+                      cursor: "pointer",
+                      height: 100,
+                      width: 100,
+                      display: "flex",
+                      alignContent: "center",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      background: `${work.color}`,
+                      color: "white",
+                      fontWeight: "700",
+                      fontSize: "1rem",
+                      wordBreak: "break-all",
+                    }}
+                    onClick={selectedWork}
+                  >
+                    {work.job}
+                  </Item>
+                </Grid>
+              );
+            })}
           </Grid>
         </Box>
       </div>

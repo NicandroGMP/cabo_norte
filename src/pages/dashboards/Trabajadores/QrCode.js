@@ -40,8 +40,7 @@ const QrCode = forwardRef((props, ref) => {
                   sx={{
                     width: "100%",
                     position: "absolute",
-                    top: "200px",
-                    mt: 3,
+                    top: "180px",
                   }}
                 >
                   {/*  <Box
@@ -72,12 +71,20 @@ const QrCode = forwardRef((props, ref) => {
                       marginLeft: "5px",
                     }}
                   >
-                    <h4>Nombre:{data.fullname}</h4>
-                    <h4>Empresa:{data.company}</h4>
-                    <h4>Subcondominio:{data.job}</h4>
-                    <h4>Puesto:{data.position}</h4>
-                    <h4 style={{ marginLeft: "160px" }}>
-                      Matricula:{data.register_number}
+                    <h4>
+                      <strong>Nombre:</strong> {data.fullname}
+                    </h4>
+                    <h4>
+                      <strong>Empresa:</strong> {data.company}
+                    </h4>
+                    <h4>
+                      <strong>Subcondominio:</strong> {data.job} {data.batch}
+                    </h4>
+                    <h4>
+                      <strong>Puesto:</strong> {data.position}
+                    </h4>
+                    <h4 style={{ marginLeft: "150px", color: "red" }}>
+                      <strong>Matricula:</strong> {data.register_number}
                     </h4>
                   </Box>
                 </Box>

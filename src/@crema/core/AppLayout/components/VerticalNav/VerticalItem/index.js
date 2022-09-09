@@ -36,6 +36,7 @@ const VerticalItem = ({ level, item }) => {
               fontSize: 20,
               display: "block",
               mr: 4,
+              overflow: "inherit",
             }}
             className={clsx("nav-item-icon", "material-icons-outlined")}
             color="action"

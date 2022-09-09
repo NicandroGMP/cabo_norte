@@ -3,9 +3,7 @@ import { Box, Button } from "@mui/material";
 import { Form, Formik } from "formik";
 import IntlMessages from "@crema/utility/IntlMessages";
 import AppTextField from "@crema/core/AppFormComponents/AppTextField";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
+import AppInfoView from "@crema/core/AppInfoView";
 import MuiAlert from "@mui/material/Alert";
 import { Snackbar } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -35,6 +33,7 @@ const FormRegister = () => {
     const job = localStorage.getItem("datajob");
     const batch = localStorage.getItem("databatch");
     const status = localStorage.getItem("datastatus");
+    const color = localStorage.getItem("datacolor");
 
     setDataUpdate([
       {
@@ -42,6 +41,7 @@ const FormRegister = () => {
         job: job,
         batch: batch,
         status: status,
+        color: color,
       },
     ]);
     setStatus(status);
@@ -65,7 +65,7 @@ const FormRegister = () => {
     setOpen(false);
   };
 
-  const registerWork = async ({ work, batch, status, id }) => {
+  const registerWork = async ({ work, batch, status, id, color }) => {
     dispatch({ type: FETCH_START });
 
     try {
@@ -74,6 +74,7 @@ const FormRegister = () => {
         work,
         batch,
         status,
+        color,
       });
       messageSuccess(data.message);
       setOpen(true);
@@ -81,7 +82,7 @@ const FormRegister = () => {
     } catch (error) {
       dispatch({
         type: FETCH_ERROR,
-        payload: error?.response?.data?.error || "Error al Registrar",
+        payload: error?.response?.data?.error || "Error al Editar",
       });
     }
   };
@@ -105,23 +106,19 @@ const FormRegister = () => {
                 initialValues={{
                   work: dataEdit.job,
                   batch: dataEdit.batch,
+                  color: dataEdit.color,
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(data, { setSubmitting, resetForm }) => {
-                  if (status == "") {
-                    setSubmitting(true);
-                    setRequired("El status Es Requerido");
-                    setSubmitting(false);
-                  } else {
-                    setSubmitting(true);
-                    registerWork({
-                      id: dataEdit.id,
-                      work: data.work,
-                      batch: data.batch,
-                      status: status,
-                    });
-                    setSubmitting(false);
-                  }
+                  setSubmitting(true);
+                  registerWork({
+                    id: dataEdit.id,
+                    work: data.work,
+                    batch: data.batch,
+                    status: status,
+                    color: data.color,
+                  });
+                  setSubmitting(false);
                 }}
               >
                 {({ isSubmitting }) => (
@@ -167,43 +164,20 @@ const FormRegister = () => {
                             }}
                           />
                         </Box>
-                      </Box>
-                      <Box
-                        sx={{
-                          mb: { xs: 8, xl: 8 },
-                          width: "50%",
-                          padding: "10px",
-                        }}
-                      >
-                        <Box sx={{ mb: { xs: 10, xl: 10 }, minWidth: 120 }}>
-                          <InputLabel id="demo-simple-select-label">
-                            Status
-                          </InputLabel>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={status}
-                            label="status"
-                            onChange={handleChange}
+                        <Box sx={{ mb: { xs: 5, xl: 8 } }}>
+                          <AppTextField
+                            placeholder={"Color"}
+                            name="color"
+                            label={<IntlMessages id="Color" />}
+                            variant="outlined"
+                            type="color"
                             sx={{
                               width: "100%",
+                              "& .MuiInputBase-input": {
+                                fontSize: 14,
+                              },
                             }}
-                          >
-                            <MenuItem disabled value={dataEdit.status}>
-                              <em>{dataEdit.status}</em>
-                            </MenuItem>
-                            <MenuItem value={"Habilitado"}>Habilitado</MenuItem>
-                            <MenuItem value={"Deshabilitado"}>
-                              Deshabilitado
-                            </MenuItem>
-                          </Select>
-                        </Box>
-                        <Box>
-                          {required && (
-                            <p sx={{ color: "red", fontSize: "0.7em" }}>
-                              {required}
-                            </p>
-                          )}
+                          />
                         </Box>
                       </Box>
                     </div>
@@ -244,6 +218,7 @@ const FormRegister = () => {
                   </Form>
                 )}
               </Formik>
+              <AppInfoView />
             </Box>
           </>
         );

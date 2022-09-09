@@ -32,6 +32,7 @@ const Obras = () => {
     localStorage.setItem("datajob", data.job);
     localStorage.setItem("databatch", data.batch);
     localStorage.setItem("datastatus", data.status);
+    localStorage.setItem("datacolor", data.color);
     navigate("/obras/edit");
   });
   useEffect(() => {
@@ -60,7 +61,6 @@ const Obras = () => {
   );
   const deleteWork = async () => {
     const id = dataDelete.id;
-    console.log(id);
     dispatch({ type: FETCH_START });
 
     try {
@@ -78,7 +78,7 @@ const Obras = () => {
         type: FETCH_ERROR,
         payload:
           error?.response?.data?.error ||
-          "Error al eliminar, un encargado depende del subcondominio",
+          "Error al eliminar Subcondominio: Asegurese que un encargado no este registrado con este subcondominio",
       });
     }
   };
@@ -124,7 +124,7 @@ const Obras = () => {
   );
   const columns = useMemo(
     () => [
-      { field: "job", headerName: "Obra", width: 300 },
+      { field: "job", headerName: "Subcondominio", width: 300 },
       { field: "batch", headerName: "Lote", width: 300 },
       { field: "status", headerName: "Estatus", width: 200 },
       {
@@ -210,6 +210,9 @@ const Obras = () => {
           rows={rows}
           columns={columns}
           pageSize={5}
+          disableColumnFilter
+          disableColumnSelector
+          disableDensitySelector
           rowsPerPageOptions={[5]}
           componentsProps={{
             toolbar: {

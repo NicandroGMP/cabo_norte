@@ -97,7 +97,8 @@ const Bitacora = () => {
           </Button>
         )}
       </Box>
-      <Box sx={{ mb: 8, mt: 5 }}>
+      <Box sx={{ mb: 10, mt: 5, display: "flex", alignItems: "center" }}>
+        <Box sx={{ mr: 5, fontSize: "1rem" }}>Filtrar Bitacora por fecha:</Box>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DatePicker
             label="Fecha"
@@ -140,6 +141,12 @@ const Bitacora = () => {
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
+          componentsProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}
         />
       </div>
     </>

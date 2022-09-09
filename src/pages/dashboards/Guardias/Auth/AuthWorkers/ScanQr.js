@@ -14,75 +14,77 @@ import {
 import { Link } from "react-router-dom";
 import IntlMessages from "@crema/utility/IntlMessages";
 import jwtAxios from "@crema/services/auth/jwt-auth";
+
 const ScanQr = (props) => {
   const [data, setData] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [dataSearch, setDataSearch] = useState(null);
   const [entryWorkerExist, setEntryWorkerExist] = useState(false);
-  useEffect(() => {
-    console.log(data);
-  }, []);
+  const [resultSearch, setResultSearch] = useState();
   return (
     <>
-      <Box sx={{ mb: 9 }}>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => navigate("/guardias/entradas/trabajadores")}
-          type="button"
-          sx={{
-            mx: 5,
-            minWidth: 160,
-            fontWeight: 500,
-            fontSize: 16,
-            textTransform: "capitalize",
-            padding: "4px 16px 8px",
-          }}
-        >
-          <IntlMessages id="Cancelar" />
-        </Button>
-      </Box>
-      {data === null && (
-        <QrReader
-          onResult={(result, error) => {
-            if (!!result) {
-              setData(result?.text);
-              dispatch({ type: FETCH_START });
-              try {
-                jwtAxios.get("/workers/scanQr/" + result?.text).then((res) => {
-                  setDataSearch(res.data.worker);
-                  if (res.data.stateExit.length > 0) {
-                    setEntryWorkerExist(true);
-                  }
-                  dispatch({ type: FETCH_SUCCESS });
-                });
-              } catch (error) {
-                dispatch({
-                  type: FETCH_ERROR,
-                  payload: error?.response?.data?.error || "Error al Registrar",
-                });
+      <Box>
+        <Box sx={{ mb: 9 }}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => navigate("/guardias/entradas/trabajadores")}
+            type="button"
+            sx={{
+              mx: 5,
+              minWidth: 160,
+              fontWeight: 500,
+              fontSize: 16,
+              textTransform: "capitalize",
+              padding: "4px 16px 8px",
+            }}
+          >
+            <IntlMessages id="Cancelar" />
+          </Button>
+        </Box>
+        {data === null && (
+          <QrReader
+            onResult={(result, error) => {
+              if (!!result) {
+                setData(result?.text);
+                dispatch({ type: FETCH_START });
+                jwtAxios
+                  .get("/workers/scanQr/" + result?.text)
+                  .then((res) => {
+                    if (res.data.stateExit.length > 0) {
+                      setEntryWorkerExist(true);
+                    }
+                    setDataSearch(res.data.worker);
+                    setResultSearch(true);
+                    dispatch({ type: FETCH_SUCCESS });
+                  })
+                  .catch((error) => {
+                    setResultSearch(false);
+                    setDataSearch(null);
+                    dispatch({ type: FETCH_SUCCESS });
+                  });
               }
-            }
 
-            if (!!error) {
-              console.info(error);
-            }
-          }}
-          style={{ width: "50%" }}
-          constraints={{ facingMode: "enviroment" }}
-          autoFocus={true}
-        />
-      )}
-
-      {dataSearch !== null && (
-        <>
-          <InfWorker
-            dataWorker={dataSearch}
-            workerRegister={entryWorkerExist}
+              if (!!error) {
+                console.info(error);
+              }
+            }}
+            style={{ width: "50%" }}
+            constraints={{ facingMode: "enviroment" }}
+            autoFocus={true}
           />
-        </>
-      )}
+        )}
+        {resultSearch === false && <WorkerError />}
+        {dataSearch !== null && (
+          <>
+            <InfWorker
+              dataWorker={dataSearch}
+              workerRegister={entryWorkerExist}
+            />
+          </>
+        )}
+      </Box>
     </>
   );
 };

@@ -7,7 +7,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import MuiAlert from "@mui/material/Alert";
-import { Snackbar } from "@mui/material";
+import { Snackbar, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
 import jwtAxios, {
   setAuthToken,
@@ -86,26 +86,19 @@ const FormRegister = () => {
           initialValues={{
             work: "",
             batch: "",
-            status: "",
-            color: "",
+            color: "#000000",
           }}
           validationSchema={validationSchema}
           onSubmit={(data, { setSubmitting, resetForm }) => {
-            if (status == "") {
-              setSubmitting(true);
-              setRequired("El status Es Requerido");
-              setSubmitting(false);
-            } else {
-              setSubmitting(true);
-              registerWork({
-                work: data.work,
-                batch: data.batch,
-                status: status,
-                color: data.color,
-              });
-              setSubmitting(false);
-              resetForm();
-            }
+            setSubmitting(true);
+            registerWork({
+              work: data.work,
+              batch: data.batch,
+              status: "Habilitado",
+              color: data.color,
+            });
+            setSubmitting(false);
+            resetForm();
           }}
         >
           {({ isSubmitting }) => (
@@ -162,7 +155,7 @@ const FormRegister = () => {
                 <Box
                   sx={{ mb: { xs: 8, xl: 8 }, width: "50%", padding: "10px" }}
                 >
-                  <Box sx={{ mb: { xs: 10, xl: 10 }, minWidth: 120 }}>
+                  {/* <Box sx={{ mb: { xs: 10, xl: 10 }, minWidth: 120 }}>
                     <InputLabel id="demo-simple-select-label">
                       Status
                     </InputLabel>
@@ -179,7 +172,7 @@ const FormRegister = () => {
                       <MenuItem value={"Habilitado"}> Habilitado </MenuItem>
                       <MenuItem value={"Deshabilitado"}>Deshabilitado</MenuItem>
                     </Select>
-                  </Box>
+                  </Box> */}
                   <Box>
                     {required && (
                       <p sx={{ color: "red", fontSize: "0.7em" }}>{required}</p>

@@ -31,7 +31,8 @@ const Guardias = () => {
     const data = datas.row;
     console.log(data);
     localStorage.setItem("dataid", data.id);
-    localStorage.setItem("dataid_guard", data.manager_id);
+    localStorage.setItem("datausername", data.username);
+    localStorage.setItem("dataid_guard", data.guards_id);
     localStorage.setItem("dataname", data.name);
     localStorage.setItem("datalastname", data.lastname);
     localStorage.setItem("datacompany", data.company);

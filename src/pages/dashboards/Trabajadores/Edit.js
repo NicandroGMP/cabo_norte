@@ -21,6 +21,7 @@ import {
 } from "shared/constants/ActionTypes";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = yup.object({
   name: yup.string().required(<IntlMessages id="validation.nameRequired" />),
@@ -36,6 +37,7 @@ const validationSchema = yup.object({
 });
 
 const formEdit = () => {
+  const navigate = useNavigate();
   useEffect(() => {
     const id = localStorage.getItem("dataid");
     const name = localStorage.getItem("dataname");
@@ -143,7 +145,7 @@ const formEdit = () => {
       {dataUpdate.map((dataEdit) => {
         return (
           <>
-            <Box sx={{ mb: { xs: 5, xl: 8 }, width: "40%" }}>
+            <Box sx={{ mb: { xs: 5, xl: 8 }, width: "100%" }}>
               <h1>Actualizar Datos De Trabajador {dataEdit.name}</h1>
             </Box>
             <Box>
@@ -256,6 +258,7 @@ const formEdit = () => {
                             Obra
                           </InputLabel>
                           <Select
+                            disabled
                             labelId="demo-simple-select-helper-label"
                             id="demo-simple-select-helper"
                             displayEmpty
@@ -284,6 +287,7 @@ const formEdit = () => {
                             Encargado
                           </InputLabel>
                           <Select
+                            disabled
                             labelId="demo-simple-select-helper-label"
                             id="demo-simple-select-helper"
                             displayEmpty
@@ -376,6 +380,9 @@ const formEdit = () => {
               </div> */}
                     <div>
                       <Button
+                        onClick={() => {
+                          navigate("/trabajadores");
+                        }}
                         variant="contained"
                         color="secondary"
                         type="button"

@@ -30,10 +30,6 @@ const InfWorker = (props) => {
 
     setOpen(false);
   };
-  useEffect(() => {
-    console.log(dataBitacora);
-  }, []);
-
   const addToBitacora = async () => {
     const [dataInsert] = dataBitacora;
     const name = dataInsert.name;
@@ -43,7 +39,6 @@ const InfWorker = (props) => {
     const work = dataInsert.job;
     const register_number = dataInsert.register_number;
     const manager = dataInsert.manager;
-    console.log(dataInsert);
     dispatch({ type: FETCH_START });
     try {
       const { data } = await jwtAxios.post("/bitacora/register", {
@@ -91,7 +86,7 @@ const InfWorker = (props) => {
         </Alert>
       </Snackbar>
       <Box>
-        <Box sx={{ mb: { xs: 5, xl: 8 }, width: "100%" }}>
+        <Box sx={{ mb: { xs: 5, xl: 8 }, width: "100%", textAlign: "center" }}>
           <h3>Registrar entrada del Trabajador</h3>
         </Box>
         {/*  <Box>

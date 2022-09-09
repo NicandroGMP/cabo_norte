@@ -41,7 +41,6 @@ const Trabajadores = () => {
 
   const dataUpdate = useCallback((datas) => () => {
     const data = datas.row;
-    console.log(data);
     localStorage.setItem("dataid", data.id);
     localStorage.setItem("dataname", data.name);
     localStorage.setItem("datalastname", data.lastname);

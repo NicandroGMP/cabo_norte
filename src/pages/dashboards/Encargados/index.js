@@ -28,8 +28,8 @@ const Encargados = () => {
 
   const dataUpdate = useCallback((datas) => () => {
     const data = datas.row;
-    console.log(data);
     localStorage.setItem("dataid", data.id);
+    localStorage.setItem("datausername", data.username);
     localStorage.setItem("dataid_manager", data.manager_id);
     localStorage.setItem("dataname", data.name);
     localStorage.setItem("datalastname", data.lastname);
@@ -168,7 +168,7 @@ const Encargados = () => {
               }`,
             }}
             onClick={statusWorker({
-              id: params.row.manager_id,
+              id: params.row.id,
               currentStatus: params.row.status,
             })}
             label="status"

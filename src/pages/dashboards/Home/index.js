@@ -51,7 +51,7 @@ const Home = () => {
               </Box>
             </Box>
             <Box sx={{ mt: 10 }}>
-              <h3>Controlde de accesso de obras cabo norte</h3>
+              <h3>Control de accesso de obras cabo norte</h3>
             </Box>
           </Box>
         </Box>

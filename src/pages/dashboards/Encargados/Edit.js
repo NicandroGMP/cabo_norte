@@ -49,6 +49,7 @@ const formEdit = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const id = localStorage.getItem("dataid");
+    const username = localStorage.getItem("datausername");
     const id_manager = localStorage.getItem("dataid_manager");
     const name = localStorage.getItem("dataname");
     const lastname = localStorage.getItem("datalastname");
@@ -60,6 +61,7 @@ const formEdit = () => {
     setDataUpdate([
       {
         id: id,
+        username: username,
         id_manager: id_manager,
         name: name,
         lastname: lastname,
@@ -81,7 +83,6 @@ const formEdit = () => {
   const [TypePass, setTypePass] = useState("password");
   const handleChange = (event) => {
     setWork(event.target.value);
-    console.log(event.target.value);
   };
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -161,7 +162,7 @@ const formEdit = () => {
         return (
           <>
             <Box sx={{ mb: { xs: 5, xl: 8 }, width: "80%" }}>
-              <h1>Actualizar Datos De Encargado {dataEdit.name}</h1>
+              <h1>Actualizar datos de encargado {dataEdit.name}</h1>
             </Box>
             <Box>
               <Formik
@@ -171,6 +172,7 @@ const formEdit = () => {
                   lastname: dataEdit.lastname,
                   company: dataEdit.company,
                   position: dataEdit.position,
+                  username: dataEdit.username,
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(data, { setSubmitting }) => {
@@ -183,7 +185,7 @@ const formEdit = () => {
                     company: data.company,
                     position: data.position,
                     work: work,
-                    username: "dasda",
+                    username: data.username,
                   });
                   setSubmitting(false);
                 }}
@@ -303,6 +305,20 @@ const formEdit = () => {
                             </p>
                           )}
                         </Box>
+                        <Box sx={{ mb: { xs: 5, xl: 8 } }}>
+                          <AppTextField
+                            placeholder={"Nombre de Usuario"}
+                            name="username"
+                            label={<IntlMessages id="Usuario" />}
+                            variant="outlined"
+                            sx={{
+                              width: "100%",
+                              "& .MuiInputBase-input": {
+                                fontSize: 14,
+                              },
+                            }}
+                          />
+                        </Box>
                       </Box>
                     </div>
                     {/*  <Box>
@@ -406,7 +422,7 @@ const formEdit = () => {
           return (
             <>
               <Box sx={{ mt: 10, mb: { xs: 5, xl: 8 }, width: "80%" }}>
-                <h1>Cambiar contraseña {dataEdit.name}</h1>
+                <h1>Cambiar contraseña</h1>
               </Box>
               <Box>
                 <Formik
@@ -520,6 +536,23 @@ const formEdit = () => {
                               }}
                             />
                           </Box>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            type="submit"
+                            disabled={isSubmitting}
+                            sx={{
+                              ml: 4,
+                              minWidth: 80,
+                              fontWeight: 500,
+                              fontSize: 16,
+                              height: 50,
+                              textTransform: "capitalize",
+                              padding: "4px 16px 8px",
+                            }}
+                          >
+                            <IntlMessages id="Actualizar" />
+                          </Button>
                         </Box>
                       </div>
                       {/*  <Box>
@@ -577,23 +610,6 @@ const formEdit = () => {
                   </Box>
                 </Box>
               </div> */}
-                      <div>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          type="submit"
-                          disabled={isSubmitting}
-                          sx={{
-                            minWidth: 160,
-                            fontWeight: 500,
-                            fontSize: 16,
-                            textTransform: "capitalize",
-                            padding: "4px 16px 8px",
-                          }}
-                        >
-                          <IntlMessages id="Actualizar" />
-                        </Button>
-                      </div>
                     </Form>
                   )}
                 </Formik>
