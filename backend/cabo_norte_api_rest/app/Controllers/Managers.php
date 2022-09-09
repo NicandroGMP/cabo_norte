@@ -116,15 +116,20 @@ class Managers extends BaseController
             return $this->getResponse($this->validator->getErrors(), ResponseInterface::HTTP_BAD_REQUEST);
         }else{
             $id_manager = $input["id_manager"];
+            $id_account = $input["id"];
             $valuesManagers = [
                 "name" => $input["name"],
                 "lastname" => $input["lastname"],
                 "company" => $input["company"],
                 "position" => $input["position"],
                 "work" => $input["work"],
-		];
+            ];
+            $valuesAccount = [
+                "username" => $input["username"],
+            ];
         $update = $this->managers->update($id_manager, $valuesManagers);
-        if(!$update){
+        $update2 = $this->accounts->update($id_account, $valuesAccount);
+        if(!$update && !$update2){
             return $this->getResponse("", ResponseInterface::HTTP_BAD_REQUEST);
         }else{
             return $this->getResponse([
@@ -145,7 +150,7 @@ class Managers extends BaseController
         }else{
             $id = $input["id"];
             $valuesManagers = [
-                "password" => $input["newPassword"],
+                "password" => Hash::make($input["newPassword"]),
 		];
         $update = $this->accounts->update($id, $valuesManagers);
         if(!$update){

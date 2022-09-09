@@ -23,7 +23,7 @@ class Auth extends BaseController {
         ], ResponseInterface::HTTP_CREATED);
     }
 
-        public function login(){
+    public function login(){
             $rules = [
                 'username' => 'required|is_not_unique[accounts.username]',
                 'password' => 'required|min_length[5]|max_length[12]',
@@ -65,7 +65,7 @@ class Auth extends BaseController {
 
             $username = $input["username"];
             $password = $input["password"];
-            $user_info = $this->accounts->where("username", $username)->first();
+            $user_info = $this->accounts->where("username", $username)->where("status", "Habilitado")->first();
             $check_pass = Hash::check($password, $user_info["password"]);
             if (!$check_pass){
 

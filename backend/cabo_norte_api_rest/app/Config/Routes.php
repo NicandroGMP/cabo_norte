@@ -59,6 +59,7 @@ $routes->get('/managers/status/(:num)/(:hash)/', 'Managers::statusUpdate/$1/$2')
 $routes->get('/guards', 'Guards::index');
 $routes->post('/guards/register', 'Guards::RegisterGuards');
 $routes->post('/guards/update', 'Guards::updateGuards');
+$routes->post('/guards/updatePass', 'Guards::updateGuardPass');
 $routes->post('/guards/delete', 'Guards::deleteGuard');
 $routes->get('/guards/status/(:num)/(:hash)/', 'Guards::statusUpdate/$1/$2');
 //end routes guards crete,read,update,delete

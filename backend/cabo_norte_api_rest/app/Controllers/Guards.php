@@ -86,6 +86,7 @@ class Guards extends BaseController
             "lastname"=> "required",
             "company"=> "required",
             "position"=> "required",
+            "username" => "required"
         ];
         $input = $this->getRequestInput($this->request);
 
@@ -93,18 +94,45 @@ class Guards extends BaseController
             return $this->getResponse($this->validator->getErrors(), ResponseInterface::HTTP_BAD_REQUEST);
         }else{
             $id_guard = $input["id_guard"];
+            $id_account = $input["id"];
             $valuesGuards = [
                 "name" => $input["name"],
                 "lastname" => $input["lastname"],
                 "company" => $input["company"],
                 "position" => $input["position"],
 		];
+        $valuesAccount = ["username"=> $input["username"]];
         $update = $this->managers->update($id_guard, $valuesGuards);
-        if(!$update){
+        $update2 = $this->accounts->update($id_account, $valuesAccount);
+        if(!$update && !$update2){
             return $this->getResponse("", ResponseInterface::HTTP_BAD_REQUEST);
         }else{
             return $this->getResponse([
                 "message" => "datos actualizados"
+            ]);
+        }
+        }
+    }
+    public function updateGuardPass()
+    {
+        $rules = [
+            "newPassword"=> "required|min_length[5]|max_length[12]|",
+        ];
+        $input = $this->getRequestInput($this->request);
+
+        if (!$this->validateRequest($input, $rules)) {
+            return $this->getResponse($this->validator->getErrors(), ResponseInterface::HTTP_BAD_REQUEST);
+        }else{
+            $id = $input["id"];
+            $valuesManagers = [
+                "password" => Hash::make($input["newPassword"]),
+		];
+        $update = $this->accounts->update($id, $valuesManagers);
+        if(!$update){
+            return $this->getResponse("", ResponseInterface::HTTP_BAD_REQUEST);
+        }else{
+            return $this->getResponse([
+                "message" => "Contraseña Actualizada"
             ]);
         }
         }

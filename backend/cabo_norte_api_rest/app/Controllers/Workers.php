@@ -20,7 +20,7 @@ class Workers extends BaseController{
     }
     public function index(){
         $join = $this->workers->table("workers");
-        $join->select('workers.id, workers.register_number,CONCAT(workers.name ," ", workers.lastname) as fullname,workers.name ,workers.lastname,workers.job as job_id , works.job,workers.manager, CONCAT(managers.name," ", managers.lastname )as manager_name, workers.position,  workers.company, workers.status');
+        $join->select('workers.id, workers.register_number,CONCAT(workers.name ," ", workers.lastname) as fullname,workers.name ,workers.lastname,workers.job as job_id , works.job, works.batch, workers.manager, CONCAT(managers.name," ", managers.lastname )as manager_name, workers.position,  workers.company, workers.status');
         $join->join("managers", "workers.manager = managers.id");
         $join->join("works", "workers.job = works.id");
         $user_date = $join->get()->getResultArray();

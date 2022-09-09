@@ -61,6 +61,7 @@ class Works extends BaseController{
             "work" => "required",
             "batch"=> "required",
             "status"=> "required",
+            "color" => "required"
         ];
         $input = $this->getRequestInput($this->request);
 
@@ -72,6 +73,7 @@ class Works extends BaseController{
                 "job" => $input["work"],
                 "batch" => $input["batch"],
                 "status" => $input["status"],
+                "color" => $input["color"],
 		];
         $update = $this->works->update($id, $data);
         if(!$update){
