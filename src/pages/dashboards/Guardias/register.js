@@ -40,6 +40,8 @@ const validationSchema = yup.object({
     .required(<IntlMessages id="Por favor ingrese la el nombre de usuario!" />),
   password: yup
     .string()
+    .min(5, <IntlMessages id="minimo 5 caracteres" />)
+    .max(12, <IntlMessages id="maximo 12 caracteres" />)
     .required(<IntlMessages id="validation.passwordRequired" />),
 });
 

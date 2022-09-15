@@ -39,9 +39,13 @@ const validationSchema = yup.object({
 const validationSchemaPass = yup.object({
   newPassword: yup
     .string()
+    .min(5, <IntlMessages id="minimo 5 caracteres" />)
+    .max(12, <IntlMessages id="maximo 12 caracteres" />)
     .required(<IntlMessages id="validation.enterNewPassword" />),
   confirmPassword: yup
     .string()
+    .min(5, <IntlMessages id="minimo 5 caracteres" />)
+    .max(12, <IntlMessages id="maximo 12 caracteres" />)
     .required(<IntlMessages id="validation.reTypePassword" />),
 });
 

@@ -1,7 +1,7 @@
 import axios from "axios";
-
+import { API_URL } from "shared/constants/AppConst";
 const jwtAxios = axios.create({
-  baseURL: "http://localhost/cabo_norte_api_rest/", //YOUR_API_URL HERE
+  baseURL: API_URL, //YOUR_API_URL HERE
   headers: {
     "Content-Type": "application/json",
   },

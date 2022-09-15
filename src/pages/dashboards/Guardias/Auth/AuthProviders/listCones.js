@@ -18,6 +18,8 @@ import Backdrop from "@mui/material/Backdrop";
 import Stack from "@mui/material/Stack";
 import { Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
+
+import { API_URL } from "shared/constants/AppConst";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -247,7 +249,8 @@ const Cones = () => {
                       {openContentImg === false && (
                         <img
                           src={
-                            "http://localhost/cabo_norte_api_rest/public/uploads/" +
+                            API_URL +
+                            "/public/uploads/" +
                             provider_inf.identification
                           }
                         />

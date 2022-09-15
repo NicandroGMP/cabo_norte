@@ -36,9 +36,13 @@ const validationSchema = yup.object({
 const validationSchemaPass = yup.object({
   newPassword: yup
     .string()
+    .min(5, <IntlMessages id="minimo 5 caracteres" />)
+    .max(12, <IntlMessages id="maximo 12 caracteres" />)
     .required(<IntlMessages id="validation.enterNewPassword" />),
   confirmPassword: yup
     .string()
+    .min(5, <IntlMessages id="minimo 5 caracteres" />)
+    .max(12, <IntlMessages id="maximo 12 caracteres" />)
     .required(<IntlMessages id="validation.reTypePassword" />),
 });
 const formEdit = () => {
@@ -66,15 +70,8 @@ const formEdit = () => {
   }, []);
   const dispatch = useDispatch();
   const [dataUpdate, setDataUpdate] = useState([]);
-  const [work, setWork] = useState("");
   const [message, messageSuccess] = useState(null);
   const [open, setOpen] = useState(false);
-
-  const handleChange = (event) => {
-    setWork(event.target.value);
-    console.log(event.target.value);
-  };
-  console.log(work);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {

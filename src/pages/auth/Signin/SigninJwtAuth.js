@@ -1,17 +1,17 @@
 import React from "react";
-import Button from "@mui/material/Button";
+import { Button, IconButton, Box } from "@mui/material";
 import { Checkbox } from "@mui/material";
 import { Form, Formik } from "formik";
 import * as yup from "yup";
 import AppInfoView from "@crema/core/AppInfoView";
 import { Link, useNavigate } from "react-router-dom";
-import Box from "@mui/material/Box";
 import IntlMessages from "@crema/utility/IntlMessages";
 import AppTextField from "@crema/core/AppFormComponents/AppTextField";
 import { useAuthMethod, useAuthUser } from "@crema/utility/AuthHooks";
 import { Fonts } from "shared/constants/AppEnums";
 import { useState } from "react";
 import Alert from "@mui/material/Alert";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const validationSchema = yup.object({
   username: yup
@@ -24,6 +24,7 @@ const validationSchema = yup.object({
 
 const SigninJwtAuth = () => {
   const [error, setError] = useState(null);
+  const [TypePass, setTypePass] = useState("password");
 
   const navigate = useNavigate();
   const { signInUser } = useAuthMethod();
@@ -31,8 +32,6 @@ const SigninJwtAuth = () => {
   const onGoToForgetPassword = () => {
     navigate("/forget-password", { tab: "jwtAuth" });
   };
-
-  console.log(user);
 
   return (
     <>
@@ -46,8 +45,8 @@ const SigninJwtAuth = () => {
           <Formik
             validateOnChange={true}
             initialValues={{
-              username: "Admin",
-              password: "12345qwerAA",
+              username: "",
+              password: "",
             }}
             validationSchema={validationSchema}
             onSubmit={(data, { setSubmitting }) => {
@@ -63,9 +62,9 @@ const SigninJwtAuth = () => {
               <Form style={{ textAlign: "left" }} noValidate autoComplete="off">
                 <Box sx={{ mb: { xs: 5, xl: 8 } }}>
                   <AppTextField
-                    placeholder={"common.username"}
+                    placeholder={"usuario"}
                     name="username"
-                    label={<IntlMessages id="username" />}
+                    label={<IntlMessages id="usuario" />}
                     variant="outlined"
                     sx={{
                       width: "100%",
@@ -78,9 +77,8 @@ const SigninJwtAuth = () => {
 
                 <Box sx={{ mb: { xs: 3, xl: 4 } }}>
                   <AppTextField
-                    type="password"
-                    placeholder={"common.password"}
-                    label={<IntlMessages id="common.password" />}
+                    placeholder={"contraseña"}
+                    label={<IntlMessages id="contraseña" />}
                     name="password"
                     variant="outlined"
                     sx={{
@@ -88,6 +86,24 @@ const SigninJwtAuth = () => {
                       "& .MuiInputBase-input": {
                         fontSize: 14,
                       },
+                    }}
+                    type={TypePass}
+                    InputProps={{
+                      endAdornment: (
+                        <IconButton
+                          onClick={() =>
+                            TypePass === "password"
+                              ? setTypePass("text")
+                              : setTypePass("password")
+                          }
+                        >
+                          {TypePass === "password" ? (
+                            <Visibility />
+                          ) : (
+                            <VisibilityOff />
+                          )}
+                        </IconButton>
+                      ),
                     }}
                   />
                 </Box>
