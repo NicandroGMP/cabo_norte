@@ -24,7 +24,7 @@ class Managers extends BaseController
         $join = $this->managers->table("managers");
         $join->select('accounts.id,accounts.status, managers.id as manager_id,accounts.username, CONCAT(managers.name," ",managers.lastname)as fullname ,managers.name,managers.lastname, managers.position,managers.company, managers.work as work_id, CONCAT(works.job," ", works.batch)as job');
         $join->join("accounts", "accounts.user_inf = managers.id");
-        $join->join("works", "managers.work = works.id")->where("accounts.type_user", "encargado");
+        $join->join("works", "managers.work = works.id", "left")->where("accounts.type_user", "encargado");
         $user_date = $join->get()->getResultArray();
 
         return $this->getResponse([

@@ -83,7 +83,7 @@ const QrCode = forwardRef((props, ref) => {
                     <h4>
                       <strong>Puesto:</strong> {data.position}
                     </h4>
-                    <h4 style={{ marginLeft: "150px", color: "red" }}>
+                    <h4 style={{ marginLeft: "140px", color: "red" }}>
                       <strong>Matricula:</strong> {data.register_number}
                     </h4>
                   </Box>

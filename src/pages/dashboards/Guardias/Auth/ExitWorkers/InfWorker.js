@@ -45,7 +45,7 @@ const InfWorker = (props) => {
       messageSuccess(data.message);
       setOpen(true);
       dispatch({ type: FETCH_SUCCESS });
-      navigate("/guardias/bitacora_trabajadores");
+      navigate("/guardias/home");
     } catch (error) {
       dispatch({
         type: FETCH_ERROR,

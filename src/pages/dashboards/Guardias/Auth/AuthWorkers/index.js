@@ -19,7 +19,6 @@ const Guardias = (children) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [resultSearch, setResultSearch] = useState();
-  const [entryWorkerExist, setEntryWorkerExist] = useState(false);
   const [dataSearch, setDataSearch] = useState(null);
 
   const Search = async ({ search }) => {
@@ -29,9 +28,6 @@ const Guardias = (children) => {
       const { data } = await jwtAxios.post("/workers/search", {
         search,
       });
-      if (data.stateExit.length > 0) {
-        setEntryWorkerExist(true);
-      }
 
       setDataSearch(data.worker);
       setResultSearch(true);
@@ -40,6 +36,7 @@ const Guardias = (children) => {
     } catch (error) {
       setResultSearch(false);
       setDataSearch(null);
+      dispatch({ type: FETCH_SUCCESS });
     }
   };
   return (
@@ -155,10 +152,7 @@ const Guardias = (children) => {
           {resultSearch === false && <WorkerError />}
           {dataSearch !== null && (
             <>
-              <InfWorker
-                dataWorker={dataSearch}
-                workerRegister={entryWorkerExist}
-              />
+              <InfWorker dataWorker={dataSearch} />
             </>
           )}
         </Box>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-09-2022 a las 17:21:41
+-- Tiempo de generación: 15-09-2022 a las 03:32:53
 -- Versión del servidor: 10.4.16-MariaDB
 -- Versión de PHP: 7.4.12
 
@@ -43,8 +43,7 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`id`, `user_inf`, `type_user`, `username`, `password`, `status`, `updated_at`, `created_at`) VALUES
-(1, NULL, 'administrador', 'Admin', '$2y$10$jkBM8YkQ1XaTymoaaQD5.O/YAFOxt2/2fJjRDEG40poZUyIq3Bc1e', 'Habilitado', NULL, '2022-07-06 13:18:08'),
-(94, 98, 'encargado', 'encargado', '$2y$10$5WFZhyrMcfJ2BNQkni1hrONwCf6uU0Emhc.7cMzo9FZ1wbBqkhROy', 'Habilitado', NULL, '2022-09-09 09:55:14');
+(1, NULL, 'administrador', 'Admin', '$2y$10$jkBM8YkQ1XaTymoaaQD5.O/YAFOxt2/2fJjRDEG40poZUyIq3Bc1e', 'Habilitado', NULL, '2022-07-06 13:18:08');
 
 -- --------------------------------------------------------
 
@@ -81,13 +80,6 @@ CREATE TABLE `bitacora_workers` (
   `entry_worker` datetime DEFAULT current_timestamp(),
   `exit_worker` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `bitacora_workers`
---
-
-INSERT INTO `bitacora_workers` (`id`, `register_number`, `fullname`, `company`, `manager`, `work`, `position`, `entry_worker`, `exit_worker`) VALUES
-(51, 'HE4UF9', 'nicandro gamaliel martinez perez', 'Cardesa Corportion', 'nicandro martinez', 'armura 5', 'Administrador de subcondominio armura', '2022-09-08 21:26:04', '2022-09-08 21:26:23');
 
 -- --------------------------------------------------------
 
@@ -157,13 +149,6 @@ CREATE TABLE `managers` (
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `managers`
---
-
-INSERT INTO `managers` (`id`, `manager_number`, `name`, `lastname`, `company`, `position`, `work`, `updated_at`, `created_at`) VALUES
-(98, 'V3LIP5', 'jose andres', 'ramos alvares', 'emoresa', 'encargado', 46, NULL, '2022-09-09 09:55:14');
-
 -- --------------------------------------------------------
 
 --
@@ -201,13 +186,6 @@ CREATE TABLE `workers` (
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `workers`
---
-
-INSERT INTO `workers` (`id`, `register_number`, `name`, `lastname`, `company`, `position`, `job`, `manager`, `status`, `updated_at`, `created_at`) VALUES
-(28, '157W8Q', 'nicandro gamaliel', 'martinez perez', 'EmpresaX', 'electricista', 46, 98, 'Habilitado', NULL, '2022-09-09 09:56:11');
-
 -- --------------------------------------------------------
 
 --
@@ -223,13 +201,6 @@ CREATE TABLE `works` (
   `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `works`
---
-
-INSERT INTO `works` (`id`, `job`, `batch`, `color`, `status`, `updated_at`, `created_at`) VALUES
-(46, 'Armura', '4', '#00ffd5', 'Habilitado', NULL, '2022-09-09 09:53:28');
 
 --
 -- Índices para tablas volcadas
@@ -301,19 +272,19 @@ ALTER TABLE `works`
 -- AUTO_INCREMENT de la tabla `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT de la tabla `bitacora_providers`
 --
 ALTER TABLE `bitacora_providers`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `bitacora_workers`
 --
 ALTER TABLE `bitacora_workers`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT de la tabla `cones`
@@ -325,25 +296,25 @@ ALTER TABLE `cones`
 -- AUTO_INCREMENT de la tabla `managers`
 --
 ALTER TABLE `managers`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT de la tabla `providers`
 --
 ALTER TABLE `providers`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `workers`
 --
 ALTER TABLE `workers`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `works`
 --
 ALTER TABLE `works`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- Restricciones para tablas volcadas
@@ -365,19 +336,19 @@ ALTER TABLE `cones`
 -- Filtros para la tabla `managers`
 --
 ALTER TABLE `managers`
-  ADD CONSTRAINT `managers_ibfk_1` FOREIGN KEY (`work`) REFERENCES `works` (`id`);
+  ADD CONSTRAINT `managers_ibfk_1` FOREIGN KEY (`work`) REFERENCES `works` (`id`) ON DELETE SET NULL;
 
 --
 -- Filtros para la tabla `providers`
 --
 ALTER TABLE `providers`
-  ADD CONSTRAINT `providers_ibfk_1` FOREIGN KEY (`work`) REFERENCES `works` (`id`);
+  ADD CONSTRAINT `providers_ibfk_1` FOREIGN KEY (`work`) REFERENCES `works` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `workers`
 --
 ALTER TABLE `workers`
-  ADD CONSTRAINT `workers_ibfk_1` FOREIGN KEY (`job`) REFERENCES `works` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `workers_ibfk_1` FOREIGN KEY (`job`) REFERENCES `works` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `workers_ibfk_2` FOREIGN KEY (`manager`) REFERENCES `managers` (`id`) ON UPDATE CASCADE;
 COMMIT;
 

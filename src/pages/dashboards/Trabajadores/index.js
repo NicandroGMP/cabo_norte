@@ -155,7 +155,7 @@ const Trabajadores = () => {
     () => [
       { field: "fullname", headerName: "Nombre", width: 200 },
       { field: "job", headerName: "Obra", width: 150 },
-      { field: "manager_name", headerName: "Manager", width: 200 },
+      { field: "manager_name", headerName: "Encargado", width: 200 },
       { field: "position", headerName: "Puesto", width: 100 },
       { field: "status", headerName: "Status", type: "string", width: 100 },
       {

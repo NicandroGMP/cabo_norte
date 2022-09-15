@@ -129,7 +129,7 @@ class Workers extends BaseController{
         $string = $input["search"];
         $join = $this->workers->table("workers");
         $join->select('workers.id as workers_id, workers.name, works.job,workers.lastname, workers.position, workers.register_number, workers.company, CONCAT(managers.name," ",managers.lastname) as manager,CONCAT(works.job," ",works.batch) as job');
-        $join->join("works", "workers.job = works.id");
+        $join->join("works", "workers.job = works.id")->where("works.status","Habilitado");
         $join->join("managers", "workers.manager = managers.id")->where("workers.register_number", $string)->where("workers.status" , "Habilitado");
         $inf_user =  $join->get()->getResultArray();
 

@@ -53,7 +53,7 @@ const InfWorker = (props) => {
       messageSuccess(data.message);
       setOpen(true);
       dispatch({ type: FETCH_SUCCESS });
-      navigate("/guardias/bitacora_trabajadores");
+      navigate("/guardias/home");
     } catch (error) {
       dispatch({
         type: FETCH_ERROR,
@@ -275,38 +275,21 @@ const InfWorker = (props) => {
             );
           })}
         </Box>
-        {props.workerRegister === true && (
-          <Box>
-            <Stack
-              direction="row"
-              spacing={1}
-              sx={{ justifyContent: "center" }}
-            >
-              <Chip
-                label="El trabajador ya ha sido Registrado el día de hoy "
-                color="secondary"
-                variant="outlined"
-              />
-            </Stack>
-          </Box>
-        )}
-        {props.workerRegister === false && (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={addToBitacora}
-            type="submit"
-            sx={{
-              minWidth: 100,
-              fontWeight: 500,
-              fontSize: 16,
-              textTransform: "capitalize",
-              padding: "4px 16px 8px",
-            }}
-          >
-            Registrar Entrada
-          </Button>
-        )}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={addToBitacora}
+          type="submit"
+          sx={{
+            minWidth: 100,
+            fontWeight: 500,
+            fontSize: 16,
+            textTransform: "capitalize",
+            padding: "4px 16px 8px",
+          }}
+        >
+          Registrar Entrada
+        </Button>
       </Box>
     </>
   );

@@ -116,7 +116,7 @@ class BitacoraWorkers extends BaseController
         $entry_worker =  date("Y-m-d");
         $input = $this->getRequestInput($this->request);
         $search = $input["search"];
-        $result = $this->BitacoraWorkers->where("register_number",$search)->like('entry_worker', $entry_worker,'both');
+        $result = $this->BitacoraWorkers->where("register_number",$search)->where("exit_worker is null")->like('entry_worker', $entry_worker,'both');
         $result = $result->get()->getResultArray();
         return $this->getResponse([
             "worker" => $result
