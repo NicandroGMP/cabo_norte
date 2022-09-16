@@ -47,6 +47,10 @@ const AuthWrapper = ({ children }) => {
 						justifyContent: { sm: 'center' },
 						flexDirection: { sm: 'column' },
 						backgroundColor: (theme) => theme.palette.grey[900],
+						backgroundImage: 'url(/assets/images/logo-bg.png)',
+						backgroundSize: '50%',
+						backgroundPosition: 'center',
+						backgroundRepeat: 'no-repeat',
 						color: (theme) => theme.palette.common.white,
 						fontSize: 14,
 					}}
