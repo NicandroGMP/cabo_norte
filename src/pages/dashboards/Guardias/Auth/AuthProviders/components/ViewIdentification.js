@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useRef } from "react";
 import { Button, Box } from "@mui/material";
-import IntlMessages from "@crema/utility/IntlMessages";
 import ReactToPrint from "react-to-print";
 import Identification from "./Identification";
+import { PropTypes } from "prop-types";
 
-const ViewIdentification = ({ props, dataIde = [] }) => {
+const ViewIdentification = ({ dataIde = [] }) => {
   const componentRef = useRef();
   return (
     <>
@@ -37,6 +37,10 @@ const ViewIdentification = ({ props, dataIde = [] }) => {
       </div>
     </>
   );
+};
+
+ViewIdentification.propTypes = {
+  dataIde: PropTypes.array,
 };
 
 export default ViewIdentification;

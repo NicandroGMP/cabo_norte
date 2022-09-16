@@ -23,7 +23,6 @@ import { API_URL } from "shared/constants/AppConst";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-import axios from "axios";
 
 const Cones = () => {
   const navigate = useNavigate();
@@ -35,14 +34,12 @@ const Cones = () => {
   const [file, setFileName] = useState([]);
   const [imageUrl, setImageUrl] = useState([]);
   const { provider } = useCurrentWork();
-  const [message, messageSuccess] = useState(null);
-  const { selectedWork } = useSelectMethod();
+  const [message] = useState(null);
   const [open, setOpen] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [openContentImg, setContentImage] = useState(false);
 
   useEffect(() => {
-    console.log(imageUrl);
     const getCones = async () => {
       dispatch({ type: FETCH_START });
       try {
@@ -140,7 +137,7 @@ const Cones = () => {
         identification,
         register_num,
       });
-      const { asignCone } = await jwtAxios.post("/cones/register", {
+      await jwtAxios.post("/cones/register", {
         currentCone,
         provider,
         register_num,
@@ -354,9 +351,8 @@ const Cones = () => {
                       height: 80,
                       width: 80,
                       cursor: "pointer",
-                      background: `${
-                        cones.status == 1 ? "#3D9E22" : "#EC2506"
-                      }`,
+                      background: `${cones.status == 1 ? "#3D9E22" : "#EC2506"
+                        }`,
                       color: "white",
                       display: "flex",
                       alignContent: "center",

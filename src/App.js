@@ -9,7 +9,7 @@ import AppLayout from "@crema/core/AppLayout";
 import configureStore, { history } from "redux/store";
 import JWTAuthProvider from "@crema/services/auth/jwt-auth/JWTAuthProvider";
 //import FirebaseAuthProvider from "@crema/services/auth/firebase/FirebaseAuthProvider";
-import { BrowserRouter, Routes } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import SelectWorkProvider from "pages/dashboards/Guardias/Auth/AuthProviders/selectWorkProvider";
 
 const store = configureStore();

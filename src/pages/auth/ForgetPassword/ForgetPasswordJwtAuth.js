@@ -12,9 +12,7 @@ import AppTextField from "@crema/core/AppFormComponents/AppTextField";
 import { Fonts } from "shared/constants/AppEnums";
 import AuthWrapper from "../AuthWrapper";
 import AppLogo from "@crema/core/AppLayout/components/AppLogo";
-import jwtAxios, {
-  setAuthToken,
-} from "../../../@crema/services/auth/jwt-auth/index";
+import jwtAxios from "../../../@crema/services/auth/jwt-auth/index";
 import {
   FETCH_ERROR,
   FETCH_START,

@@ -12,14 +12,13 @@ import PropTypes from "prop-types";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import { useAuthMethod, useAuthUser } from "@crema/utility/AuthHooks";
-import clsx from "clsx";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Avatar from "@mui/material/Avatar";
 import { orange } from "@mui/material/colors";
 import { Fonts } from "shared/constants/AppEnums";
 import { useNavigate } from "react-router-dom";
 
-const AppHeader = ({ color, props }) => {
+const AppHeader = ({ color }) => {
   const dispatch = useDispatch();
   const { user } = useAuthUser();
   const { logout } = useAuthMethod();
@@ -351,10 +350,11 @@ export default AppHeader;
 
 AppHeader.defaultProps = {
   variant: "",
-  position: "left",
+  position: "left"
 };
 
 AppHeader.propTypes = {
   position: PropTypes.string,
   variant: PropTypes.string,
+  color: PropTypes.string
 };

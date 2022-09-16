@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Backdrop from "@mui/material/Backdrop";
 import { Box, Button } from "@mui/material";
+import { PropTypes } from "prop-types";
 
 const ModalDelete = ({ open, handleClose, dataDelete, deleteManager }) => {
-  console.log(dataDelete);
   return (
     <>
       <Modal
@@ -59,6 +59,13 @@ const ModalDelete = ({ open, handleClose, dataDelete, deleteManager }) => {
       </Modal>
     </>
   );
+};
+
+ModalDelete.propTypes = {
+  open: PropTypes.bool,
+  handleClose: PropTypes.func,
+  dataDelete: PropTypes.object,
+  deleteManager: PropTypes.func
 };
 
 export default ModalDelete;

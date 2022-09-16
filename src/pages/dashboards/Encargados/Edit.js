@@ -13,9 +13,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-import jwtAxios, {
-  setAuthToken,
-} from "../../../@crema/services/auth/jwt-auth/index";
+import jwtAxios from "../../../@crema/services/auth/jwt-auth/index";
 import {
   FETCH_ERROR,
   FETCH_START,
@@ -80,7 +78,7 @@ const formEdit = () => {
   const dispatch = useDispatch();
   const [dataUpdate, setDataUpdate] = useState([]);
   const [work, setWork] = useState("");
-  const [required, setRequired] = useState(null);
+  const [required] = useState(null);
   const [message, messageSuccess] = useState(null);
   const [works, setWorks] = useState([]);
   const [open, setOpen] = useState(false);

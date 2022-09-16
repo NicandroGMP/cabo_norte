@@ -69,7 +69,7 @@ const Encargados = () => {
     dispatch({ type: FETCH_START });
 
     try {
-      const { data } = await jwtAxios.post("/managers/delete", {
+      await jwtAxios.post("/managers/delete", {
         id_manager,
       });
       setTimeout(() => {
@@ -110,7 +110,7 @@ const Encargados = () => {
         try {
           jwtAxios
             .get("/managers/status/" + id + "/" + currentStatus)
-            .then((res) => {
+            .then(() => {
               dispatch({
                 type: FETCH_SUCCESS,
               });
@@ -138,11 +138,13 @@ const Encargados = () => {
         width: 130,
         getActions: (params) => [
           <GridActionsCellItem
+            key={params.row.id}
             icon={<EditIcon />}
             onClick={dataUpdate(params)}
             label="Delete"
           />,
           <GridActionsCellItem
+            key={params.row.id}
             icon={<DeleteIcon />}
             onClick={Modaldelete({
               id_manager: params.row.manager_id,
@@ -152,6 +154,7 @@ const Encargados = () => {
             label="Delete"
           />,
           <GridActionsCellItem
+            key={params.row.id}
             icon={
               params.row.status == "Habilitado" ? (
                 <PersonIcon />
@@ -160,12 +163,10 @@ const Encargados = () => {
               )
             }
             sx={{
-              background: `${
-                params.row.status == "Habilitado" ? "#91E87C" : "#FFA0A0"
-              }`,
-              color: `${
-                params.row.status == "Habilitado" ? "#1E9900" : "#FF0101"
-              }`,
+              background: `${params.row.status == "Habilitado" ? "#91E87C" : "#FFA0A0"
+                }`,
+              color: `${params.row.status == "Habilitado" ? "#1E9900" : "#FF0101"
+                }`,
             }}
             onClick={statusWorker({
               id: params.row.id,

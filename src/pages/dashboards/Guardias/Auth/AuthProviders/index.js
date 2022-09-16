@@ -11,16 +11,14 @@ import {
   FETCH_SUCCESS,
 } from "shared/constants/ActionTypes";
 import jwtAxios from "@crema/services/auth/jwt-auth";
-import { useCurrentWork, useSelectMethod } from "./SelectWorkHook";
+import { useSelectMethod } from "./SelectWorkHook";
 
 const ProvidersIndex = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [rows, setrows] = useState([]);
-  const { work } = useCurrentWork();
   const { selectedWork } = useSelectMethod();
 
-  console.log(work);
   useEffect(() => {
     const getWorkers = async () => {
       dispatch({ type: FETCH_START });
@@ -42,10 +40,6 @@ const ProvidersIndex = () => {
 
   const BitacoraProviders = () => {
     navigate("/guardias/bitacora_proveedores");
-  };
-
-  const selectWork = async (props) => {
-    console.log(props.target.innerText);
   };
 
   const Item = styled(Paper)(({ theme }) => ({
@@ -94,7 +88,7 @@ const ProvidersIndex = () => {
           >
             {rows.map((work) => {
               return (
-                <Grid item xs={4} md={10} sm={4}>
+                <Grid key={work.id} item xs={4} md={10} sm={4}>
                   <Item
                     sx={{
                       cursor: "pointer",

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, forwardRef } from "react";
-import { Button, Box } from "@mui/material";
+import { Box } from "@mui/material";
+import { PropTypes } from "prop-types";
 
 const Identification = forwardRef((props, ref) => {
   const [dataIde, setDataIde] = useState([]);
@@ -46,5 +47,10 @@ const Identification = forwardRef((props, ref) => {
     </>
   );
 });
+
+Identification.propTypes = {
+  Id: PropTypes.any,
+};
+Identification.displayName = 'Identification';
 
 export default Identification;

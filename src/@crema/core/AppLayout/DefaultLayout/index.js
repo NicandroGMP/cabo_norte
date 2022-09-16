@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useAuthMethod, useAuthUser } from "@crema/utility/AuthHooks";
 
 import clsx from "clsx";
 import AppContentView from "@crema/core/AppContentView";
@@ -11,15 +10,12 @@ import MainContent from "./MainContent";
 import { LayoutType } from "shared/constants/AppEnums";
 import AppSidebar from "./AppSidebar";
 import DefaultLayoutContainer from "./DefaultLayoutContainer";
-import MenuItem from "@mui/material/MenuItem";
 
 import { useJWTAuth } from "@crema/services/auth/jwt-auth/JWTAuthProvider";
 const DefaultLayout = () => {
   const { footer, layoutType, headerType, footerType } = useLayoutContext();
   const { user } = useJWTAuth();
   const [wardsLoading, setLoadingWards] = useState(false);
-
-  const { logout } = useAuthMethod();
 
   useEffect(() => {
     if (user.type_user === "guardia") {
