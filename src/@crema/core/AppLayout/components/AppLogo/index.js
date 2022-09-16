@@ -1,40 +1,36 @@
 import React from 'react';
-import {useThemeContext} from '../../../../utility/AppContextProvider/ThemeContextProvider';
-import {alpha, Box} from '@mui/material';
-import {ReactComponent as Logo} from '../../../../../assets/icon/logo.svg';
-import {ReactComponent as LogoText} from '../../../../../assets/icon/logo_text.svg';
+import { Box, Typography } from '@mui/material';
 
 const AppLogo = () => {
-  const {theme} = useThemeContext();
-
   return (
-    <Box
-      sx={{
-        height: {xs: 56, sm: 70},
-        padding: 2.5,
-        display: 'flex',
-        flexDirection: 'row',
-        cursor: 'pointer',
-        alignItems: 'center',
-        justifyContent: 'center',
-        '& svg': {
-          height: {xs: 40, sm: 45},
-        },
-      }}
-      className='app-logo'
-    >
-      <Logo fill={theme.palette.primary.main} />
+    <Box>
       <Box
         sx={{
-          mt: 1,
-          display: {xs: 'none', md: 'block'},
+          height: { xs: 56, sm: 70 },
+          display: 'flex',
+          flexDirection: 'row',
+          cursor: 'pointer',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
           '& svg': {
-            height: {xs: 25, sm: 30},
+            height: { xs: 40, sm: 45 },
           },
         }}
+        className='app-logo'
       >
-        <LogoText fill={alpha(theme.palette.text.primary, 0.8)} />
+        <img
+          style={{
+            width: '60px',
+            height: '60px',
+            objectFit: 'cover',
+          }}
+          src='/assets/images/logo.jpg'
+          alt='crema-logo'
+        />
       </Box>
+      <Typography mt={2} fontWeight="bold">
+        PORTAL DE SEGURIDAD DE<br />CABO NORTE
+      </Typography>
     </Box>
   );
 };
