@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Box, Button } from "@mui/material";
 import { Form, Formik } from "formik";
 import AppTextField from "@crema/core/AppFormComponents/AppTextField";
-import InputLabel from "@mui/material/InputLabel";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import WorkerError from "./errorWorkerSearch";
 import InfWorker from "./InfWorker";
 import {
-  FETCH_ERROR,
   FETCH_START,
   FETCH_SUCCESS,
 } from "shared/constants/ActionTypes";
@@ -87,11 +85,10 @@ const Guardias = () => {
               initialValues={{
                 search: "",
               }}
-              onSubmit={(data, { setSubmitting, resetForm }) => {
+              onSubmit={(data, { setSubmitting }) => {
                 setSubmitting(true);
                 Search({ search: data.search });
                 setSubmitting(false);
-                //resetForm();
               }}
             >
               {({ isSubmitting }) => (

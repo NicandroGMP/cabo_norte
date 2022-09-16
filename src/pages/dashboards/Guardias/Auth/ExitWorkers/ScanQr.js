@@ -1,7 +1,7 @@
 import { QrReader } from "react-qr-reader";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, Snackbar } from "@mui/material";
+import { Box, Button } from "@mui/material";
 
 import { useDispatch } from "react-redux";
 import WorkerError from "./errorWorkerSearch";
@@ -11,21 +11,15 @@ import {
   FETCH_START,
   FETCH_SUCCESS,
 } from "shared/constants/ActionTypes";
-import { Link } from "react-router-dom";
 import IntlMessages from "@crema/utility/IntlMessages";
 import jwtAxios from "@crema/services/auth/jwt-auth";
-const ScanQr = (props) => {
+const ScanQr = () => {
   const [data, setData] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [dataSearch, setDataSearch] = useState(null);
   const [resultSearch, setResultSearch] = useState(false);
-  const [statusWorker, setStatusWorker] = useState(false);
-  const [buttonExit, setButtonExit] = useState(false);
-  const [idWorker, setIdWorker] = useState("");
-  useEffect(() => {
-    console.log(data);
-  }, []);
+
   return (
     <>
       <Box sx={{ mb: 9 }}>
@@ -49,7 +43,7 @@ const ScanQr = (props) => {
       {data === null && (
         <QrReader
           onResult={(result, error) => {
-            if (!!result) {
+            if (result) {
               setData(result?.text);
               dispatch({ type: FETCH_START });
               try {
@@ -68,7 +62,7 @@ const ScanQr = (props) => {
               }
             }
 
-            if (!!error) {
+            if (error) {
               console.info(error);
             }
           }}

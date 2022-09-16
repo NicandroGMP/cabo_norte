@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Box, Button, IconButton } from "@mui/material";
 import { Form, Formik } from "formik";
 import IntlMessages from "@crema/utility/IntlMessages";
 import AppTextField from "@crema/core/AppFormComponents/AppTextField";
 import MuiAlert from "@mui/material/Alert";
 import { Snackbar } from "@mui/material";
-import { Link } from "react-router-dom";
-import jwtAxios, {
-  setAuthToken,
-} from "../../../@crema/services/auth/jwt-auth/index";
+import jwtAxios from "../../../@crema/services/auth/jwt-auth/index";
 import {
   FETCH_ERROR,
   FETCH_START,
@@ -49,14 +46,9 @@ const FormRegister = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [required, setRequired] = useState(null);
   const [message, messageSuccess] = useState(null);
   const [open, setOpen] = useState(false);
   const [TypePass, setTypePass] = useState("password");
-
-  const handleChange = (event) => {
-    setWork(event.target.value);
-  };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {

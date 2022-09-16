@@ -1,6 +1,5 @@
 import React, { useEffect, useState, forwardRef } from "react";
 import { Button, Box } from "@mui/material";
-import IntlMessages from "@crema/utility/IntlMessages";
 import QRCode from "react-qr-code";
 
 const QrCode = forwardRef((props, ref) => {
