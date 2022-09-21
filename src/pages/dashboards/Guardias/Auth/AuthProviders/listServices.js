@@ -1,9 +1,7 @@
 import * as React from "react";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Box, Button } from "@mui/material";
 import { DataGrid, GridToolbar, GridActionsCellItem } from "@mui/x-data-grid";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import jwtAxios from "@crema/services/auth/jwt-auth/index";
 import {
   FETCH_ERROR,
@@ -22,7 +20,7 @@ const ListServices = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [rows, setrows] = useState([]);
-  const [NotRows, setNotRows] = useState(true);
+  const [NotRows] = useState(true);
 
   useEffect(() => {
     const getBatch = async () => {
@@ -43,7 +41,6 @@ const ListServices = () => {
   }, []);
 
   const deleteManager = useCallback((id) => () => {}, []);
-
   /* const getCones = useCallback(
     (id) => () => {
       navigate("/guardias/entradas/cones");
@@ -66,6 +63,7 @@ const ListServices = () => {
         width: 200,
         getActions: (params) => [
           <GridActionsCellItem
+            key={params.id}
             icon={<BsConeStriped />}
             onClick={getProvider(params.id)}
             label="Delete"

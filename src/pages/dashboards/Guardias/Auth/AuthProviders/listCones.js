@@ -11,7 +11,7 @@ import {
   FETCH_SUCCESS,
 } from "shared/constants/ActionTypes";
 import jwtAxios from "@crema/services/auth/jwt-auth";
-import { useCurrentWork, useSelectMethod } from "./SelectWorkHook";
+import { useCurrentWork } from "./SelectWorkHook";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Backdrop from "@mui/material/Backdrop";
@@ -23,7 +23,6 @@ import { API_URL } from "shared/constants/AppConst";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-import axios from "axios";
 
 const Cones = () => {
   const navigate = useNavigate();
@@ -35,8 +34,7 @@ const Cones = () => {
   const [file, setFileName] = useState([]);
   const [imageUrl, setImageUrl] = useState([]);
   const { provider } = useCurrentWork();
-  const [message, messageSuccess] = useState(null);
-  const { selectedWork } = useSelectMethod();
+  const [message] = useState(null);
   const [open, setOpen] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [openContentImg, setContentImage] = useState(false);
@@ -78,10 +76,11 @@ const Cones = () => {
     navigate("/guardias/bitacora_proveedores");
   };
 
-  const selectCone = async (props) => {
+  const selectCone = async (ev) => {
     setOpen(true);
     setCone(props.target.innerText);
     const register_num = props.target.attributes.provider.value;
+    console.log(register_num);
     if (register_num === "null") {
       setContentImage(true);
     } else {
@@ -91,9 +90,9 @@ const Cones = () => {
       });
     }
   };
-  const inputimage = async (props) => {
-    const [fileName] = props.target.files;
-    setFileName(props.target.files[0]);
+  const inputimage = async (ev) => {
+    const [fileName] = ev.target.files;
+    setFileName(ev.target.files[0]);
     setImageUrl(URL.createObjectURL(fileName));
   };
 
@@ -108,9 +107,9 @@ const Cones = () => {
 
   const handleClose = () => setOpen(false);
   const handleCloseAlert = () => {
-    if (reason === "clickaway") {
+    /* if (reason === "clickaway") {
       return;
-    }
+    } */
     setOpenAlert(false);
   };
 
@@ -126,7 +125,7 @@ const Cones = () => {
     const identification = fechaGmt + file.name;
     dispatch({ type: FETCH_START });
     try {
-      const { data } = await jwtAxios.post("/bitacoraProviders/register", {
+      await jwtAxios.post("/bitacoraProviders/register", {
         name,
         work,
         service,
@@ -134,7 +133,7 @@ const Cones = () => {
         identification,
         register_num,
       });
-      const { asignCone } = await jwtAxios.post("/cones/register", {
+      await jwtAxios.post("/cones/register", {
         currentCone,
         provider,
         register_num,
@@ -169,7 +168,7 @@ const Cones = () => {
 
     dispatch({ type: FETCH_START });
     try {
-      const { data } = await jwtAxios.post("/bitacoraProviders/update", {
+      await jwtAxios.post("/bitacoraProviders/update", {
         id_cone,
         id_bitacora,
       });
@@ -340,7 +339,7 @@ const Cones = () => {
           >
             {rows.map((cones) => {
               return (
-                <Grid item xs={4} md={10} sm={4}>
+                <Grid key={cones.id} item xs={4} md={10} sm={4}>
                   <Item
                     sx={{
                       height: 80,

@@ -7,9 +7,7 @@ import AppInfoView from "@crema/core/AppInfoView";
 import MuiAlert from "@mui/material/Alert";
 import { Snackbar } from "@mui/material";
 import { Link } from "react-router-dom";
-import jwtAxios, {
-  setAuthToken,
-} from "../../../@crema/services/auth/jwt-auth/index";
+import jwtAxios from "../../../@crema/services/auth/jwt-auth/index";
 import {
   FETCH_ERROR,
   FETCH_START,
@@ -49,14 +47,9 @@ const FormRegister = () => {
   const dispatch = useDispatch();
   const [status, setStatus] = useState("");
   const [dataUpdate, setDataUpdate] = useState([]);
-  const [work, setWork] = useState("");
-  const [required, setRequired] = useState(null);
   const [message, messageSuccess] = useState(null);
   const [open, setOpen] = useState(false);
 
-  const handleChange = (event) => {
-    setStatus(event.target.value);
-  };
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -109,7 +102,7 @@ const FormRegister = () => {
                   color: dataEdit.color,
                 }}
                 validationSchema={validationSchema}
-                onSubmit={(data, { setSubmitting, resetForm }) => {
+                onSubmit={(data, { setSubmitting }) => {
                   setSubmitting(true);
                   registerWork({
                     id: dataEdit.id,

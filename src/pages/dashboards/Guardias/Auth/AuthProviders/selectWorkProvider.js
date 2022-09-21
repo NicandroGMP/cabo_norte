@@ -1,17 +1,10 @@
 import React, {
   createContext,
   useContext,
-  useEffect,
   useState,
   useCallback,
 } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import {
-  FETCH_ERROR,
-  FETCH_START,
-  FETCH_SUCCESS,
-} from "shared/constants/ActionTypes";
 import { useNavigate } from "react-router-dom";
 const SelectWork = createContext();
 const GetWork = createContext();
@@ -26,9 +19,9 @@ const SelectWorkProvider = ({ children }) => {
   const [batch, setBatch] = useState({ batch: null });
   const [provider, setProvider] = useState({ provider: null });
 
-  const selectedWork = (props) => {
+  const selectedWork = (ev) => {
     /* setWork({ work: data }); */
-    setWork({ work: props.target.innerText });
+    setWork({ work: ev.target.innerText });
     navigate("/guardias/entradas/lotes");
   };
   const getServices = useCallback(

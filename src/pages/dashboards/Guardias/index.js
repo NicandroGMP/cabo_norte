@@ -13,7 +13,7 @@ import {
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AppInfoView from "@crema/core/AppInfoView";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import Tooltip from "@mui/material/Tooltip";
 import PersonOffIcon from "@mui/icons-material/PersonOff";
 import PersonIcon from "@mui/icons-material/Person";
 import CustomNoRows from "./components/CustomNoRows";
@@ -68,7 +68,7 @@ const Guardias = () => {
     dispatch({ type: FETCH_START });
 
     try {
-      const { data } = await jwtAxios.post("/guards/delete", {
+      await jwtAxios.post("/guards/delete", {
         id_guards,
       });
       setTimeout(() => {
@@ -109,7 +109,7 @@ const Guardias = () => {
         try {
           jwtAxios
             .get("/guards/status/" + id + "/" + currentStatus)
-            .then((res) => {
+            .then(() => {
               dispatch({
                 type: FETCH_SUCCESS,
               });
@@ -136,6 +136,7 @@ const Guardias = () => {
         headerName: "Actions",
         getActions: (params) => [
           <GridActionsCellItem
+            key={params.row.id}
             icon={
               <Tooltip title="Editar" placement="top-start">
                 <EditIcon />
@@ -145,6 +146,7 @@ const Guardias = () => {
             label="Delete"
           />,
           <GridActionsCellItem
+            key={params.row.id}
             icon={<DeleteIcon />}
             onClick={Modaldelete({
               id_guards: params.row.guards_id,
@@ -154,6 +156,7 @@ const Guardias = () => {
             label="Delete"
           />,
           <GridActionsCellItem
+            key={params.row.id}
             icon={
               params.row.status == "Habilitado" ? (
                 <PersonIcon />
@@ -162,12 +165,10 @@ const Guardias = () => {
               )
             }
             sx={{
-              background: `${
-                params.row.status == "Habilitado" ? "#91E87C" : "#FFA0A0"
-              }`,
-              color: `${
-                params.row.status == "Habilitado" ? "#1E9900" : "#FF0101"
-              }`,
+              background: `${params.row.status == "Habilitado" ? "#91E87C" : "#FFA0A0"
+                }`,
+              color: `${params.row.status == "Habilitado" ? "#1E9900" : "#FF0101"
+                }`,
             }}
             onClick={statusGuards({
               id: params.id,

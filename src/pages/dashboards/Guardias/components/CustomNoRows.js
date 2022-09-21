@@ -1,15 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Box, Button } from "@mui/material";
-import { Form, Formik } from "formik";
-import IntlMessages from "@crema/utility/IntlMessages";
-import AppTextField from "@crema/core/AppFormComponents/AppTextField";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import MuiAlert from "@mui/material/Alert";
-import { Snackbar } from "@mui/material";
-import { Link } from "react-router-dom";
-import Signin from "pages/auth/Signin";
+
 const CustomNoRows = () => {
   return (
     <>
@@ -45,7 +36,6 @@ const CustomNoRows = () => {
           <Box
             sx={{
               mb: 7,
-              color: "gray",
               fontSize: "0.8rem",
               textAlign: "center",
               color: "#626262",

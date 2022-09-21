@@ -9,9 +9,7 @@ import Select from "@mui/material/Select";
 import MuiAlert from "@mui/material/Alert";
 import { Snackbar } from "@mui/material";
 import { Link } from "react-router-dom";
-import jwtAxios, {
-  setAuthToken,
-} from "../../../@crema/services/auth/jwt-auth/index";
+import jwtAxios from "../../../@crema/services/auth/jwt-auth/index";
 import {
   FETCH_ERROR,
   FETCH_START,

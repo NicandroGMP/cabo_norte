@@ -1,8 +1,8 @@
 import * as React from "react";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useCurrentWork, useSelectMethod } from "./SelectWorkHook";
-import { Box, Button, Icon } from "@mui/material";
-import { DataGrid, GridToolbar, GridActionsCellItem } from "@mui/x-data-grid";
+import { Box, Button } from "@mui/material";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import jwtAxios from "@crema/services/auth/jwt-auth/index";
 import {
@@ -20,7 +20,7 @@ const ListBatch = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [rows, setrows] = useState([]);
-  const [NotRows, setNotRows] = useState(true);
+  const [NotRows] = useState(true);
 
   useEffect(() => {
     const getBatch = async () => {
@@ -55,6 +55,7 @@ const ListBatch = () => {
         headerName: "Seleccionar Subcondominio y Lote",
         getActions: (params) => [
           <GridActionsCellItem
+            key={params.id}
             icon={<KeyboardDoubleArrowRightIcon />}
             onClick={getServices(params.id)}
             label="Lote"

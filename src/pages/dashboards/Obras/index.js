@@ -13,7 +13,7 @@ import {
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ModalDelete from "./components/ModalDelete";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import Tooltip from "@mui/material/Tooltip";
 import PersonOffIcon from "@mui/icons-material/PersonOff";
 import PersonIcon from "@mui/icons-material/Person";
 import CustomNoRows from "./components/CustomNoRows";
@@ -64,7 +64,7 @@ const Obras = () => {
     dispatch({ type: FETCH_START });
 
     try {
-      const { data } = await jwtAxios.post("/works/delete", {
+      await jwtAxios.post("/works/delete", {
         id,
       });
       setTimeout(() => {
@@ -107,7 +107,7 @@ const Obras = () => {
         try {
           jwtAxios
             .get("/works/status/" + id + "/" + currentStatus)
-            .then((res) => {
+            .then(() => {
               dispatch({
                 type: FETCH_SUCCESS,
               });
@@ -133,6 +133,7 @@ const Obras = () => {
         width: 180,
         getActions: (params) => [
           <GridActionsCellItem
+            key={params.row.id}
             icon={
               <Tooltip title="Editar" placement="top-start">
                 <EditIcon />
@@ -142,11 +143,13 @@ const Obras = () => {
             label="Delete"
           />,
           <GridActionsCellItem
+            key={params.row.id}
             icon={<DeleteIcon />}
             onClick={Modaldelete({ id: params.id, name: params.row.job })}
             label="Delete"
           />,
           <GridActionsCellItem
+            key={params.row.id}
             icon={
               params.row.status == "Habilitado" ? (
                 <PersonIcon />
@@ -155,12 +158,10 @@ const Obras = () => {
               )
             }
             sx={{
-              background: `${
-                params.row.status == "Habilitado" ? "#91E87C" : "#FFA0A0"
-              }`,
-              color: `${
-                params.row.status == "Habilitado" ? "#1E9900" : "#FF0101"
-              }`,
+              background: `${params.row.status == "Habilitado" ? "#91E87C" : "#FFA0A0"
+                }`,
+              color: `${params.row.status == "Habilitado" ? "#1E9900" : "#FF0101"
+                }`,
             }}
             onClick={statusWorks({
               id: params.id,

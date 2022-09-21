@@ -1,13 +1,11 @@
 import React from "react";
 import { Button, IconButton, Box } from "@mui/material";
-import { Checkbox } from "@mui/material";
 import { Form, Formik } from "formik";
 import * as yup from "yup";
 import AppInfoView from "@crema/core/AppInfoView";
-import { Link, useNavigate } from "react-router-dom";
 import IntlMessages from "@crema/utility/IntlMessages";
 import AppTextField from "@crema/core/AppFormComponents/AppTextField";
-import { useAuthMethod, useAuthUser } from "@crema/utility/AuthHooks";
+import { useAuthMethod } from "@crema/utility/AuthHooks";
 import { Fonts } from "shared/constants/AppEnums";
 import { useState } from "react";
 import Alert from "@mui/material/Alert";
@@ -23,15 +21,13 @@ const validationSchema = yup.object({
 });
 
 const SigninJwtAuth = () => {
-  const [error, setError] = useState(null);
+  const [error] = useState(null);
   const [TypePass, setTypePass] = useState("password");
-
-  const navigate = useNavigate();
   const { signInUser } = useAuthMethod();
-  const { user } = useAuthUser();
+  /* const { user } = useAuthUser();
   const onGoToForgetPassword = () => {
     navigate("/forget-password", { tab: "jwtAuth" });
-  };
+  }; */
 
   return (
     <>

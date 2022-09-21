@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Box, Button, Snackbar } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import MuiAlert from "@mui/material/Alert";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 import Card from "@mui/material/Card";
 import {
   FETCH_ERROR,
@@ -14,6 +12,7 @@ import {
 } from "shared/constants/ActionTypes";
 import CardContent from "@mui/material/CardContent";
 import jwtAxios from "@crema/services/auth/jwt-auth";
+import { PropTypes } from "prop-types";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -22,7 +21,7 @@ const InfWorker = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [dataBitacora, setDataBitacora] = useState(props.dataWorker);
+  const [dataBitacora] = useState(props.dataWorker);
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -293,6 +292,10 @@ const InfWorker = (props) => {
       </Box>
     </>
   );
+};
+
+InfWorker.propTypes = {
+  dataWorker: PropTypes.array,
 };
 
 export default InfWorker;

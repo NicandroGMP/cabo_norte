@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Drawer from "@mui/material/Drawer";
 import Hidden from "@mui/material/Hidden";
 import clsx from "clsx";
@@ -11,7 +11,6 @@ import MainSidebar from "../components/MainSidebar";
 import { useLayoutContext } from "../../../utility/AppContextProvider/LayoutContextProvider";
 import UserInfo from "../components/UserInfo";
 import { useSidebarContext } from "../../../utility/AppContextProvider/SidebarContextProvider";
-import { useJWTAuth } from "@crema/services/auth/jwt-auth/JWTAuthProvider";
 const AppSidebar = (props) => {
   const dispatch = useDispatch();
   const navCollapsed = useSelector(({ settings }) => settings.navCollapsed);

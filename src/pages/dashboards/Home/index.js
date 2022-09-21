@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Box } from "@mui/material";
 
 import { useJWTAuth } from "@crema/services/auth/jwt-auth/JWTAuthProvider";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {

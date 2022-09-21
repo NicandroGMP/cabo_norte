@@ -11,13 +11,12 @@ import {
   FETCH_SUCCESS,
 } from "shared/constants/ActionTypes";
 import jwtAxios from "@crema/services/auth/jwt-auth";
-import { useCurrentWork, useSelectMethod } from "./SelectWorkHook";
+import { useSelectMethod } from "./SelectWorkHook";
 
 const ProvidersIndex = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [rows, setrows] = useState([]);
-  const { work } = useCurrentWork();
   const { selectedWork } = useSelectMethod();
 
   useEffect(() => {
@@ -88,7 +87,7 @@ const ProvidersIndex = () => {
           >
             {rows.map((work) => {
               return (
-                <Grid item xs={4} md={10} sm={4}>
+                <Grid key={work.id} item xs={4} md={10} sm={4}>
                   <Item
                     sx={{
                       cursor: "pointer",
