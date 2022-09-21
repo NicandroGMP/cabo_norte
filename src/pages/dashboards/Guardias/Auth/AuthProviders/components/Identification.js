@@ -5,7 +5,6 @@ const Identification = forwardRef((props, ref) => {
   const [dataIde, setDataIde] = useState([]);
 
   useEffect(() => {
-    console.log(props.Id);
     setDataIde([props.Id]);
   }, []);
   return (
@@ -20,7 +19,6 @@ const Identification = forwardRef((props, ref) => {
         }}
       >
         {dataIde.map((data) => {
-          console.log(data);
           return (
             <>
               <Box

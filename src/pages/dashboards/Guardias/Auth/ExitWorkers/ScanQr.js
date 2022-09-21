@@ -23,9 +23,7 @@ const ScanQr = (props) => {
   const [statusWorker, setStatusWorker] = useState(false);
   const [buttonExit, setButtonExit] = useState(false);
   const [idWorker, setIdWorker] = useState("");
-  useEffect(() => {
-    console.log(data);
-  }, []);
+  useEffect(() => {}, []);
   return (
     <>
       <Box sx={{ mb: 9 }}>

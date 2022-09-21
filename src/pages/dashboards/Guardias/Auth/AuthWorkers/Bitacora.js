@@ -48,7 +48,6 @@ const Bitacora = () => {
       .get("/bitacora/" + moment(value).format("Y-MM-DD"))
       .then((res) => {
         setrows(res.data.bitacora);
-        console.log(res.data);
         setCompleteRegister(res.data.success_entry);
         setTotalRegister(res.data.total_worker);
         setDontExit(res.data.dontExit.dontExit);

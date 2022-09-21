@@ -101,7 +101,6 @@ const formEdit = () => {
         id,
         newPassword,
       });
-      console.log(data);
       messageSuccess(data.message);
       setOpen(true);
       dispatch({ type: FETCH_SUCCESS });
@@ -136,7 +135,6 @@ const formEdit = () => {
         email,
         username,
       });
-      console.log(data);
       messageSuccess(data.message);
       setOpen(true);
       dispatch({ type: FETCH_SUCCESS });

@@ -116,7 +116,6 @@ const Trabajadores = () => {
 
   const deleteWorker = async () => {
     const id = dataDelete.id;
-    console.log(id);
     dispatch({ type: FETCH_START });
 
     try {
@@ -129,7 +128,6 @@ const Trabajadores = () => {
       setOpenMD(false);
       dispatch({ type: FETCH_SUCCESS });
     } catch (error) {
-      console.log(error);
       dispatch({
         type: FETCH_ERROR,
         payload:

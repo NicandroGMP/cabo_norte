@@ -30,9 +30,7 @@ const InfWorker = (props) => {
 
     setOpen(false);
   };
-  useEffect(() => {
-    console.log(dataBitacora);
-  }, []);
+  useEffect(() => {}, []);
 
   const insertExitWorker = async () => {
     const [dataExit] = dataBitacora;

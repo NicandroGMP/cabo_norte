@@ -86,7 +86,6 @@ const FormRegister = () => {
 
     jwtAxios.get("/manager/" + user.user_inf).then((res) => {
       const [manager] = res.data.manager;
-      console.log(manager);
       setWork(manager.work_id);
     });
   }, []);

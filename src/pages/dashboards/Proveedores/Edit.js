@@ -49,7 +49,6 @@ const formEdit = () => {
 
   const handleChange = (event) => {
     setWork(event.target.value);
-    console.log(event.target.value);
   };
 
   const selectManager = (event) => {
@@ -72,7 +71,6 @@ const formEdit = () => {
         name,
         service,
       });
-      console.log(data);
       messageSuccess(data.message);
       setOpen(true);
       dispatch({ type: FETCH_SUCCESS });

@@ -29,7 +29,6 @@ const ListServices = () => {
       dispatch({ type: FETCH_START });
       try {
         await jwtAxios.get("/providers/services/" + batch).then((res) => {
-          console.log(res.data);
           setrows(res.data.services);
           dispatch({ type: FETCH_SUCCESS });
         });
@@ -43,12 +42,7 @@ const ListServices = () => {
     getBatch();
   }, []);
 
-  const deleteManager = useCallback(
-    (id) => () => {
-      console.log(id);
-    },
-    []
-  );
+  const deleteManager = useCallback((id) => () => {}, []);
 
   /* const getCones = useCallback(
     (id) => () => {

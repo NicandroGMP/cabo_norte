@@ -27,7 +27,6 @@ const ListBatch = () => {
       dispatch({ type: FETCH_START });
       try {
         await jwtAxios.get("/works/search/" + work).then((res) => {
-          console.log(res.data);
           setrows(res.data.works);
           dispatch({ type: FETCH_SUCCESS });
         });

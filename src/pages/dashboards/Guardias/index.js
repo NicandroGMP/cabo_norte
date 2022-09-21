@@ -29,7 +29,6 @@ const Guardias = () => {
 
   const dataUpdate = useCallback((datas) => () => {
     const data = datas.row;
-    console.log(data);
     localStorage.setItem("dataid", data.id);
     localStorage.setItem("datausername", data.username);
     localStorage.setItem("dataid_guard", data.guards_id);
@@ -66,7 +65,6 @@ const Guardias = () => {
   const deleteGuard = async () => {
     const id_guards = dataDelete.id_guards;
     const id = dataDelete.id;
-    console.log(id);
     dispatch({ type: FETCH_START });
 
     try {

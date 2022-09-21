@@ -35,7 +35,6 @@ const Proveedores = () => {
 
   const dataUpdate = useCallback((datas) => () => {
     const data = datas.row;
-    console.log(data);
     localStorage.setItem("dataid", data.id);
     localStorage.setItem("dataname", data.name);
     localStorage.setItem("dataservice", data.service);
@@ -59,12 +58,7 @@ const Proveedores = () => {
     getProviders();
   }, []);
 
-  const deleteWorker = useCallback(
-    (id) => () => {
-      console.log(id);
-    },
-    []
-  );
+  const deleteWorker = useCallback((id) => () => {}, []);
 
   /*  const dataQr = useCallback(
     (number) => () => {
@@ -122,7 +116,6 @@ const Proveedores = () => {
   const handleClose = () => setOpen(false);
   const deleteProvider = async () => {
     const id = dataDelete.id;
-    console.log(id);
     dispatch({ type: FETCH_START });
 
     try {
@@ -135,7 +128,6 @@ const Proveedores = () => {
       setOpen(false);
       dispatch({ type: FETCH_SUCCESS });
     } catch (error) {
-      console.log(error);
       dispatch({
         type: FETCH_ERROR,
         payload:

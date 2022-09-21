@@ -73,7 +73,6 @@ const Obras = () => {
       setOpen(false);
       dispatch({ type: FETCH_SUCCESS });
     } catch (error) {
-      console.log(error);
       dispatch({
         type: FETCH_ERROR,
         payload:

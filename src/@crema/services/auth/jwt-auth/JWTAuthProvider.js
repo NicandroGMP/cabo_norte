@@ -77,7 +77,6 @@ const JWTAuthAuthProvider = ({ children }) => {
       localStorage.setItem("token", data.access_token);
       localStorage.setItem("id_user", data.user.id);
       setAuthToken(data.access_token);
-      console.log(data);
       setJWTAuthData({
         user: data.user,
         isAuthenticated: true,

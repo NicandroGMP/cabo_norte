@@ -20,13 +20,11 @@ const ProvidersIndex = () => {
   const { work } = useCurrentWork();
   const { selectedWork } = useSelectMethod();
 
-  console.log(work);
   useEffect(() => {
     const getWorkers = async () => {
       dispatch({ type: FETCH_START });
       try {
         await jwtAxios.get("/works/filterWorks").then((res) => {
-          console.log(res.data.works);
           setrows(res.data.works);
           dispatch({ type: FETCH_SUCCESS });
         });
@@ -42,10 +40,6 @@ const ProvidersIndex = () => {
 
   const BitacoraProviders = () => {
     navigate("/guardias/bitacora_proveedores");
-  };
-
-  const selectWork = async (props) => {
-    console.log(props.target.innerText);
   };
 
   const Item = styled(Paper)(({ theme }) => ({

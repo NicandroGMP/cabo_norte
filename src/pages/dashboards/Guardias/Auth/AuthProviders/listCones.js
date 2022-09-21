@@ -42,12 +42,10 @@ const Cones = () => {
   const [openContentImg, setContentImage] = useState(false);
 
   useEffect(() => {
-    console.log(imageUrl);
     const getCones = async () => {
       dispatch({ type: FETCH_START });
       try {
         await jwtAxios.get("/cones").then((res) => {
-          console.log(res.data.cones);
           setrows(res.data.cones);
           dispatch({ type: FETCH_SUCCESS });
         });
@@ -63,7 +61,6 @@ const Cones = () => {
       dispatch({ type: FETCH_START });
       try {
         await jwtAxios.get("/provider/" + provider).then((res) => {
-          console.log(res.data.provider);
           setProvider(res.data.provider);
           dispatch({ type: FETCH_SUCCESS });
         });
@@ -85,14 +82,11 @@ const Cones = () => {
     setOpen(true);
     setCone(props.target.innerText);
     const register_num = props.target.attributes.provider.value;
-    console.log(register_num);
     if (register_num === "null") {
       setContentImage(true);
-      console.log("imgcTrue");
     } else {
       await jwtAxios.post("/cones/search", { register_num }).then((res) => {
         setProviderModal(res.data.conesData);
-        console.log(res.data.conesData);
         setContentImage(false);
       });
     }
@@ -159,7 +153,6 @@ const Cones = () => {
         dataArray,
         config
       );
-      console.log(upload);
       navigate("/guardias/bitacora_proveedores");
       dispatch({ type: FETCH_SUCCESS });
     } catch (error) {
@@ -172,7 +165,6 @@ const Cones = () => {
   const addExitToBitacora = async () => {
     const id_cone = currentCone;
     const [dataBitacora] = providerModal;
-    console.log(dataBitacora.id);
     const id_bitacora = dataBitacora.id;
 
     dispatch({ type: FETCH_START });
