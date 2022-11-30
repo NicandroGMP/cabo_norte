@@ -11,19 +11,18 @@ import {
   FETCH_SUCCESS,
 } from "shared/constants/ActionTypes";
 import jwtAxios from "@crema/services/auth/jwt-auth";
-import { useCurrentWork } from "./SelectWorkHook";
+import { useCurrentWork, useSelectMethod } from "./SelectWorkHook";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Backdrop from "@mui/material/Backdrop";
 import Stack from "@mui/material/Stack";
 import { Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
-
-import { API_URL } from "shared/constants/AppConst";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-
+import axios from "axios";
+import { API_URL } from "shared/constants/AppConst";
 const Cones = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,16 +33,19 @@ const Cones = () => {
   const [file, setFileName] = useState([]);
   const [imageUrl, setImageUrl] = useState([]);
   const { provider } = useCurrentWork();
-  const [message] = useState(null);
+  const [message, messageSuccess] = useState(null);
+  const { selectedWork } = useSelectMethod();
   const [open, setOpen] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [openContentImg, setContentImage] = useState(false);
 
   useEffect(() => {
+    console.log(imageUrl);
     const getCones = async () => {
       dispatch({ type: FETCH_START });
       try {
         await jwtAxios.get("/cones").then((res) => {
+          console.log(res.data.cones);
           setrows(res.data.cones);
           dispatch({ type: FETCH_SUCCESS });
         });
@@ -59,6 +61,7 @@ const Cones = () => {
       dispatch({ type: FETCH_START });
       try {
         await jwtAxios.get("/provider/" + provider).then((res) => {
+          console.log(res.data.provider);
           setProvider(res.data.provider);
           dispatch({ type: FETCH_SUCCESS });
         });
@@ -76,23 +79,27 @@ const Cones = () => {
     navigate("/guardias/bitacora_proveedores");
   };
 
-  const selectCone = async (ev) => {
+  const selectCone = async (props) => {
     setOpen(true);
     setCone(props.target.innerText);
     const register_num = props.target.attributes.provider.value;
     console.log(register_num);
     if (register_num === "null") {
       setContentImage(true);
+      console.log("imgcTrue");
     } else {
       await jwtAxios.post("/cones/search", { register_num }).then((res) => {
         setProviderModal(res.data.conesData);
+        console.log(res.data.conesData);
         setContentImage(false);
       });
     }
   };
-  const inputimage = async (ev) => {
-    const [fileName] = ev.target.files;
-    setFileName(ev.target.files[0]);
+  const inputimage = async (props) => {
+    const [fileName] = props.target.files;
+    setFileName(props.target.files[0]);
+    console.log(props.target.files[0]);
+    console.log(fileName);
     setImageUrl(URL.createObjectURL(fileName));
   };
 
@@ -107,25 +114,39 @@ const Cones = () => {
 
   const handleClose = () => setOpen(false);
   const handleCloseAlert = () => {
-    /* if (reason === "clickaway") {
+    if (reason === "clickaway") {
       return;
-    } */
+    }
     setOpenAlert(false);
   };
 
   const addToBitacora = async () => {
-    const fechaGmt = +new Date();
+    const dataArray = new FormData();
+    dataArray.append("filename", file);
+    dataArray.append("uploadFile", file);
+    console.log(dataArray);
+    console.log(file.name);
 
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    const { data } = await jwtAxios.post(
+      "/bitacoraProviders/upload",
+      dataArray,
+      config
+    );
     const [dataInsert] = currentprovider;
     const name = dataInsert.name;
     const work = dataInsert.job;
     const service = dataInsert.service;
     const register_num = dataInsert.register_number;
     const num_cone = currentCone;
-    const identification = fechaGmt + file.name;
+    const identification = file.name;
     dispatch({ type: FETCH_START });
     try {
-      await jwtAxios.post("/bitacoraProviders/register", {
+      const { data } = await jwtAxios.post("/bitacoraProviders/register", {
         name,
         work,
         service,
@@ -133,25 +154,13 @@ const Cones = () => {
         identification,
         register_num,
       });
-      await jwtAxios.post("/cones/register", {
+      const { asignCone } = await jwtAxios.post("/cones/register", {
         currentCone,
         provider,
         register_num,
       });
-      const dataArray = new FormData();
-      dataArray.append("filename", fechaGmt + file.name);
-      dataArray.append("uploadFile", file);
-
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-      const { upload } = await jwtAxios.post(
-        "/bitacoraProviders/upload",
-        dataArray,
-        config
-      );
+      messageSuccess(data.message);
+      setOpenAlert(true);
       navigate("/guardias/bitacora_proveedores");
       dispatch({ type: FETCH_SUCCESS });
     } catch (error) {
@@ -164,11 +173,12 @@ const Cones = () => {
   const addExitToBitacora = async () => {
     const id_cone = currentCone;
     const [dataBitacora] = providerModal;
+    console.log(dataBitacora.id);
     const id_bitacora = dataBitacora.id;
 
     dispatch({ type: FETCH_START });
     try {
-      await jwtAxios.post("/bitacoraProviders/update", {
+      const { data } = await jwtAxios.post("/bitacoraProviders/update", {
         id_cone,
         id_bitacora,
       });
@@ -220,12 +230,8 @@ const Cones = () => {
               border: "2px solid #000",
               boxShadow: 24,
               p: 4,
-              textAlign: "center",
             }}
           >
-            <Box>
-              <h1>Agregar identificacion</h1>
-            </Box>
             <Stack
               direction="row"
               alignItems="center"
@@ -260,7 +266,7 @@ const Cones = () => {
                       margin: "auto",
                     }}
                   >
-                    Subir Imagen
+                    Upload
                     <input
                       name="image"
                       onChange={inputimage}
@@ -324,46 +330,37 @@ const Cones = () => {
           width: "100%",
         }}
       >
-        <Box
-          sx={{
-            flexGrow: 1,
-            margin: "auto",
-            width: "70%",
-          }}
-          maxWidth="sm"
-        >
-          <Grid
-            container
-            spacing={{ sm: 2, md: 2, xs: 2 }}
-            columns={{ sm: 20, xs: 20, md: 50 }}
-          >
-            {rows.map((cones) => {
-              return (
-                <Grid key={cones.id} item xs={4} md={10} sm={4}>
-                  <Item
-                    sx={{
-                      height: 80,
-                      width: 80,
-                      cursor: "pointer",
-                      background: `${
-                        cones.status == 1 ? "#3D9E22" : "#EC2506"
-                      }`,
-                      color: "white",
-                      display: "flex",
-                      alignContent: "center",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                    }}
-                    onClick={selectCone}
-                    provider={
-                      cones.register_number ? cones.register_number : "null"
-                    }
-                  >
-                    {cones.num_cone}
-                  </Item>
-                </Grid>
-              );
-            })}
+        <Box sx={{ flexGrow: 1, margin: "auto", width: "70%" }}>
+          <Grid container spacing={1}>
+            <Grid container item spacing={3}>
+              {rows.map((cones) => {
+                return (
+                  <Grid item xs={2}>
+                    <Item
+                      sx={{
+                        width: "80px",
+                        height: "80px",
+                        cursor: "pointer",
+                        background: `${
+                          cones.status == 1 ? "#3D9E22" : "#EC2506"
+                        }`,
+                        color: "white",
+                        display: "flex",
+                        alignContent: "center",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                      }}
+                      onClick={selectCone}
+                      provider={
+                        cones.register_number ? cones.register_number : "null"
+                      }
+                    >
+                      {cones.num_cone}
+                    </Item>
+                  </Grid>
+                );
+              })}
+            </Grid>
           </Grid>
         </Box>
       </div>

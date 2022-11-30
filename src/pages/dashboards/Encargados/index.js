@@ -163,10 +163,12 @@ const Encargados = () => {
               )
             }
             sx={{
-              background: `${params.row.status == "Habilitado" ? "#91E87C" : "#FFA0A0"
-                }`,
-              color: `${params.row.status == "Habilitado" ? "#1E9900" : "#FF0101"
-                }`,
+              background: `${
+                params.row.status == "Habilitado" ? "#91E87C" : "#FFA0A0"
+              }`,
+              color: `${
+                params.row.status == "Habilitado" ? "#1E9900" : "#FF0101"
+              }`,
             }}
             onClick={statusWorker({
               id: params.row.id,
@@ -182,7 +184,29 @@ const Encargados = () => {
   function CustomNoRowsOverlay() {
     return <>{NotRows === false && <CustomNoRows />}</>;
   }
+  const file = async (ev) => {
+    var file = ev.target.files[0];
+    let reader = new FileReader();
+    reader.onload = function (event) {
+      let data = event.target.result;
+      const keys = data.slice(0, data.indexOf("\r\n")).split(",");
+      const values = data.slice(data.indexOf("\n") + 1).split("\r\n");
 
+      const createArray = values.map((keyValues) => {
+        const newvalues = keyValues.split(",");
+        if (newvalues[0].length > 1) {
+          const storeKeyValue = keys.reduce((obj, keys, index) => {
+            obj[keys] = newvalues[index];
+            return obj;
+          }, {});
+          return storeKeyValue;
+        }
+      });
+
+      console.log(createArray);
+    };
+    reader.readAsText(file);
+  };
   return (
     <>
       <ModalDelete
@@ -206,6 +230,16 @@ const Encargados = () => {
         >
           Registrar Encargado
         </Button>
+        {/* <Button variant="contained" component="label">
+          Importar Datos
+          <input
+            onChange={file}
+            hidden
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            multiple
+            type="file"
+          />
+        </Button> */}
       </Box>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid

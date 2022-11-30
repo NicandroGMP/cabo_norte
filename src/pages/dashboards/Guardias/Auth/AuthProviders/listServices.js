@@ -40,7 +40,6 @@ const ListServices = () => {
     getBatch();
   }, []);
 
-  const deleteManager = useCallback((id) => () => {}, []);
   /* const getCones = useCallback(
     (id) => () => {
       navigate("/guardias/entradas/cones");

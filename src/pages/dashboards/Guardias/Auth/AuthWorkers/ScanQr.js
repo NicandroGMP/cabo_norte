@@ -1,15 +1,12 @@
 import { QrReader } from "react-qr-reader";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Button } from "@mui/material";
 
 import { useDispatch } from "react-redux";
 import WorkerError from "./errorWorkerSearch";
 import InfWorker from "./InfWorker";
-import {
-  FETCH_START,
-  FETCH_SUCCESS,
-} from "shared/constants/ActionTypes";
+import { FETCH_START, FETCH_SUCCESS } from "shared/constants/ActionTypes";
 import IntlMessages from "@crema/utility/IntlMessages";
 import jwtAxios from "@crema/services/auth/jwt-auth";
 

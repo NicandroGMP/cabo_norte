@@ -65,6 +65,13 @@ const ProvidersIndex = () => {
         <Button onClick={BitacoraProviders} color="primary" variant="outlined">
           Bitacora Proveedores
         </Button>
+        <Button
+          onClick={() => navigate("/guardias/home")}
+          color="primary"
+          variant="outlined"
+        >
+          Home
+        </Button>
       </Box>
 
       <div
