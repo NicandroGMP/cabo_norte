@@ -1,6 +1,7 @@
 import React from "react";
 import { Box } from "@mui/material";
 import { baseURL } from "shared/constants/AppConst";
+
 const CustomNoRows = () => {
   return (
     <>
