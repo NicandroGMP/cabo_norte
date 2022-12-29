@@ -135,14 +135,14 @@ const UserInfo = ({ color }) => {
           horizontal: "right",
         }}
       >
-        <MenuItem
+        {/* <MenuItem
           onClick={() => {
             handleClose();
             navigate("/my-profile");
           }}
         >
           Mi Cuenta
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem onClick={logout}>Salir</MenuItem>
       </Menu>
     </>
