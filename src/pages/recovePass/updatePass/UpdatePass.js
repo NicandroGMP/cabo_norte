@@ -33,7 +33,7 @@ const UpdatePass = () => {
     dispatch({ type: FETCH_START });
 
     try {
-      const { data } = await jwtAxios.post("/updatePassword", {
+      await jwtAxios.post("/updatePassword", {
         password,
         cookie,
       });

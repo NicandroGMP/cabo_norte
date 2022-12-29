@@ -1,11 +1,9 @@
 import React, { useEffect, useState, forwardRef } from "react";
-import { Button, Box } from "@mui/material";
-import IntlMessages from "@crema/utility/IntlMessages";
+import { Box } from "@mui/material";
 import QRCode from "react-qr-code";
 import Logo from "./plantilla.png";
 
 const QrCode = forwardRef((props, ref) => {
-  const [dataQr, setDataQr] = useState("");
   const [dataWorker, setDataWorker] = useState([]);
 
   useEffect(() => {
