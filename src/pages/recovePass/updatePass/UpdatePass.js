@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "@mui/material/Button";
 import { Form, Formik } from "formik";
 import * as yup from "yup";
@@ -11,9 +11,7 @@ import { Fonts } from "shared/constants/AppEnums";
 import AuthWrapper from "../../auth/AuthWrapper";
 import AppLogo from "@crema/core/AppLayout/components/AppLogo";
 import { useDispatch } from "react-redux";
-import jwtAxios, {
-  setAuthToken,
-} from "../../../@crema/services/auth/jwt-auth/index";
+import jwtAxios from "../../../@crema/services/auth/jwt-auth/index";
 import {
   FETCH_ERROR,
   FETCH_START,
