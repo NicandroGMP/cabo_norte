@@ -1,7 +1,5 @@
-export const baseURL = "localhost:3000/";
-
 // PROD
-export const API_URL = "http://localhost/cabo_norte_api_rest/";
+export const API_URL = "https://accesoscse.com/cabo_norte_api_rest/";
 
 // DEV
 // export const API_URL = "http://localhost/cabonorte-panel/cabo_norte_api_rest/";
