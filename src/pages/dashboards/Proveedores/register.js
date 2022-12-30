@@ -29,6 +29,7 @@ const FormRegister = () => {
   const dispatch = useDispatch();
   const [work, setWork] = useState("");
   const [message, messageSuccess] = useState(null);
+  const [managers, setManagers] = useState([]);
   const [open, setOpen] = useState(false);
   const { user } = useAuthUser();
 
