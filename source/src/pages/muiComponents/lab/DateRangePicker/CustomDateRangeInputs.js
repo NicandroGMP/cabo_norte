@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { LocalizationProvider } from '@mui/x-date-pickers'
 import DateRangePicker from '@mui/lab/DateRangePicker';
 
 export default function CustomDateRangeInputs() {
@@ -16,7 +16,7 @@ export default function CustomDateRangeInputs() {
         renderInput={(startProps, endProps) => (
           <React.Fragment>
             <input ref={startProps.inputRef} {...startProps.inputProps} />
-            <Box sx={{mx: 1}}> to </Box>
+            <Box sx={{ mx: 1 }}> to </Box>
             <input ref={endProps.inputRef} {...endProps.inputProps} />
           </React.Fragment>
         )}

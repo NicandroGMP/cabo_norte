@@ -1,8 +1,8 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import Stack from '@mui/material/Stack';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { LocalizationProvider } from '@mui/x-date-pickers'
 import TimePicker from '@mui/lab/TimePicker';
 import MobileTimePicker from '@mui/lab/MobileTimePicker';
 import DesktopTimePicker from '@mui/lab/DesktopTimePicker';

@@ -1,15 +1,15 @@
 import * as React from 'react';
-import {styled} from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { LocalizationProvider } from '@mui/x-date-pickers'
 
 import StaticDateRangePicker from '@mui/lab/StaticDateRangePicker';
 import MuiDateRangePickerDay from '@mui/lab/DateRangePickerDay';
 
 const DateRangePickerDay = styled(MuiDateRangePickerDay)(
-  ({theme, isHighlighting, isStartOfHighlighting, isEndOfHighlighting}) => ({
+  ({ theme, isHighlighting, isStartOfHighlighting, isEndOfHighlighting }) => ({
     ...(isHighlighting && {
       borderRadius: 0,
       backgroundColor: theme.palette.primary.main,
@@ -47,7 +47,7 @@ export default function CustomDateRangePickerDay() {
         renderInput={(startProps, endProps) => (
           <React.Fragment>
             <TextField {...startProps} />
-            <Box sx={{mx: 2}}> to </Box>
+            <Box sx={{ mx: 2 }}> to </Box>
             <TextField {...endProps} />
           </React.Fragment>
         )}

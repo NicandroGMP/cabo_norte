@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { LocalizationProvider } from '@mui/x-date-pickers'
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import MobileDateRangePicker from '@mui/lab/MobileDateRangePicker';
@@ -22,7 +22,7 @@ export default function ResponsiveDateRangePicker() {
           renderInput={(startProps, endProps) => (
             <React.Fragment>
               <TextField {...startProps} />
-              <Box sx={{mx: 2}}> to </Box>
+              <Box sx={{ mx: 2 }}> to </Box>
               <TextField {...endProps} />
             </React.Fragment>
           )}
@@ -36,7 +36,7 @@ export default function ResponsiveDateRangePicker() {
           renderInput={(startProps, endProps) => (
             <React.Fragment>
               <TextField {...startProps} />
-              <Box sx={{mx: 2}}> to </Box>
+              <Box sx={{ mx: 2 }}> to </Box>
               <TextField {...endProps} />
             </React.Fragment>
           )}
