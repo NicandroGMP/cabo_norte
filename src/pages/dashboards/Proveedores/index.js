@@ -61,7 +61,7 @@ const Proveedores = () => {
     getProviders();
   }, []);
 
-  /* const deleteWorker = useCallback((id) => () => {}, []); */
+  const deleteWorker = useCallback((id) => () => { }, []);
 
   /*  const dataQr = useCallback(
     (number) => () => {
