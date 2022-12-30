@@ -1,8 +1,10 @@
 // PROD
-export const API_URL = "https://accesoscse.com/cabo_norte_api_rest/";
+export const API_URL = "https://apicabonorte.accesoscse.com/";
+export const baseURL = "accesoscse.com";
 
 // DEV
 // export const API_URL = "http://localhost/cabonorte-panel/cabo_norte_api_rest/";
+// export const baseURL = "http://localhost";
 
 export const authRole = {
   admin: ["administrador"],
