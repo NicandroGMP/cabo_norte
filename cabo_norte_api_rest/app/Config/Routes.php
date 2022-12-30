@@ -85,7 +85,7 @@ $routes->post('/workers/update', 'Workers::updateWorker');
 $routes->post('/workers/delete', 'Workers::deleteWorker');
 //end routes workers crete,read,update,delete
 //routes workers crete,read,update,delete
-$routes->get('/providers/(:num)/', 'Providers::index/$1');
+$routes->get('/providers/(:num)/(:num)', 'Providers::index/$1/$2');
 $routes->get('/provider/(:hash)/', 'Providers::searchServicesById/$1');
 $routes->get('/providers/status/(:num)/(:hash)/', 'Providers::statusUpdate/$1/$2');
 $routes->get('/providers/scanQr/(:hash)/', 'Providers::getProviderScanByRegisterNumber/$1');

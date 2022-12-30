@@ -18,9 +18,9 @@ class Providers extends BaseController
 
         $this->providers = new ProvidersModel();
     }
-    public function index($managerId)
+    public function index($managerId, $workId)
     {
-        $user_date = $this->providers->where('manager', $managerId)->get()->getResultArray();
+        $user_date = $this->providers->where('work', $workId)->get()->getResultArray();
         return $this->getResponse([
             'message' => 'Provider retrieved successfully',
             'providers' => $user_date
