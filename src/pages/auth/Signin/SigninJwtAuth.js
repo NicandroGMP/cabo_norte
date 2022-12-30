@@ -60,7 +60,7 @@ const SigninJwtAuth = () => {
                   <AppTextField
                     placeholder={"usuario"}
                     name="username"
-                    label={<IntlMessages id="usuario" />}
+                    label={"usuario"}
                     variant="outlined"
                     sx={{
                       width: "100%",
@@ -74,7 +74,7 @@ const SigninJwtAuth = () => {
                 <Box sx={{ mb: { xs: 3, xl: 4 } }}>
                   <AppTextField
                     placeholder={"contraseña"}
-                    label={<IntlMessages id="contraseña" />}
+                    label={"contraseña"}
                     name="password"
                     variant="outlined"
                     sx={{

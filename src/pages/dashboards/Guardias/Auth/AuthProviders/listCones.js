@@ -11,7 +11,7 @@ import {
   FETCH_SUCCESS,
 } from "shared/constants/ActionTypes";
 import jwtAxios from "@crema/services/auth/jwt-auth";
-import { useCurrentWork, useSelectMethod } from "./SelectWorkHook";
+import { useCurrentWork } from "./SelectWorkHook";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Backdrop from "@mui/material/Backdrop";
@@ -21,7 +21,6 @@ import MuiAlert from "@mui/material/Alert";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-import axios from "axios";
 import { API_URL } from "shared/constants/AppConst";
 const Cones = () => {
   const navigate = useNavigate();
@@ -34,13 +33,11 @@ const Cones = () => {
   const [imageUrl, setImageUrl] = useState([]);
   const { provider } = useCurrentWork();
   const [message, messageSuccess] = useState(null);
-  const { selectedWork } = useSelectMethod();
   const [open, setOpen] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [openContentImg, setContentImage] = useState(false);
 
   useEffect(() => {
-    console.log(imageUrl);
     const getCones = async () => {
       dispatch({ type: FETCH_START });
       try {
@@ -124,15 +121,13 @@ const Cones = () => {
     const dataArray = new FormData();
     dataArray.append("filename", file);
     dataArray.append("uploadFile", file);
-    console.log(dataArray);
-    console.log(file.name);
 
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     };
-    const { data } = await jwtAxios.post(
+    await jwtAxios.post(
       "/bitacoraProviders/upload",
       dataArray,
       config
@@ -154,7 +149,7 @@ const Cones = () => {
         identification,
         register_num,
       });
-      const { asignCone } = await jwtAxios.post("/cones/register", {
+      await jwtAxios.post("/cones/register", {
         currentCone,
         provider,
         register_num,
@@ -178,7 +173,7 @@ const Cones = () => {
 
     dispatch({ type: FETCH_START });
     try {
-      const { data } = await jwtAxios.post("/bitacoraProviders/update", {
+      await jwtAxios.post("/bitacoraProviders/update", {
         id_cone,
         id_bitacora,
       });
@@ -341,9 +336,8 @@ const Cones = () => {
                         width: "80px",
                         height: "80px",
                         cursor: "pointer",
-                        background: `${
-                          cones.status == 1 ? "#3D9E22" : "#EC2506"
-                        }`,
+                        background: `${cones.status == 1 ? "#3D9E22" : "#EC2506"
+                          }`,
                         color: "white",
                         display: "flex",
                         alignContent: "center",
