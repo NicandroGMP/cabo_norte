@@ -1,8 +1,8 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import DateRangePicker from '@mui/lab/DateRangePicker';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { LocalizationProvider } from '@mui/x-date-pickers'
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 
@@ -23,7 +23,7 @@ export default function FormPropsDateRangePickers() {
           renderInput={(startProps, endProps) => (
             <React.Fragment>
               <TextField {...startProps} />
-              <Box sx={{mx: 2}}> to </Box>
+              <Box sx={{ mx: 2 }}> to </Box>
               <TextField {...endProps} />
             </React.Fragment>
           )}
@@ -39,7 +39,7 @@ export default function FormPropsDateRangePickers() {
           renderInput={(startProps, endProps) => (
             <React.Fragment>
               <TextField {...startProps} />
-              <Box sx={{mx: 2}}> to </Box>
+              <Box sx={{ mx: 2 }}> to </Box>
               <TextField {...endProps} />
             </React.Fragment>
           )}

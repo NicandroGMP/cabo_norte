@@ -1,6 +1,6 @@
 import * as React from 'react';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { LocalizationProvider } from '@mui/x-date-pickers'
 import CalendarPicker from '@mui/lab/CalendarPicker';
 import MonthPicker from '@mui/lab/MonthPicker';
 import YearPicker from '@mui/lab/YearPicker';

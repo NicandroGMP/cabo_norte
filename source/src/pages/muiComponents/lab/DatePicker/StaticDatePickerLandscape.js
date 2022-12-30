@@ -1,8 +1,8 @@
 import * as React from 'react';
 import isWeekend from 'date-fns/isWeekend';
 import TextField from '@mui/material/TextField';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { LocalizationProvider } from '@mui/x-date-pickers'
 import StaticDatePicker from '@mui/lab/StaticDatePicker';
 
 export default function StaticDatePickerLandscape() {
