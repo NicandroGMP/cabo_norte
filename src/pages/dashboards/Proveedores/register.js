@@ -3,7 +3,6 @@ import { Box, Button } from "@mui/material";
 import { Form, Formik } from "formik";
 import IntlMessages from "@crema/utility/IntlMessages";
 import AppTextField from "@crema/core/AppFormComponents/AppTextField";
-
 import MuiAlert from "@mui/material/Alert";
 import { Snackbar } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -30,6 +29,7 @@ const FormRegister = () => {
   const dispatch = useDispatch();
   const [work, setWork] = useState("");
   const [message, messageSuccess] = useState(null);
+  const [managers, setManagers] = useState([]);
   const [open, setOpen] = useState(false);
   const { user } = useAuthUser();
 
@@ -55,6 +55,7 @@ const FormRegister = () => {
         name,
         service,
         work_id,
+        manager_id: user.user_inf
       });
       messageSuccess(data.message);
       setOpen(true);
