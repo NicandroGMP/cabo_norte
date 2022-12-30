@@ -122,7 +122,11 @@ const Cones = () => {
         "Content-Type": "multipart/form-data",
       },
     };
-    await jwtAxios.post("/bitacoraProviders/upload", dataArray, config);
+    await jwtAxios.post(
+      "/bitacoraProviders/upload",
+      dataArray,
+      config
+    );
     const [dataInsert] = currentprovider;
     const name = dataInsert.name;
     const work = dataInsert.job;
