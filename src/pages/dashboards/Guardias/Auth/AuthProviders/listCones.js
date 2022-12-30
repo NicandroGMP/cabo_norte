@@ -124,6 +124,7 @@ const Cones = () => {
     };
 
     await jwtAxios.post("/bitacoraProviders/upload", dataArray, config);
+
     const [dataInsert] = currentprovider;
     const name = dataInsert.name;
     const work = dataInsert.job;
