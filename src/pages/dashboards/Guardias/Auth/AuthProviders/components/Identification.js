@@ -1,6 +1,7 @@
 import React, { useEffect, useState, forwardRef } from "react";
 import { Box } from "@mui/material";
 import { PropTypes } from "prop-types";
+import { API_URL } from "shared/constants/AppConst";
 
 const Identification = forwardRef((props, ref) => {
   const [dataIde, setDataIde] = useState([]);
@@ -33,7 +34,7 @@ const Identification = forwardRef((props, ref) => {
               >
                 <img
                   src={
-                    "http://localhost/cabo_norte_api_rest/public/uploads/" +
+                    API_URL + "public/uploads/" +
                     data.identification
                   }
                 />
