@@ -1,4 +1,9 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+} from "react";
 import { Box, Button } from "@mui/material";
 import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -21,10 +26,12 @@ import PersonOffIcon from "@mui/icons-material/PersonOff";
 import PersonIcon from "@mui/icons-material/Person";
 import ModalDelete from "./components/ModalDelete";
 import CustomNoRows from "./components/CustomNoRows";
+import { useAuthUser } from "@crema/utility/AuthHooks";
 
 const Trabajadores = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user } = useAuthUser();
   const [rows, setrows] = useState([]);
   const [open, setOpen] = useState(false);
   const [Qrdata, setDataQr] = useState([]);
@@ -50,7 +57,7 @@ const Trabajadores = () => {
     const getWorkers = async () => {
       dispatch({ type: FETCH_START });
       jwtAxios
-        .get("/workers")
+        .get("/workers/" + user.user_inf)
         .then((res) => {
           setrows(res.data.workers);
           dispatch({ type: FETCH_SUCCESS });
@@ -191,12 +198,10 @@ const Trabajadores = () => {
               )
             }
             sx={{
-              background: `${
-                params.row.status == "Habilitado" ? "#91E87C" : "#FFA0A0"
-              }`,
-              color: `${
-                params.row.status == "Habilitado" ? "#1E9900" : "#FF0101"
-              }`,
+              background: `${params.row.status == "Habilitado" ? "#91E87C" : "#FFA0A0"
+                }`,
+              color: `${params.row.status == "Habilitado" ? "#1E9900" : "#FF0101"
+                }`,
             }}
             onClick={statusWorker({
               id: params.id,
