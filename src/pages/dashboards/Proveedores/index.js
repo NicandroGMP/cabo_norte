@@ -16,12 +16,14 @@ import ModalDelete from "./components/ModalDelete";
 import PersonOffIcon from "@mui/icons-material/PersonOff";
 import PersonIcon from "@mui/icons-material/Person";
 import CustomNoRows from "./components/CustomNoRows";
+import { useAuthUser } from "@crema/utility/AuthHooks";
 
 const Proveedores = () => {
-  const [open, setOpen] = useState(false);
-  const [dataDelete, setDataDelete] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user } = useAuthUser();
+  const [open, setOpen] = useState(false);
+  const [dataDelete, setDataDelete] = useState([]);
   const [rows, setrows] = useState([]);
   const [NotRows, setNotRows] = useState(true);
 
@@ -37,7 +39,7 @@ const Proveedores = () => {
     const getProviders = () => {
       dispatch({ type: FETCH_START });
       jwtAxios
-        .get("/providers")
+        .get("/providers/" + user.user_inf)
         .then((res) => {
           setrows(res.data.providers);
           dispatch({ type: FETCH_SUCCESS });
@@ -50,7 +52,7 @@ const Proveedores = () => {
     getProviders();
   }, []);
 
-  /* const deleteWorker = useCallback((id) => () => {}, []); */
+  const deleteWorker = useCallback((id) => () => { }, []);
 
   /*  const dataQr = useCallback(
     (number) => () => {
@@ -174,12 +176,10 @@ const Proveedores = () => {
               )
             }
             sx={{
-              background: `${
-                params.row.status == "Habilitado" ? "#91E87C" : "#FFA0A0"
-              }`,
-              color: `${
-                params.row.status == "Habilitado" ? "#1E9900" : "#FF0101"
-              }`,
+              background: `${params.row.status == "Habilitado" ? "#91E87C" : "#FFA0A0"
+                }`,
+              color: `${params.row.status == "Habilitado" ? "#1E9900" : "#FF0101"
+                }`,
             }}
             onClick={statusProvider({
               id: params.id,
