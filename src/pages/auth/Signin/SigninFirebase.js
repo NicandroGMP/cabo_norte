@@ -12,6 +12,7 @@ import AppInfoView from "@crema/core/AppInfoView";
 import { Fonts } from "shared/constants/AppEnums";
 import Alert from "@mui/material/Alert";
 import { useState } from "react";
+import { API_URL } from "shared/constants/AppConst";
 
 const validationSchema = yup.object({
   email: yup
@@ -57,7 +58,7 @@ const Signin = () => {
     navigate("/forget-password", { tab: "firebase" });
   };
 
-  const url_login = "http://localhost/cabo_norte_api_rest/auth/login";
+  const url_login = API_URL + "auth/login";
 
   const { messages } = useIntl();
 
