@@ -46,16 +46,25 @@ const Proveedores = () => {
   useEffect(() => {
     const getProviders = () => {
       dispatch({ type: FETCH_START });
-      jwtAxios
-        .get("/providers/" + user.user_inf)
-        .then((res) => {
-          setrows(res.data.providers);
-          dispatch({ type: FETCH_SUCCESS });
-        })
-        .catch(() => {
+      jwtAxios.get("/manager/" + user.user_inf).then((resManager) => {
+        const manager = resManager?.data?.manager?.[0];
+
+        if (manager) {
+          jwtAxios
+            .get("/providers/" + user.user_inf + "/" + manager.work_id)
+            .then((res) => {
+              setrows(res.data.providers);
+              dispatch({ type: FETCH_SUCCESS });
+            })
+            .catch(() => {
+              setNotRows(false);
+              dispatch({ type: FETCH_SUCCESS });
+            });
+        } else {
           setNotRows(false);
           dispatch({ type: FETCH_SUCCESS });
-        });
+        }
+      });
     };
     getProviders();
   }, []);
