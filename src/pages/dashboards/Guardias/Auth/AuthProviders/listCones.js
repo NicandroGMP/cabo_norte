@@ -122,7 +122,11 @@ const Cones = () => {
         "Content-Type": "multipart/form-data",
       },
     };
-    await jwtAxios.post("/bitacoraProviders/upload", dataArray, config);
+    await jwtAxios.post(
+      "/bitacoraProviders/upload",
+      dataArray,
+      config
+    );
     const [dataInsert] = currentprovider;
     const name = dataInsert.name;
     const work = dataInsert.job;
@@ -327,9 +331,8 @@ const Cones = () => {
                         width: "80px",
                         height: "80px",
                         cursor: "pointer",
-                        background: `${
-                          cones.status == 1 ? "#3D9E22" : "#EC2506"
-                        }`,
+                        background: `${cones.status == 1 ? "#3D9E22" : "#EC2506"
+                          }`,
                         color: "white",
                         display: "flex",
                         alignContent: "center",
