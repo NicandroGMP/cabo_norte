@@ -32,12 +32,7 @@ const Identification = forwardRef((props, ref) => {
                   position: "relative",
                 }}
               >
-                <img
-                  src={
-                    API_URL + "public/uploads/" +
-                    data.identification
-                  }
-                />
+                <img src={API_URL + "public/uploads/" + data.identification} />
               </Box>
             </>
           );
