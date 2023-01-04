@@ -11,9 +11,7 @@ import { Snackbar } from "@mui/material";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-import jwtAxios, {
-  setAuthToken,
-} from "../../../@crema/services/auth/jwt-auth/index";
+import jwtAxios from "../../../@crema/services/auth/jwt-auth/index";
 import {
   FETCH_ERROR,
   FETCH_START,
@@ -67,7 +65,6 @@ const formEdit = () => {
   const [dataUpdate, setDataUpdate] = useState([]);
   const [work, setWork] = useState("");
   const [manager, setManager] = useState("");
-  const [required, setRequired] = useState(null);
   const [message, messageSuccess] = useState(null);
   const [works, setWorks] = useState([]);
   const [managers, setManagers] = useState([]);
@@ -312,13 +309,7 @@ const formEdit = () => {
                             })}
                           </Select>
                         </Box>
-                        <Box>
-                          {required && (
-                            <p sx={{ color: "red", fontSize: "0.7em" }}>
-                              {required}
-                            </p>
-                          )}
-                        </Box>
+                        <Box></Box>
                       </Box>
                     </div>
                     {/*  <Box>

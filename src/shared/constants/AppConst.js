@@ -1,5 +1,5 @@
-export const API_URL = "http://localhost/cabo_norte_api_rest/";
-export const baseURL = "localhost:3000/";
+export const API_URL = "https://apicabonorte.accesoscse.com/";
+export const baseURL = "accesoscse.com";
 
 export const authRole = {
   admin: ["administrador"],

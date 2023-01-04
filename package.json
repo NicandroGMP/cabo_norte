@@ -90,7 +90,7 @@
     "webpack-node-externals": "^3.0.0",
     "yup": "^0.32.9"
   },
-  "homepage": "",
+  "homepage": "http://accesoscse.com/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

@@ -19,9 +19,9 @@ const ScanQr = () => {
   const dispatch = useDispatch();
   const [dataSearch, setDataSearch] = useState(null);
   const [resultSearch, setResultSearch] = useState(false);
-  const [statusWorker, setStatusWorker] = useState(false);
+  /*   const [statusWorker, setStatusWorker] = useState(false);
   const [buttonExit, setButtonExit] = useState(false);
-  const [idWorker, setIdWorker] = useState("");
+  const [idWorker, setIdWorker] = useState(""); */
   useEffect(() => {}, []);
 
   return (
@@ -46,6 +46,8 @@ const ScanQr = () => {
       </Box>
       {data === null && (
         <QrReader
+          key="environment"
+          constraints={{ facingMode: "environment" }}
           onResult={(result, error) => {
             if (result) {
               setData(result?.text);
@@ -71,7 +73,6 @@ const ScanQr = () => {
             }
           }}
           style={{ width: "50%" }}
-          constraints={{ facingMode: "enviroment" }}
           autoFocus={true}
         />
       )}

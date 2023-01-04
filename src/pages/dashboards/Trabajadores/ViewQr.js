@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useRef } from "react";
 import { Button, Box } from "@mui/material";
-import IntlMessages from "@crema/utility/IntlMessages";
 import ReactToPrint from "react-to-print";
 import QrCode from "./QrCode";
+import PropTypes from "prop-types";
 
-const ViewQr = ({ props, dataQr = [] }) => {
+const ViewQr = ({ dataQr = [] }) => {
   const componentRef = useRef();
   return (
     <>
@@ -39,4 +39,7 @@ const ViewQr = ({ props, dataQr = [] }) => {
   );
 };
 
+ViewQr.propTypes = {
+  dataQr: PropTypes.array,
+};
 export default ViewQr;

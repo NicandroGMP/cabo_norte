@@ -3,15 +3,11 @@ import { Box, Button } from "@mui/material";
 import { Form, Formik } from "formik";
 import IntlMessages from "@crema/utility/IntlMessages";
 import AppTextField from "@crema/core/AppFormComponents/AppTextField";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
+
 import MuiAlert from "@mui/material/Alert";
 import { Snackbar } from "@mui/material";
 import { Link } from "react-router-dom";
-import jwtAxios, {
-  setAuthToken,
-} from "../../../@crema/services/auth/jwt-auth/index";
+import jwtAxios from "../../../@crema/services/auth/jwt-auth/index";
 import {
   FETCH_ERROR,
   FETCH_START,
@@ -33,19 +29,16 @@ const validationSchema = yup.object({
 const FormRegister = () => {
   const dispatch = useDispatch();
   const [work, setWork] = useState("");
-  const [works, setWorks] = useState([]);
   const [message, messageSuccess] = useState(null);
-  const [batch, setBatch] = useState("");
-  const [managers, setManagers] = useState([]);
   const [open, setOpen] = useState(false);
   const { user } = useAuthUser();
 
-  const handleChange = (event) => {
+  /*  const handleChange = (event) => {
     setWork(event.target.value);
   };
   const selectManager = (event) => {
     setManager(event.target.value);
-  };
+  }; */
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -74,7 +67,7 @@ const FormRegister = () => {
     }
   };
   useEffect(() => {
-    jwtAxios.get("/works").then((res) => {
+    /* jwtAxios.get("/works").then((res) => {
       const workers = res.data.works;
 
       setWorks(workers);
@@ -82,7 +75,7 @@ const FormRegister = () => {
     jwtAxios.get("/managers").then((res) => {
       const managers = res.data.managers;
       setManagers(managers);
-    });
+    }); */
 
     jwtAxios.get("/manager/" + user.user_inf).then((res) => {
       const [manager] = res.data.manager;

@@ -1,5 +1,5 @@
 import { QrReader } from "react-qr-reader";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Button } from "@mui/material";
 
@@ -40,6 +40,8 @@ const ScanQr = () => {
         </Box>
         {data === null && (
           <QrReader
+            key="environment"
+            constraints={{ facingMode: "environment" }}
             onResult={(result, error) => {
               if (result) {
                 setData(result?.text);
@@ -66,7 +68,6 @@ const ScanQr = () => {
               }
             }}
             style={{ width: "50%" }}
-            constraints={{ facingMode: "enviroment" }}
             autoFocus={true}
           />
         )}

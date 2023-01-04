@@ -11,7 +11,7 @@ import {
   FETCH_SUCCESS,
 } from "shared/constants/ActionTypes";
 import jwtAxios from "@crema/services/auth/jwt-auth";
-import { useCurrentWork, useSelectMethod } from "./SelectWorkHook";
+import { useCurrentWork } from "./SelectWorkHook";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Backdrop from "@mui/material/Backdrop";
@@ -21,8 +21,8 @@ import MuiAlert from "@mui/material/Alert";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-import axios from "axios";
 import { API_URL } from "shared/constants/AppConst";
+import PropTypes from "prop-types";
 const Cones = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,18 +34,15 @@ const Cones = () => {
   const [imageUrl, setImageUrl] = useState([]);
   const { provider } = useCurrentWork();
   const [message, messageSuccess] = useState(null);
-  const { selectedWork } = useSelectMethod();
   const [open, setOpen] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [openContentImg, setContentImage] = useState(false);
 
   useEffect(() => {
-    console.log(imageUrl);
     const getCones = async () => {
       dispatch({ type: FETCH_START });
       try {
         await jwtAxios.get("/cones").then((res) => {
-          console.log(res.data.cones);
           setrows(res.data.cones);
           dispatch({ type: FETCH_SUCCESS });
         });
@@ -79,18 +76,15 @@ const Cones = () => {
     navigate("/guardias/bitacora_proveedores");
   };
 
-  const selectCone = async (props) => {
+  const SelectCone = async (props) => {
     setOpen(true);
     setCone(props.target.innerText);
     const register_num = props.target.attributes.provider.value;
-    console.log(register_num);
     if (register_num === "null") {
       setContentImage(true);
-      console.log("imgcTrue");
     } else {
       await jwtAxios.post("/cones/search", { register_num }).then((res) => {
         setProviderModal(res.data.conesData);
-        console.log(res.data.conesData);
         setContentImage(false);
       });
     }
@@ -98,8 +92,6 @@ const Cones = () => {
   const inputimage = async (props) => {
     const [fileName] = props.target.files;
     setFileName(props.target.files[0]);
-    console.log(props.target.files[0]);
-    console.log(fileName);
     setImageUrl(URL.createObjectURL(fileName));
   };
 
@@ -113,7 +105,7 @@ const Cones = () => {
   }));
 
   const handleClose = () => setOpen(false);
-  const handleCloseAlert = () => {
+  const handleCloseAlert = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
@@ -124,19 +116,13 @@ const Cones = () => {
     const dataArray = new FormData();
     dataArray.append("filename", file);
     dataArray.append("uploadFile", file);
-    console.log(dataArray);
-    console.log(file.name);
 
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     };
-    const { data } = await jwtAxios.post(
-      "/bitacoraProviders/upload",
-      dataArray,
-      config
-    );
+    await jwtAxios.post("/bitacoraProviders/upload", dataArray, config);
     const [dataInsert] = currentprovider;
     const name = dataInsert.name;
     const work = dataInsert.job;
@@ -154,7 +140,7 @@ const Cones = () => {
         identification,
         register_num,
       });
-      const { asignCone } = await jwtAxios.post("/cones/register", {
+      await jwtAxios.post("/cones/register", {
         currentCone,
         provider,
         register_num,
@@ -178,7 +164,7 @@ const Cones = () => {
 
     dispatch({ type: FETCH_START });
     try {
-      const { data } = await jwtAxios.post("/bitacoraProviders/update", {
+      await jwtAxios.post("/bitacoraProviders/update", {
         id_cone,
         id_bitacora,
       });
@@ -335,7 +321,7 @@ const Cones = () => {
             <Grid container item spacing={3}>
               {rows.map((cones) => {
                 return (
-                  <Grid item xs={2}>
+                  <Grid item xs={2} key={cones.num_cone}>
                     <Item
                       sx={{
                         width: "80px",
@@ -350,7 +336,7 @@ const Cones = () => {
                         flexDirection: "column",
                         justifyContent: "center",
                       }}
-                      onClick={selectCone}
+                      onClick={SelectCone}
                       provider={
                         cones.register_number ? cones.register_number : "null"
                       }
@@ -368,4 +354,8 @@ const Cones = () => {
   );
 };
 
+Cones.propTypes = {
+  SelectCone: PropTypes.func,
+  target: PropTypes.string,
+};
 export default Cones;

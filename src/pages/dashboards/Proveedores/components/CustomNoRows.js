@@ -1,15 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Box, Button } from "@mui/material";
-import { Form, Formik } from "formik";
-import IntlMessages from "@crema/utility/IntlMessages";
-import AppTextField from "@crema/core/AppFormComponents/AppTextField";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import MuiAlert from "@mui/material/Alert";
-import { Snackbar } from "@mui/material";
-import { Link } from "react-router-dom";
-import Signin from "pages/auth/Signin";
+import React from "react";
+import { Box } from "@mui/material";
+import { baseURL } from "shared/constants/AppConst";
 const CustomNoRows = () => {
   return (
     <>
@@ -45,21 +36,37 @@ const CustomNoRows = () => {
           <Box
             sx={{
               mb: 7,
-              color: "gray",
               fontSize: "0.8rem",
               textAlign: "center",
               color: "#626262",
             }}
           >
-            Por vuelva a iniciar sesion.
+            Porfavor vuelva a iniciar sesion.
           </Box>
-          <Box sx={{ textAlign: "center" }}>
-            <Button
-              variant="contained"
-              onClick={() => window.location.reload()}
+          <Box
+            sx={{
+              textAlign: "center",
+              background: "#00B6FF",
+              color: "white",
+              borderRadius: "10px 10px 10px 10px",
+              width: "100px",
+              margin: "auto",
+              heigth: "40px",
+              padding: "10px",
+            }}
+            variant="contained"
+          >
+            <a
+              style={{
+                color: "white",
+                outline: "none",
+                listStyle: "none",
+                textDecoration: "none",
+              }}
+              href={"https://" + baseURL}
             >
               Iniciar Sesion
-            </Button>
+            </a>
           </Box>
         </Box>
       </Box>

@@ -1,11 +1,4 @@
-import React, {
-  useContext,
-  useState,
-  useEffect,
-  useCallback,
-  createContext,
-  useMemo,
-} from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Box, Button } from "@mui/material";
 import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -20,7 +13,6 @@ import {
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ModalDelete from "./components/ModalDelete";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import PersonOffIcon from "@mui/icons-material/PersonOff";
 import PersonIcon from "@mui/icons-material/Person";
 import CustomNoRows from "./components/CustomNoRows";
@@ -58,7 +50,7 @@ const Proveedores = () => {
     getProviders();
   }, []);
 
-  const deleteWorker = useCallback((id) => () => {}, []);
+  /* const deleteWorker = useCallback((id) => () => {}, []); */
 
   /*  const dataQr = useCallback(
     (number) => () => {
@@ -91,7 +83,7 @@ const Proveedores = () => {
         try {
           jwtAxios
             .get("/providers/status/" + id + "/" + currentStatus)
-            .then((res) => {
+            .then(() => {
               dispatch({
                 type: FETCH_SUCCESS,
               });
@@ -119,7 +111,7 @@ const Proveedores = () => {
     dispatch({ type: FETCH_START });
 
     try {
-      const { data } = await jwtAxios.post("/providers/delete", {
+      await jwtAxios.post("/providers/delete", {
         id,
       });
       setTimeout(() => {
@@ -161,16 +153,19 @@ const Proveedores = () => {
         headerName: "Actions",
         getActions: (params) => [
           <GridActionsCellItem
+            key={params.id}
             icon={<EditIcon />}
             onClick={dataUpdate(params)}
             label="Delete"
           />,
           <GridActionsCellItem
+            key={params.id}
             icon={<DeleteIcon />}
             onClick={Modaldelete({ id: params.id, name: params.row.name })}
             label="Delete"
           />,
           <GridActionsCellItem
+            key={params.id}
             icon={
               params.row.status == "Habilitado" ? (
                 <PersonIcon />

@@ -1,17 +1,10 @@
 import React from "react";
 import UpdatePass from "./UpdatePass";
-import {
-  FETCH_ERROR,
-  FETCH_START,
-  FETCH_SUCCESS,
-} from "shared/constants/ActionTypes";
+import { FETCH_SUCCESS } from "shared/constants/ActionTypes";
 import { useDispatch } from "react-redux";
-import jwtAxios, {
-  setAuthToken,
-} from "../../../@crema/services/auth/jwt-auth/index";
+import jwtAxios from "../../../@crema/services/auth/jwt-auth/index";
 import { useState } from "react";
 import Error403 from "../../errorPages/Error403";
-import { useNavigate } from "react-router-dom";
 
 const UpdatePassword = () => {
   const dispatch = useDispatch();
