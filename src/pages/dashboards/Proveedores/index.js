@@ -61,18 +61,10 @@ const Proveedores = () => {
     getProviders();
   }, []);
 
-  const deleteWorker = useCallback((id) => () => { }, []);
-
-  /*  const dataQr = useCallback(
-    (number) => () => {
-      localStorage.setItem("dataQr", number);
-      navigate("/proveedores/ViewQr");
-    },
-    []
-  ); */
   const addNewManager = () => {
     navigate("/proveedores/register");
   };
+
   const statusProvider = useCallback(
     ({ id, currentStatus }) =>
       () => {
