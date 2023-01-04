@@ -184,7 +184,7 @@ const Encargados = () => {
   function CustomNoRowsOverlay() {
     return <>{NotRows === false && <CustomNoRows />}</>;
   }
-  const file = async (ev) => {
+  /* const file = async (ev) => {
     var file = ev.target.files[0];
     let reader = new FileReader();
     reader.onload = function (event) {
@@ -202,11 +202,10 @@ const Encargados = () => {
           return storeKeyValue;
         }
       });
-
-      console.log(createArray);
     };
     reader.readAsText(file);
-  };
+  }; */
+
   return (
     <>
       <ModalDelete

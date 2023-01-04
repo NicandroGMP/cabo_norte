@@ -1,5 +1,5 @@
 import React, { useEffect, useState, forwardRef } from "react";
-import { Button, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import QRCode from "react-qr-code";
 
 const QrCode = forwardRef((props, ref) => {
@@ -27,5 +27,5 @@ const QrCode = forwardRef((props, ref) => {
     </>
   );
 });
-
+QrCode.displayName = "Qrcode";
 export default QrCode;

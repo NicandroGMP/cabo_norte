@@ -2,7 +2,7 @@ import React, { useEffect, useState, forwardRef } from "react";
 import { Box } from "@mui/material";
 import QRCode from "react-qr-code";
 import Logo from "./plantilla.png";
-
+import PropTypes from "prop-types";
 const QrCode = forwardRef((props, ref) => {
   const [dataWorker, setDataWorker] = useState([]);
 
@@ -20,7 +20,6 @@ const QrCode = forwardRef((props, ref) => {
         }}
       >
         {dataWorker.map((data) => {
-          console.log(data);
           return (
             <>
               <Box
@@ -98,4 +97,9 @@ const QrCode = forwardRef((props, ref) => {
   );
 });
 
+QrCode.displayName = "Qrcode";
+
+QrCode.propTypes = {
+  Qr: PropTypes.string,
+};
 export default QrCode;

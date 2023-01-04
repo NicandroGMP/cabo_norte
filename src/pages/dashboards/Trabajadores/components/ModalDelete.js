@@ -3,6 +3,7 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Backdrop from "@mui/material/Backdrop";
 import { Box, Button } from "@mui/material";
+import PropTypes from "prop-types";
 
 const ModalDelete = ({ open, handleClose, dataDelete, deleteWorker }) => {
   return (
@@ -60,4 +61,12 @@ const ModalDelete = ({ open, handleClose, dataDelete, deleteWorker }) => {
   );
 };
 
+ModalDelete.propTypes = {
+  open: PropTypes.func,
+  hacopen: PropTypes.func,
+  handleClose: PropTypes.func,
+  dataDelete: PropTypes.func,
+  deleteWorker: PropTypes.func,
+  name: PropTypes.string,
+};
 export default ModalDelete;

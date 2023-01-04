@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useMemo,
-} from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Box, Button } from "@mui/material";
 import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -163,6 +158,7 @@ const Trabajadores = () => {
         width: 100,
         getActions: (params) => [
           <GridActionsCellItem
+            key={params.id}
             icon={<QrCode2Icon />}
             onClick={dataQr(params.row)}
             label="Delete"
@@ -176,16 +172,19 @@ const Trabajadores = () => {
         headerName: "Actions",
         getActions: (params) => [
           <GridActionsCellItem
+            key={params.id}
             icon={<EditIcon />}
             onClick={dataUpdate(params)}
             label="Delete"
           />,
           <GridActionsCellItem
+            key={params.id}
             icon={<DeleteIcon />}
             onClick={Modaldelete({ id: params.id, name: params.row.fullname })}
             label="Delete"
           />,
           <GridActionsCellItem
+            key={params.id}
             icon={
               params.row.status == "Habilitado" ? (
                 <PersonIcon />

@@ -45,13 +45,13 @@ const formEdit = () => {
 
   const [open, setOpen] = useState(false);
 
-  const handleChange = (event) => {
+  /* const handleChange = (event) => {
     setWork(event.target.value);
-  };
+  }; */
 
-  const selectManager = (event) => {
+  /*  const selectManager = (event) => {
     setManager(event.target.value);
-  };
+  }; */
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;

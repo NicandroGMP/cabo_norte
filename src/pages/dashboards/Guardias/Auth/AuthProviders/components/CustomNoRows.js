@@ -1,5 +1,6 @@
 import React from "react";
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
+import { baseURL } from "shared/constants/AppConst";
 
 const CustomNoRows = () => {
   return (
@@ -44,12 +45,9 @@ const CustomNoRows = () => {
             Por vuelva a iniciar sesion.
           </Box>
           <Box sx={{ textAlign: "center" }}>
-            <Button
-              variant="contained"
-              onClick={() => window.location.reload()}
-            >
+            <a variant="contained" href={baseURL + "/signin"}>
               Iniciar Sesion
-            </Button>
+            </a>
           </Box>
         </Box>
       </Box>
