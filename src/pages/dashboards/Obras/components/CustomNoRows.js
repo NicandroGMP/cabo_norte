@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, Button } from "@mui/material";
-
+import { Box } from "@mui/material";
+import { baseURL } from "shared/constants/AppConst";
 const CustomNoRows = () => {
   return (
     <>
@@ -41,15 +41,32 @@ const CustomNoRows = () => {
               color: "#626262",
             }}
           >
-            Por vuelva a iniciar sesion.
+            Por favor vuelva a iniciar sesion.
           </Box>
-          <Box sx={{ textAlign: "center" }}>
-            <Button
-              variant="contained"
-              onClick={() => window.location.reload()}
+          <Box
+            sx={{
+              textAlign: "center",
+              background: "#00B6FF",
+              color: "white",
+              borderRadius: "10px 10px 10px 10px",
+              width: "100px",
+              margin: "auto",
+              heigth: "40px",
+              padding: "10px",
+            }}
+            variant="contained"
+          >
+            <a
+              style={{
+                color: "white",
+                outline: "none",
+                listStyle: "none",
+                textDecoration: "none",
+              }}
+              href={"https://" + baseURL}
             >
               Iniciar Sesion
-            </Button>
+            </a>
           </Box>
         </Box>
       </Box>

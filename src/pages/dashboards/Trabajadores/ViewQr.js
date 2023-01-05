@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { Button, Box } from "@mui/material";
 import ReactToPrint from "react-to-print";
 import QrCode from "./QrCode";
+import PropTypes from "prop-types";
 
 const ViewQr = ({ dataQr = [] }) => {
   const componentRef = useRef();
@@ -38,4 +39,7 @@ const ViewQr = ({ dataQr = [] }) => {
   );
 };
 
+ViewQr.propTypes = {
+  dataQr: PropTypes.array,
+};
 export default ViewQr;

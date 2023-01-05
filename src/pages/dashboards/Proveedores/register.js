@@ -28,18 +28,17 @@ const validationSchema = yup.object({
 const FormRegister = () => {
   const dispatch = useDispatch();
   const [work, setWork] = useState("");
-  const [works, setWorks] = useState([]);
   const [message, messageSuccess] = useState(null);
   const [managers, setManagers] = useState([]);
   const [open, setOpen] = useState(false);
   const { user } = useAuthUser();
 
-  const handleChange = (event) => {
+  /*  const handleChange = (event) => {
     setWork(event.target.value);
   };
   const selectManager = (event) => {
     setManager(event.target.value);
-  };
+  }; */
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -69,7 +68,7 @@ const FormRegister = () => {
     }
   };
   useEffect(() => {
-    jwtAxios.get("/works").then((res) => {
+    /* jwtAxios.get("/works").then((res) => {
       const workers = res.data.works;
 
       setWorks(workers);
@@ -77,7 +76,7 @@ const FormRegister = () => {
     jwtAxios.get("/managers").then((res) => {
       const managers = res.data.managers;
       setManagers(managers);
-    });
+    }); */
 
     jwtAxios.get("/manager/" + user.user_inf).then((res) => {
       const [manager] = res.data.manager;

@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Backdrop from "@mui/material/Backdrop";
 import { Box, Button } from "@mui/material";
+import PropTypes from "prop-types";
 
 const ModalDelete = ({ open, handleClose, dataDelete, deleteProvider }) => {
   return (
@@ -60,4 +61,11 @@ const ModalDelete = ({ open, handleClose, dataDelete, deleteProvider }) => {
   );
 };
 
+ModalDelete.propTypes = {
+  open: PropTypes.func,
+  handleClose: PropTypes.func,
+  dataDelete: PropTypes.func,
+  deleteProvider: PropTypes.func,
+  name: PropTypes.string,
+};
 export default ModalDelete;
