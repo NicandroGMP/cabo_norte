@@ -41,7 +41,7 @@ const CustomNoRows = () => {
               color: "#626262",
             }}
           >
-            Porfavor vuelva a iniciar sesion.
+            Por favor vuelva a iniciar sesion.
           </Box>
           <Box
             sx={{
