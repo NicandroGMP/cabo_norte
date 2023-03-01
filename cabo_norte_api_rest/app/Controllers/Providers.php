@@ -15,7 +15,6 @@ class Providers extends BaseController
     public function __construct()
     {
         helper(["url", "form"]);
-
         $this->providers = new ProvidersModel();
     }
     public function index($managerId, $workId)

@@ -16,13 +16,11 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Avatar from "@mui/material/Avatar";
 import { orange } from "@mui/material/colors";
 import { Fonts } from "shared/constants/AppEnums";
-import { useNavigate } from "react-router-dom";
 
 const AppHeader = ({ color }) => {
   const dispatch = useDispatch();
   const { user } = useAuthUser();
   const { logout } = useAuthMethod();
-  const navigate = useNavigate();
   const navCollapsed = useSelector(({ settings }) => settings.navCollapsed);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -350,11 +348,11 @@ export default AppHeader;
 
 AppHeader.defaultProps = {
   variant: "",
-  position: "left"
+  position: "left",
 };
 
 AppHeader.propTypes = {
   position: PropTypes.string,
   variant: PropTypes.string,
-  color: PropTypes.string
+  color: PropTypes.string,
 };
